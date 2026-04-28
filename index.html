@@ -11,109 +11,89 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <title>SY Discipline</title>
 <style>
-  :root {
-    --bg: #0a0e1a; --bg2: #111827; --bg3: #1f2937;
-    --border: #374151; --border2: #4b5563;
-    --text: #f9fafb; --text2: #9ca3af; --text3: #6b7280;
-    --blue: #3b82f6; --blue-bg: #1e3a5f; --blue-border: #2563eb;
-    --green: #22c55e; --green-bg: #14532d; --green-border: #16a34a;
-    --yellow: #f59e0b; --yellow-bg: #451a03; --yellow-border: #d97706;
-    --red: #ef4444; --red-bg: #450a0a; --red-border: #dc2626;
-    --gray: #6b7280; --gray-bg: #1f2937; --gray-border: #374151;
-    --radius: 14px; --radius-sm: 9px;
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bot: env(safe-area-inset-bottom, 0px);
+  :root{
+    --bg:#0a0e1a;--bg2:#111827;--bg3:#1f2937;
+    --border:#374151;--border2:#4b5563;
+    --text:#f9fafb;--text2:#9ca3af;--text3:#6b7280;
+    --blue:#3b82f6;--blue-bg:#1e3a5f;--blue-border:#2563eb;
+    --green:#22c55e;--green-bg:#14532d;--green-border:#16a34a;
+    --yellow:#f59e0b;--yellow-bg:#451a03;--yellow-border:#d97706;
+    --red:#ef4444;--red-bg:#450a0a;--red-border:#dc2626;
+    --gray:#6b7280;--gray-bg:#1f2937;--gray-border:#374151;
+    --radius:14px;--radius-sm:9px;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bot:env(safe-area-inset-bottom,0px);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; overflow: hidden; }
-  #app { display: flex; flex-direction: column; height: 100%; padding-top: var(--safe-top); }
-  /* HEADER */
-  .hdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px 8px; background: var(--bg); border-bottom: .5px solid var(--border); flex-shrink: 0; }
-  .hdr-logo { display: flex; align-items: center; gap: 9px; }
-  .hdr-logo img { width: 30px; height: 30px; border-radius: 8px; }
-  .hdr-title { font-size: 17px; font-weight: 700; background: linear-gradient(135deg,#3b82f6,#22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  /* NAV */
-  .nav { display: flex; background: var(--bg2); border-top: .5px solid var(--border); flex-shrink: 0; padding-bottom: calc(var(--safe-bot) + 2px); }
-  .nb { flex: 1; padding: 10px 2px 8px; background: none; border: none; font-size: 10px; font-weight: 500; color: var(--text3); cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color .2s; }
-  .nb.on { color: var(--blue); }
-  .nb svg { width: 22px; height: 22px; }
-  /* SCROLL */
-  .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px 16px 20px; }
-  /* CARDS */
-  .card { background: var(--bg2); border: .5px solid var(--border); border-radius: var(--radius); padding: 14px 15px; margin-bottom: 10px; }
-  /* HABIT ITEM */
-  .hi { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: .5px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 7px; cursor: pointer; background: var(--bg2); transition: all .2s; -webkit-user-select: none; }
-  .hi.dn { background: var(--green-bg); border-color: var(--green-border); }
-  .ck { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; }
-  .ck.dn { background: var(--green); border-color: var(--green); }
-  .ck svg { display: none; }
-  .ck.dn svg { display: block; }
-  /* TAGS */
-  .tag { display: inline-flex; align-items: center; padding: 3px 9px; font-size: 11px; font-weight: 600; border-radius: 20px; border: .5px solid; cursor: pointer; font-family: inherit; }
-  .tF { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-border); }
-  .tL { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border); }
-  .tO { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
-  .tR { background: var(--gray-bg); color: var(--gray); border-color: var(--gray-border); }
-  /* PROGRESS RING */
-  .ring-wrap { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
-  .ring-wrap svg { transform: rotate(-90deg); }
-  .ring-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  /* METRIC */
-  .met { flex: 1; padding: 12px 8px; background: var(--bg3); border-radius: var(--radius-sm); text-align: center; }
-  .mv { font-size: 22px; font-weight: 700; line-height: 1; }
-  .ml { font-size: 10px; color: var(--text2); margin-top: 5px; }
-  /* PROGRESS BAR */
-  .pb { background: var(--bg3); border-radius: 4px; height: 5px; overflow: hidden; margin: 5px 0 3px; }
-  .pf { height: 100%; border-radius: 4px; transition: width .4s ease; }
-  /* CALENDAR */
-  .drow { display: flex; align-items: center; padding: 8px 0; border-bottom: .5px solid var(--border); }
-  .dbg { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; flex: 1; padding-left: 8px; }
-  .dbt { padding: 4px 2px; font-size: 10px; font-weight: 600; border-radius: 6px; border: .5px solid var(--border); background: none; color: var(--text3); cursor: pointer; font-family: inherit; transition: all .15s; }
-  /* FORM */
-  .fld { margin-bottom: 10px; }
-  .fld label { font-size: 11px; color: var(--text2); display: block; margin-bottom: 4px; font-weight: 500; }
-  .fld input, .fld select { width: 100%; background: var(--bg3); border: .5px solid var(--border2); border-radius: 8px; padding: 9px 11px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
-  .fld input:focus, .fld select:focus { border-color: var(--blue); }
-  .fld select option { background: var(--bg3); }
-  /* BUTTONS */
-  .btn { padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; border: .5px solid var(--border2); background: var(--bg3); color: var(--text); transition: all .15s; }
-  .btn-primary { background: var(--blue); border-color: var(--blue); color: white; }
-  .btn-danger { color: var(--red); border: none; background: none; }
-  /* UPLOAD */
-  .upl { border: 1.5px dashed var(--border2); border-radius: var(--radius); padding: 18px; text-align: center; cursor: pointer; background: var(--bg2); margin-bottom: 12px; transition: all .2s; }
-  .upl:active { background: var(--bg3); }
-  /* SECTION TITLE */
-  .stitle { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-  /* EDIT ROW */
-  .ef { background: var(--bg3); border-radius: var(--radius-sm); padding: 13px; margin: 4px 0 6px; border: .5px solid var(--border2); }
-  .hrow { display: flex; align-items: center; padding: 10px 0; border-bottom: .5px solid var(--border); }
-  /* WARN */
-  .warn { font-size: 12px; color: var(--yellow); padding: 8px 11px; background: var(--yellow-bg); border-radius: var(--radius-sm); border: .5px solid var(--yellow-border); margin-bottom: 8px; }
-  /* NOTIF STATUS */
-  .nbadge { font-size: 12px; padding: 6px 10px; border-radius: 8px; }
-  /* LOADING */
-  #loading { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; gap: 16px; }
-  #loading img { width: 80px; height: 80px; border-radius: 20px; }
-  .spin { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  /* SCROLLBAR */
-  .scroll::-webkit-scrollbar { width: 3px; }
-  .scroll::-webkit-scrollbar-track { background: transparent; }
-  .scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  /* SEPARATOR */
-  .sep { height: .5px; background: var(--border); margin: 2px 0; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden}
+  #app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
+  .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 8px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
+  .hdr-logo{display:flex;align-items:center;gap:9px}
+  .hdr-logo img{width:30px;height:30px;border-radius:8px}
+  .hdr-title{font-size:17px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(var(--safe-bot) + 2px)}
+  .nb{flex:1;padding:10px 2px 8px;background:none;border:none;font-size:10px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
+  .nb.on{color:var(--blue)}
+  .nb svg{width:22px;height:22px}
+  .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px 20px}
+  .card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:10px}
+  .hi{display:flex;align-items:center;gap:10px;padding:12px 14px;border:.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none}
+  .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
+  .ck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .ck.dn{background:var(--green);border-color:var(--green)}
+  .ck svg{display:none}
+  .ck.dn svg{display:block}
+  .tag{display:inline-flex;align-items:center;padding:3px 9px;font-size:11px;font-weight:600;border-radius:20px;border:.5px solid;cursor:pointer;font-family:inherit}
+  .tF{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+  .tL{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border)}
+  .tO{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+  .tR{background:var(--gray-bg);color:var(--gray);border-color:var(--gray-border)}
+  .ring-wrap{position:relative;width:88px;height:88px;flex-shrink:0}
+  .ring-wrap svg{transform:rotate(-90deg)}
+  .ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .met{flex:1;padding:12px 8px;background:var(--bg3);border-radius:var(--radius-sm);text-align:center}
+  .mv{font-size:22px;font-weight:700;line-height:1}
+  .ml{font-size:10px;color:var(--text2);margin-top:5px}
+  .pb{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden;margin:5px 0 3px}
+  .pf{height:100%;border-radius:4px;transition:width .4s ease}
+  .drow{display:flex;align-items:center;padding:8px 0;border-bottom:.5px solid var(--border)}
+  .dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;flex:1;padding-left:8px}
+  .dbt{padding:4px 2px;font-size:10px;font-weight:600;border-radius:6px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
+  .fld{margin-bottom:10px}
+  .fld label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:500}
+  .fld input,.fld select{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;color:var(--text);font-family:inherit;outline:none}
+  .fld input:focus,.fld select:focus{border-color:var(--blue)}
+  .fld select option{background:var(--bg3)}
+  .btn{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
+  .btn-primary{background:var(--blue);border-color:var(--blue);color:white}
+  .btn-sm{padding:5px 11px;font-size:12px;border-radius:8px}
+  .btn-danger{color:var(--red);border:none;background:none}
+  .upl{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:18px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:12px;transition:all .2s}
+  .upl:active{background:var(--bg3)}
+  .stitle{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
+  .ef{background:var(--bg3);border-radius:var(--radius-sm);padding:13px;margin:4px 0 6px;border:.5px solid var(--border2)}
+  .hrow{display:flex;align-items:center;padding:10px 0;border-bottom:.5px solid var(--border)}
+  .warn{font-size:12px;color:var(--yellow);padding:8px 11px;background:var(--yellow-bg);border-radius:var(--radius-sm);border:.5px solid var(--yellow-border);margin-bottom:8px}
+  #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
+  #loading img{width:80px;height:80px;border-radius:20px}
+  .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .scroll::-webkit-scrollbar{width:3px}
+  .scroll::-webkit-scrollbar-track{background:transparent}
+  .scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  .pw-row{display:flex;gap:8px;align-items:center}
+  .pw-row input{flex:1}
 </style>
 </head>
 <body>
 
 <div id="loading">
-  <img src="icon-192.png" alt="SY Discipline"/>
+  <img src="icon-192.png" alt="SY"/>
   <div class="spin"></div>
   <div style="font-size:13px;color:var(--text2)">SY Discipline</div>
 </div>
 
 <div id="app" style="display:none">
-  <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-logo">
       <img src="icon-192.png" alt="SY"/>
@@ -122,7 +102,7 @@
     <div id="hdr-date" style="font-size:12px;color:var(--text2)"></div>
   </div>
 
-  <!-- PAGES -->
+  <!-- TODAY -->
   <div id="p-today" class="scroll">
     <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
       <div style="flex:1;padding-top:4px">
@@ -147,6 +127,7 @@
     <div style="height:10px"></div>
   </div>
 
+  <!-- STATS -->
   <div id="p-stats" class="scroll" style="display:none">
     <div style="display:flex;gap:8px;margin-bottom:14px">
       <div class="met"><div class="mv" id="s-td" style="color:var(--blue)">-</div><div class="ml">오늘 달성</div></div>
@@ -156,6 +137,7 @@
     <div id="stat-list"></div>
   </div>
 
+  <!-- SCHEDULE -->
   <div id="p-sched" class="scroll" style="display:none">
     <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()">
       <div style="font-size:24px;margin-bottom:6px">📎</div>
@@ -163,7 +145,7 @@
       <div style="font-size:12px;color:var(--text2)">JPG/PNG → AI 자동 분석 후 입력</div>
     </div>
     <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
-    <div id="parse-st" style="display:none;text-align:center;padding:12px;border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:12px;font-size:13px;color:var(--text2)"></div>
+    <div id="parse-st" style="display:none;text-align:center;padding:12px;border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:12px;font-size:13px"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
       <button class="btn" onclick="prevM()">← 이전</button>
       <div id="m-lbl" style="font-size:14px;font-weight:700"></div>
@@ -178,22 +160,58 @@
     <div class="card" style="padding:6px 14px"><div id="cal-list"></div></div>
   </div>
 
+  <!-- SETTINGS -->
   <div id="p-set" class="scroll" style="display:none">
-    <!-- Notification -->
+
+    <!-- ① API KEY -->
+    <div class="card">
+      <div class="stitle">🔑 Claude API 키</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">
+        스케쥴 사진 자동 분석에 필요합니다.<br>
+        키는 이 기기에만 저장됩니다.
+      </div>
+      <div class="fld">
+        <label>API Key</label>
+        <div class="pw-row">
+          <input type="password" id="api-input" placeholder="sk-ant-api03-..."/>
+          <button class="btn btn-sm" onclick="togglePw()" id="pw-btn">보기</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-primary" style="flex:1" onclick="saveKey()">저장</button>
+        <button class="btn btn-sm" style="color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="clearKey()">삭제</button>
+      </div>
+      <div id="key-msg" style="font-size:12px;display:none;padding:7px 10px;border-radius:8px;margin-bottom:8px"></div>
+      <div id="key-saved" style="font-size:12px;color:var(--text2);display:none"></div>
+      <!-- How to get key -->
+      <div style="margin-top:10px;padding:11px 12px;background:var(--bg3);border-radius:10px;border:.5px solid var(--border)">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">📌 API 키 발급 방법</div>
+        <div style="font-size:11px;color:var(--text3);line-height:1.7">
+          1. <span style="color:var(--blue)">console.anthropic.com</span> 접속<br>
+          2. 로그인 → 왼쪽 메뉴 API Keys<br>
+          3. Create Key → 이름 입력 후 생성<br>
+          4. 표시된 키 복사 → 위에 붙여넣기<br>
+          <span style="color:var(--yellow)">⚠ 키는 한 번만 표시되니 바로 저장하세요</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② NOTIFICATION -->
     <div class="card">
       <div class="stitle">🔔 알림 설정</div>
-      <div id="n-status" class="nbadge" style="background:var(--bg3);color:var(--text2);margin-bottom:8px"></div>
-      <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%">알림 허용하기</button>
+      <div id="n-status" style="font-size:12px;padding:7px 10px;border-radius:8px;margin-bottom:10px;background:var(--bg3);color:var(--text2)"></div>
+      <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%;display:none">알림 허용하기</button>
       <div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center">홈화면 추가 후 iOS 16.4+ 에서 알림 작동</div>
     </div>
-    <!-- Add habit -->
+
+    <!-- ③ HABITS -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <div class="stitle" style="margin:0">✏️ 루틴 항목 관리</div>
-        <button class="btn btn-primary" onclick="toggleAdd()">+ 추가</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleAdd()">+ 추가</button>
       </div>
       <div id="add-f" style="display:none;background:var(--bg3);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;border:.5px solid var(--border2)">
-        <div id="add-err" style="display:none;font-size:12px;color:var(--red);margin-bottom:8px;padding:6px 10px;background:var(--red-bg);border-radius:6px;border:.5px solid var(--red-border)"></div>
+        <div id="add-err" style="display:none;font-size:12px;color:var(--red);margin-bottom:8px;padding:6px 10px;background:var(--red-bg);border-radius:6px"></div>
         <div class="fld"><label>루틴 이름</label><input id="fn" placeholder="예: 비타민 복용"/></div>
         <div style="display:flex;gap:8px">
           <div class="fld" style="width:70px"><label>아이콘</label><input id="fe" value="⭐" maxlength="2" style="font-size:18px;text-align:center"/></div>
@@ -214,11 +232,12 @@
       </div>
       <div id="h-list"></div>
     </div>
-    <div style="text-align:center;padding:10px 0;font-size:11px;color:var(--text3)">SY Discipline · JANG SIYOUNG</div>
+
+    <div style="text-align:center;padding:10px 0 4px;font-size:11px;color:var(--text3)">SY Discipline · JANG SIYOUNG</div>
     <div style="height:10px"></div>
   </div>
 
-  <!-- BOTTOM NAV -->
+  <!-- NAV -->
   <nav class="nav">
     <button class="nb on" id="nb-today" onclick="G('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>오늘
@@ -236,20 +255,16 @@
 </div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────
-const TODAY = (() => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-})();
-const WD = ['일','월','화','수','목','금','토'];
-const DLBL = {all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
-const TYPES = {
-  flight:  {lbl:'비행',     cls:'tF', badge:'✈ 비행일'},
-  layover: {lbl:'레이오버', cls:'tL', badge:'🏨 레이오버'},
-  off:     {lbl:'오프',     cls:'tO', badge:'⌂ 오프'},
-  reserve: {lbl:'리저브',   cls:'tR', badge:'📋 리저브'},
+const TODAY=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
+const WD=['일','월','화','수','목','금','토'];
+const DLBL={all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
+const TYPES={
+  flight:{lbl:'비행',cls:'tF',badge:'✈ 비행일'},
+  layover:{lbl:'레이오버',cls:'tL',badge:'🏨 레이오버'},
+  off:{lbl:'오프',cls:'tO',badge:'⌂ 오프'},
+  reserve:{lbl:'리저브',cls:'tR',badge:'📋 리저브'},
 };
-const MAY26 = {
+const MAY26={
   '2026-05-01':'flight','2026-05-02':'flight','2026-05-03':'flight',
   '2026-05-04':'off','2026-05-05':'reserve','2026-05-06':'flight',
   '2026-05-07':'reserve','2026-05-08':'flight','2026-05-09':'layover',
@@ -262,68 +277,60 @@ const MAY26 = {
   '2026-05-28':'flight','2026-05-29':'off','2026-05-30':'off',
   '2026-05-31':'flight',
 };
-const DEFS = [
+const DEFS=[
   {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true},
-  {id:'h2',name:'수분 2L 섭취',   emoji:'💧',time:'08:00',days:'all',on:true},
-  {id:'h3',name:'영어 학습 30분', emoji:'📖',time:'09:30',days:'all',on:true},
-  {id:'h4',name:'비행 전 브리핑', emoji:'✈️',time:'05:30',days:'flight',on:true},
-  {id:'h5',name:'재테크 공부',    emoji:'📈',time:'20:00',days:'off',on:true},
-  {id:'h6',name:'명상',           emoji:'🧘',time:'21:30',days:'all',on:true},
-  {id:'h7',name:'딸이랑 놀기',    emoji:'👶',time:'18:00',days:'all',on:true},
+  {id:'h2',name:'수분 2L 섭취',emoji:'💧',time:'08:00',days:'all',on:true},
+  {id:'h3',name:'영어 학습 30분',emoji:'📖',time:'09:30',days:'all',on:true},
+  {id:'h4',name:'비행 전 브리핑',emoji:'✈️',time:'05:30',days:'flight',on:true},
+  {id:'h5',name:'재테크 공부',emoji:'📈',time:'20:00',days:'off',on:true},
+  {id:'h6',name:'명상',emoji:'🧘',time:'21:30',days:'all',on:true},
+  {id:'h7',name:'딸이랑 놀기',emoji:'👶',time:'18:00',days:'all',on:true},
 ];
 
-let H=[...DEFS], C={}, SC={...MAY26}, editId=null, addOpen=false;
-let calY=new Date().getFullYear(), calM=new Date().getMonth();
-let ntT=[], curTab='today';
+let H=[...DEFS],C={},SC={...MAY26},editId=null,addOpen=false;
+let calY=new Date().getFullYear(),calM=new Date().getMonth();
+let ntT=[],curTab='today',pwVisible=false;
 
-// ── STORAGE ──────────────────────────────────────────────────────
-const KEY_H='syv2-h', KEY_C='syv2-c', KEY_S='syv2-s';
-const ls = {
-  get: k => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):null; } catch{return null;} },
-  set: (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch{} },
+const KEY_H='syv2-h',KEY_C='syv2-c',KEY_S='syv2-s',KEY_API='syv2-apikey';
+const ls={
+  get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+  raw:k=>{try{return localStorage.getItem(k)||'';}catch{return '';}},
+  setRaw:(k,v)=>{try{localStorage.setItem(k,v);}catch{}},
+  del:k=>{try{localStorage.removeItem(k);}catch{}},
 };
 
-async function init() {
-  const h=ls.get(KEY_H), c=ls.get(KEY_C), s=ls.get(KEY_S);
-  if(h) H=h; if(c) C=c; SC={...MAY26,...(s||{})};
+async function init(){
+  const h=ls.get(KEY_H),c=ls.get(KEY_C),s=ls.get(KEY_S);
+  if(h)H=h;if(c)C=c;SC={...MAY26,...(s||{})};
   document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='flex';
-  rdToday(); schedN();
+  rdToday();schedN();
 }
 
-// ── NAVIGATION ───────────────────────────────────────────────────
-function G(tab) {
+function G(tab){
   curTab=tab;
   ['today','stats','sched','set'].forEach(t=>{
     document.getElementById('p-'+t).style.display=t===tab?'':'none';
     document.getElementById('nb-'+t).classList.toggle('on',t===tab);
   });
-  if(tab==='today') rdToday();
-  else if(tab==='stats') rdStats();
-  else if(tab==='sched') rdSched();
+  if(tab==='today')rdToday();
+  else if(tab==='stats')rdStats();
+  else if(tab==='sched')rdSched();
   else rdSet();
 }
 
-// ── DS HELPER ────────────────────────────────────────────────────
-const DS = n=>{
-  const d=new Date(); d.setDate(d.getDate()+(n||0));
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-};
-const dS = d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const dS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 
-// ── TODAY ────────────────────────────────────────────────────────
-function thabs() {
-  const t=SC[TODAY];
-  return H.filter(h=>h.on&&(h.days==='all'||h.days===t));
-}
+// TODAY
+function thabs(){const t=SC[TODAY];return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
 const tdn=()=>thabs().filter(h=>C[TODAY]?.[h.id]).length;
-
-function rdToday() {
-  const ths=thabs(), dn=tdn(), tot=ths.length, pct=tot?Math.round(dn/tot*100):0;
+function rdToday(){
+  const ths=thabs(),dn=tdn(),tot=ths.length,pct=tot?Math.round(dn/tot*100):0;
   const typ=SC[TODAY];
-  document.getElementById('td-badge').innerHTML=typ
-    ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
+  document.getElementById('td-badge').innerHTML=typ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
   document.getElementById('td-warn').style.display=typ?'none':'';
   document.getElementById('td-info').textContent=pct===100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
   const circ=2*Math.PI*36;
@@ -331,23 +338,17 @@ function rdToday() {
   ring.style.strokeDashoffset=(circ-pct/100*circ).toFixed(1);
   ring.style.stroke=pct>=100?'var(--green)':'var(--blue)';
   const rp=document.getElementById('ring-p');
-  rp.textContent=pct+'%'; rp.style.color=pct>=100?'var(--green)':'var(--text)';
+  rp.textContent=pct+'%';rp.style.color=pct>=100?'var(--green)':'var(--text)';
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
   const el=document.getElementById('habit-list');
   if(!ths.length){
-    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:24px">
-      <div style="font-size:32px;margin-bottom:8px">✈️</div>
-      <div>오늘 루틴이 없습니다</div>
-      <div style="font-size:12px;margin-top:4px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div>
-    </div>`;
+    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:24px"><div style="font-size:32px;margin-bottom:8px">✈️</div><div>오늘 루틴이 없습니다</div><div style="font-size:12px;margin-top:4px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
     return;
   }
   el.innerHTML=ths.map(h=>{
     const d=!!C[TODAY]?.[h.id];
     return `<div class="hi${d?' dn':''}" onclick="tog('${h.id}')">
-      <div class="ck${d?' dn':''}">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      <div class="ck${d?' dn':''}"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <span style="font-size:20px;flex-shrink:0">${h.emoji}</span>
       <div style="flex:1;min-width:0">
         <div style="font-size:14px;font-weight:600;color:${d?'var(--green)':'var(--text)'};${d?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
@@ -356,33 +357,24 @@ function rdToday() {
     </div>`;
   }).join('');
 }
-
-function tog(id) {
-  if(!C[TODAY]) C[TODAY]={};
+function tog(id){
+  if(!C[TODAY])C[TODAY]={};
   C[TODAY][id]=!C[TODAY][id];
-  ls.set(KEY_C,C); schedN(); rdToday();
+  ls.set(KEY_C,C);schedN();rdToday();
 }
 
-// ── STATS ────────────────────────────────────────────────────────
-function streak(id) {
-  let s=0; const hb=H.find(x=>x.id===id); if(!hb)return 0;
-  for(let i=0;i<365;i++){
-    const ds=DS(-i),sc=SC[ds];
-    if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;
-    if(C[ds]?.[id]) s++; else if(i>0) break;
-  }
+// STATS
+function streak(id){
+  let s=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
+  for(let i=0;i<365;i++){const ds=DS(-i),sc=SC[ds];if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;if(C[ds]?.[id])s++;else if(i>0)break;}
   return s;
 }
-function rate30(id) {
-  let tot=0,dn=0; const hb=H.find(x=>x.id===id); if(!hb)return 0;
-  for(let i=1;i<=30;i++){
-    const ds=DS(-i),sc=SC[ds];
-    if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;
-    tot++; if(C[ds]?.[id]) dn++;
-  }
+function rate30(id){
+  let tot=0,dn=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
+  for(let i=1;i<=30;i++){const ds=DS(-i),sc=SC[ds];if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;tot++;if(C[ds]?.[id])dn++;}
   return tot?Math.round(dn/tot*100):0;
 }
-function rdStats() {
+function rdStats(){
   const ths=thabs(),dn=tdn();
   document.getElementById('s-td').textContent=`${dn}/${ths.length}`;
   const act=H.filter(h=>h.on);
@@ -411,18 +403,17 @@ function rdStats() {
   }).join('');
 }
 
-// ── SCHEDULE ─────────────────────────────────────────────────────
-function rdSched() {
+// SCHEDULE
+function rdSched(){
   document.getElementById('m-lbl').textContent=new Date(calY,calM,1).toLocaleDateString('ko-KR',{year:'numeric',month:'long'});
   const end=new Date(calY,calM+1,0).getDate();
   let rows='';
   for(let i=1;i<=end;i++){
-    const dt=new Date(calY,calM,i), ds=dS(dt), isT=ds===TODAY, t=SC[ds];
+    const dt=new Date(calY,calM,i),ds=dS(dt),isT=ds===TODAY,t=SC[ds];
     const dc=dt.getDay()===0?'var(--red)':dt.getDay()===6?'var(--blue)':'var(--text2)';
-    const btns=Object.entries(TYPES).map(([k,{lbl,cls}])=>{
-      const active=t===k;
-      return `<button class="dbt${active?' '+cls:''}" onclick="setDay('${ds}','${k}')">${lbl}</button>`;
-    }).join('');
+    const btns=Object.entries(TYPES).map(([k,{lbl,cls}])=>
+      `<button class="dbt${t===k?' '+cls:''}" onclick="setDay('${ds}','${k}')">${lbl}</button>`
+    ).join('');
     rows+=`<div class="drow">
       <div style="width:34px;flex-shrink:0;text-align:center">
         <div style="font-size:9px;color:${dc};font-weight:600">${WD[dt.getDay()]}</div>
@@ -434,93 +425,105 @@ function rdSched() {
   document.getElementById('cal-list').innerHTML=rows;
 }
 function setDay(ds,typ){
-  if(SC[ds]===typ) delete SC[ds]; else SC[ds]=typ;
-  const saved={...SC}; Object.keys(MAY26).forEach(k=>delete saved[k]);
-  ls.set(KEY_S,saved); rdSched();
-  if(ds===TODAY && curTab==='today') rdToday();
+  if(SC[ds]===typ)delete SC[ds];else SC[ds]=typ;
+  const saved={...SC};Object.keys(MAY26).forEach(k=>delete saved[k]);
+  ls.set(KEY_S,saved);rdSched();
+  if(ds===TODAY&&curTab==='today')rdToday();
 }
 function prevM(){if(calM===0){calY--;calM=11;}else calM--;rdSched();}
 function nextM(){if(calM===11){calY++;calM=0;}else calM++;rdSched();}
 
-// ── FILE UPLOAD ──────────────────────────────────────────────────
-async function handleFile(e) {
-  const f=e.target.files[0]; if(!f)return;
+// FILE UPLOAD
+async function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
   const pEl=document.getElementById('parse-st');
-  pEl.style.display=''; pEl.textContent='🔍 AI가 스케쥴을 분석하는 중...'; pEl.style.color='var(--text2)';
+  pEl.style.display='';pEl.style.color='var(--text2)';pEl.textContent='🔍 AI가 스케쥴을 분석하는 중...';
   document.getElementById('upl-area').style.pointerEvents='none';
-  try {
+  try{
+    const apiKey=ls.raw(KEY_API);
+    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요 →');
     const b64=await new Promise((res,rej)=>{
       const r=new FileReader();
       r.onload=()=>res(r.result.split(',')[1]);
       r.onerror=()=>rej(new Error('파일 읽기 실패'));
       r.readAsDataURL(f);
     });
-    const parsed=await parseImg(b64,f.type);
+    const parsed=await parseImg(b64,f.type,apiKey);
     const keys=Object.keys(parsed);
-    if(!keys.length) throw new Error('스케쥴 데이터를 찾지 못했어요');
+    if(!keys.length)throw new Error('스케쥴 데이터를 찾지 못했어요');
     SC={...SC,...parsed};
-    const saved={...SC}; Object.keys(MAY26).forEach(k=>delete saved[k]);
+    const saved={...SC};Object.keys(MAY26).forEach(k=>delete saved[k]);
     ls.set(KEY_S,saved);
     const first=new Date(keys.sort()[0]+'T12:00:00');
-    calY=first.getFullYear(); calM=first.getMonth();
-    pEl.textContent=`✅ ${keys.length}일 스케쥴 입력 완료!`; pEl.style.color='var(--green)';
+    calY=first.getFullYear();calM=first.getMonth();
+    pEl.style.color='var(--green)';pEl.textContent=`✅ ${keys.length}일 스케쥴 입력 완료!`;
     rdSched();
     setTimeout(()=>{pEl.style.display='none';},3000);
-  } catch(err) {
-    pEl.textContent='❌ '+err.message; pEl.style.color='var(--red)';
+  }catch(err){
+    pEl.style.color='var(--red)';pEl.textContent='❌ '+err.message;
   }
   document.getElementById('upl-area').style.pointerEvents='';
   e.target.value='';
 }
-async function parseImg(b64,mtype) {
-  const apiKey=ls.get('syv2-apikey');
-  if(!apiKey) throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요');
+async function parseImg(b64,mtype,apiKey){
   const resp=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':apiKey,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true',
+    },
     body:JSON.stringify({
-      model:'claude-sonnet-4-20250514', max_tokens:1000,
+      model:'claude-sonnet-4-20250514',max_tokens:1000,
       messages:[{role:'user',content:[
         {type:'image',source:{type:'base64',media_type:mtype,data:b64}},
-        {type:'text',text:`항공사 파일럿 스케쥴 이미지입니다. 각 날짜를 아래 기준으로 분류해 JSON만 반환하세요.
-분류 기준:
-- "flight": 항공 편명(KE/DH/HM/OZ 등)이 있는 날 (LO+편명도 flight)
-- "layover": LO로 시작하되 당일 출발 편명 없는 날만
+        {type:'text',text:`항공사 파일럿 스케쥴 이미지입니다. 각 날짜를 분류해 JSON만 반환하세요.
+분류:
+- "flight": 항공 편명(KE/DH/HM/OZ 등) 있는 날 (LO+편명도 flight)
+- "layover": LO로만 표시된 날 (출발 편명 없음)
 - "off": RDO, DO, ATDO, MEDCHK
 - "reserve": RESERVE, SBY, AP_SBY, HM_SBY
-이미지에서 연도/월을 정확히 확인하세요. 설명 없이 JSON만 반환:
+연도/월을 이미지에서 확인하세요. JSON만 반환 (설명 없이):
 {"YYYY-MM-DD":"flight|layover|off|reserve"}`}
       ]}]
     })
   });
-  if(!resp.ok) throw new Error('API 오류: '+resp.status);
+  if(!resp.ok){
+    const err=await resp.json().catch(()=>({}));
+    const msg=err?.error?.message||`API 오류 (${resp.status})`;
+    if(resp.status===401)throw new Error('API 키가 잘못되었습니다. 설정 탭에서 확인해 주세요');
+    throw new Error(msg);
+  }
   const data=await resp.json();
   const txt=data.content?.find(b=>b.type==='text')?.text||'';
   const m=txt.match(/\{[\s\S]*\}/);
-  if(!m) throw new Error('스케쥴 파싱 실패');
+  if(!m)throw new Error('스케쥴 파싱 실패');
   return JSON.parse(m[0]);
 }
 
-// ── SETTINGS ─────────────────────────────────────────────────────
-function rdSet() {
-  const savedKey=ls.get('syv2-apikey')||'';
-  // API Key card는 rdSet 렌더링 시 동적으로 삽입
-  const apiCard=document.getElementById('api-card');
-  if(apiCard){
-    document.getElementById('api-input').value=savedKey?'sk-ant-••••••••••••••••':'';
-    document.getElementById('api-input').placeholder=savedKey?'저장됨 (변경하려면 새로 입력)':'sk-ant-api03-...';
+// SETTINGS
+function rdSet(){
+  const savedKey=ls.raw(KEY_API);
+  const inp=document.getElementById('api-input');
+  const ks=document.getElementById('key-saved');
+  inp.value='';
+  if(savedKey){
+    inp.placeholder='새 키를 입력하면 교체됩니다';
+    ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;
+    ks.style.display='';
+  }else{
+    inp.placeholder='sk-ant-api03-...';
+    ks.style.display='none';
   }
-  const p='Notification' in window ? Notification.permission : 'unsupported';
-  const ns=document.getElementById('n-status'), nb=document.getElementById('n-btn');
-  if(p==='granted'){
-    ns.textContent='✅ 알림 활성화됨'; ns.style.background='var(--green-bg)'; ns.style.color='var(--green)'; nb.style.display='none';
-  } else if(p==='denied'){
-    ns.textContent='❌ 알림 차단됨 — 설정 > Safari > 알림 에서 허용해주세요'; ns.style.background='var(--red-bg)'; ns.style.color='var(--red)'; nb.style.display='none';
-  } else if(p==='unsupported'){
-    ns.textContent='⚠️ 홈화면 추가 후 알림 사용 가능'; ns.style.background='var(--yellow-bg)'; ns.style.color='var(--yellow)'; nb.style.display='none';
-  } else {
-    ns.textContent='알림을 허용하면 루틴 시간에 알람을 받을 수 있어요'; ns.style.background='var(--bg3)'; ns.style.color='var(--text2)'; nb.style.display='';
-  }
+  // Notification
+  const p='Notification' in window?Notification.permission:'unsupported';
+  const ns=document.getElementById('n-status'),nb=document.getElementById('n-btn');
+  if(p==='granted'){ns.textContent='✅ 알림 활성화됨';ns.style.background='var(--green-bg)';ns.style.color='var(--green)';nb.style.display='none';}
+  else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정 > Safari > 알림에서 허용해주세요';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
+  else if(p==='unsupported'){ns.textContent='⚠️ 홈화면 추가 후 알림 사용 가능';ns.style.background='var(--yellow-bg)';ns.style.color='var(--yellow)';nb.style.display='none';}
+  else{ns.textContent='허용하면 루틴 시간에 알람을 받을 수 있어요';ns.style.background='var(--bg3)';ns.style.color='var(--text2)';nb.style.display='';}
+  // Habit list
   document.getElementById('h-list').innerHTML=H.map(h=>`
     <div>
       <div class="hrow">
@@ -530,13 +533,13 @@ function rdSet() {
           <div style="font-size:10px;color:var(--text2)">⏰ ${h.time} · ${DLBL[h.days]||h.days}</div>
         </div>
         <div style="display:flex;gap:4px;flex-shrink:0;align-items:center">
-          <button onclick="editH('${h.id}')" class="btn" style="font-size:11px;padding:4px 9px;color:${editId===h.id?'var(--blue)':'var(--text2)'};border-color:${editId===h.id?'var(--blue-border)':'var(--border)'}">${editId===h.id?'닫기':'편집'}</button>
-          <button onclick="togOn('${h.id}')" class="btn" style="font-size:11px;padding:4px 9px;color:${h.on?'var(--green)':'var(--text3)'};border-color:${h.on?'var(--green-border)':'var(--border)'}">${h.on?'ON':'OFF'}</button>
-          <button onclick="delH('${h.id}')" class="btn-danger" style="font-size:18px;padding:0 4px">×</button>
+          <button onclick="editH('${h.id}')" class="btn btn-sm" style="color:${editId===h.id?'var(--blue)':'var(--text2)'};border-color:${editId===h.id?'var(--blue-border)':'var(--border)'}">${editId===h.id?'닫기':'편집'}</button>
+          <button onclick="togOn('${h.id}')" class="btn btn-sm" style="color:${h.on?'var(--green)':'var(--text3)'};border-color:${h.on?'var(--green-border)':'var(--border)'}">${h.on?'ON':'OFF'}</button>
+          <button onclick="delH('${h.id}')" class="btn-danger" style="font-size:20px;padding:0 3px">×</button>
         </div>
       </div>
       ${editId===h.id?`<div class="ef">
-        <div class="fld"><label>루틴 이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}" /></div>
+        <div class="fld"><label>루틴 이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}"/></div>
         <div style="display:flex;gap:8px">
           <div class="fld" style="width:70px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:18px;text-align:center"/></div>
           <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="et" value="${h.time}"/></div>
@@ -556,10 +559,42 @@ function rdSet() {
       </div>`:''}
     </div>`).join('');
 }
+
+// API key handlers
+function togglePw(){
+  pwVisible=!pwVisible;
+  document.getElementById('api-input').type=pwVisible?'text':'password';
+  document.getElementById('pw-btn').textContent=pwVisible?'숨기기':'보기';
+}
+function saveKey(){
+  const v=document.getElementById('api-input').value.trim();
+  if(!v){showKeyMsg('입력된 키가 없습니다','var(--red)','var(--red-bg)');return;}
+  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다 (sk-ant- 로 시작해야 해요)','var(--red)','var(--red-bg)');return;}
+  ls.setRaw(KEY_API,v);
+  document.getElementById('api-input').value='';
+  document.getElementById('api-input').placeholder='새 키를 입력하면 교체됩니다';
+  document.getElementById('key-saved').textContent=`✅ 저장됨: ${v.slice(0,18)}...`;
+  document.getElementById('key-saved').style.display='';
+  showKeyMsg('API 키가 저장되었습니다','var(--green)','var(--green-bg)');
+}
+function clearKey(){
+  if(!confirm('API 키를 삭제할까요?'))return;
+  ls.del(KEY_API);
+  document.getElementById('api-input').value='';
+  document.getElementById('api-input').placeholder='sk-ant-api03-...';
+  document.getElementById('key-saved').style.display='none';
+  showKeyMsg('API 키가 삭제되었습니다','var(--text2)','var(--bg3)');
+}
+function showKeyMsg(msg,color,bg){
+  const el=document.getElementById('key-msg');
+  el.textContent=msg;el.style.color=color;el.style.background=bg;el.style.display='';
+  setTimeout(()=>el.style.display='none',3000);
+}
+
 function saveH(id){
-  const n=document.getElementById('en').value.trim(); if(!n)return;
+  const n=document.getElementById('en').value.trim();if(!n)return;
   H=H.map(h=>h.id===id?{...h,name:n,emoji:document.getElementById('ee').value||h.emoji,time:document.getElementById('et').value,days:document.getElementById('ed').value}:h);
-  editId=null; ls.set(KEY_H,H); rdSet();
+  editId=null;ls.set(KEY_H,H);rdSet();
 }
 function editH(id){editId=editId===id?null:id;rdSet();}
 function togOn(id){H=H.map(h=>h.id===id?{...h,on:!h.on}:h);ls.set(KEY_H,H);rdSet();}
@@ -572,11 +607,8 @@ function addH(){
   document.getElementById('fn').value='';ls.set(KEY_H,H);toggleAdd();rdSet();
 }
 
-// ── NOTIFICATIONS ────────────────────────────────────────────────
-function reqN(){
-  if(!('Notification' in window))return;
-  Notification.requestPermission().then(()=>{schedN();rdSet();});
-}
+// NOTIFICATIONS
+function reqN(){if(!('Notification' in window))return;Notification.requestPermission().then(()=>{schedN();rdSet();});}
 function schedN(){
   ntT.forEach(clearTimeout);ntT=[];
   if(!('Notification' in window)||Notification.permission!=='granted')return;
@@ -585,19 +617,14 @@ function schedN(){
     const[hh,mm]=h.time.split(':').map(Number);
     const t=new Date();t.setHours(hh,mm,0,0);
     const d=t-now;
-    if(d>0) ntT.push(setTimeout(()=>{
-      if(!C[TODAY]?.[h.id]) try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
+    if(d>0)ntT.push(setTimeout(()=>{
+      if(!C[TODAY]?.[h.id])try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
     },d));
   });
 }
 
-// ── SERVICE WORKER ───────────────────────────────────────────────
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
-// ── BOOT ─────────────────────────────────────────────────────────
-window.addEventListener('load', init);
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+window.addEventListener('load',init);
 </script>
 </body>
 </html>
