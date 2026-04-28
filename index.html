@@ -473,9 +473,11 @@ async function handleFile(e) {
   e.target.value='';
 }
 async function parseImg(b64,mtype) {
+  const apiKey=ls.get('syv2-apikey');
+  if(!apiKey) throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요');
   const resp=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
     body:JSON.stringify({
       model:'claude-sonnet-4-20250514', max_tokens:1000,
       messages:[{role:'user',content:[
@@ -501,6 +503,13 @@ async function parseImg(b64,mtype) {
 
 // ── SETTINGS ─────────────────────────────────────────────────────
 function rdSet() {
+  const savedKey=ls.get('syv2-apikey')||'';
+  // API Key card는 rdSet 렌더링 시 동적으로 삽입
+  const apiCard=document.getElementById('api-card');
+  if(apiCard){
+    document.getElementById('api-input').value=savedKey?'sk-ant-••••••••••••••••':'';
+    document.getElementById('api-input').placeholder=savedKey?'저장됨 (변경하려면 새로 입력)':'sk-ant-api03-...';
+  }
   const p='Notification' in window ? Notification.permission : 'unsupported';
   const ns=document.getElementById('n-status'), nb=document.getElementById('n-btn');
   if(p==='granted'){
