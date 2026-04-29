@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="SY Discipline"/>
-<meta name="theme-color" content="#0a0e1a"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <title>SY Discipline</title>
 <style>
-:root{
+/* ── THEME ─────────────────────────────────────────────────────── */
+[data-theme="dark"]{
   --bg:#0a0e1a;--bg2:#111827;--bg3:#1f2937;
   --border:#374151;--border2:#4b5563;
   --text:#f9fafb;--text2:#9ca3af;--text3:#6b7280;
@@ -19,75 +19,146 @@
   --green:#22c55e;--green-bg:#14532d;--green-border:#16a34a;
   --yellow:#f59e0b;--yellow-bg:#451a03;--yellow-border:#d97706;
   --red:#ef4444;--red-bg:#450a0a;--red-border:#dc2626;
+  --purple:#a855f7;--purple-bg:#3b0764;--purple-border:#9333ea;
   --gray:#6b7280;--gray-bg:#1f2937;--gray-border:#374151;
-  --radius:14px;--radius-sm:9px;
-  --safe-top:env(safe-area-inset-top,0px);
-  --safe-bot:env(safe-area-inset-bottom,0px);
+  --hm0:#111827;--hm1:#14532d;--hm2:#16a34a;--hm3:#22c55e;--hm4:#4ade80;
 }
+[data-theme="light"]{
+  --bg:#f9fafb;--bg2:#ffffff;--bg3:#f3f4f6;
+  --border:#e5e7eb;--border2:#d1d5db;
+  --text:#111827;--text2:#6b7280;--text3:#9ca3af;
+  --blue:#2563eb;--blue-bg:#dbeafe;--blue-border:#93c5fd;
+  --green:#16a34a;--green-bg:#dcfce7;--green-border:#86efac;
+  --yellow:#d97706;--yellow-bg:#fef3c7;--yellow-border:#fcd34d;
+  --red:#dc2626;--red-bg:#fee2e2;--red-border:#fca5a5;
+  --purple:#9333ea;--purple-bg:#f3e8ff;--purple-border:#d8b4fe;
+  --gray:#6b7280;--gray-bg:#f3f4f6;--gray-border:#e5e7eb;
+  --hm0:#f3f4f6;--hm1:#bbf7d0;--hm2:#4ade80;--hm3:#22c55e;--hm4:#16a34a;
+}
+/* ── ANIMATIONS ────────────────────────────────────────────────── */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ── BASE ──────────────────────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden}
-#app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 8px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
-.hdr-logo{display:flex;align-items:center;gap:8px}
-.hdr-logo img{width:34px;height:34px;border-radius:9px;object-fit:cover;display:block}
-.hdr-title{font-size:17px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(var(--safe-bot) + 2px)}
-.nb{flex:1;padding:10px 2px 8px;background:none;border:none;font-size:10px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
+#app{display:flex;flex-direction:column;height:100%;padding-top:env(safe-area-inset-top,0px)}
+/* ── HEADER ────────────────────────────────────────────────────── */
+.hdr{display:flex;align-items:center;gap:9px;padding:9px 15px 7px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
+.hdr img{width:32px;height:32px;border-radius:8px;object-fit:cover;flex-shrink:0}
+.hdr-title{font-size:16px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.hdr-mid{flex:1;display:flex;flex-direction:column;align-items:center}
+.hdr-date{font-size:10px;color:var(--text2)}
+.hdr-dday{font-size:11px;font-weight:700;color:var(--blue)}
+/* ── NAV ───────────────────────────────────────────────────────── */
+.nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}
+.nb{flex:1;padding:9px 2px 7px;background:none;border:none;font-size:9px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
 .nb.on{color:var(--blue)}
-.nb svg{width:21px;height:21px}
-.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 15px 20px}
-.card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--radius);padding:13px 14px;margin-bottom:10px}
-.hi{display:flex;align-items:center;gap:10px;padding:11px 13px;border:.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
+.nb svg{width:20px;height:20px}
+/* ── SCROLL ────────────────────────────────────────────────────── */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px 16px}
+.scroll::-webkit-scrollbar{width:2px}
+.scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* ── CARDS ─────────────────────────────────────────────────────── */
+.card{background:var(--bg2);border:.5px solid var(--border);border-radius:13px;padding:12px 14px;margin-bottom:9px}
+.stitle{font-size:12px;font-weight:700;color:var(--text);margin-bottom:9px}
+/* ── WEEK STRIP ────────────────────────────────────────────────── */
+.week-strip{display:flex;gap:2px;margin-bottom:12px}
+.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.ws-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:400;color:var(--text2)}
+.ws-num.today{background:var(--blue);color:white;font-weight:700}
+.ws-dot{width:6px;height:6px;border-radius:50%;background:var(--bg3)}
+/* ── HABIT ITEM ────────────────────────────────────────────────── */
+.hi{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:.5px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
 .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
-.hi.skip{opacity:.45;cursor:default}
-.ck{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.hi.quiet{opacity:.4;cursor:default}
+.ck{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
 .ck.dn{background:var(--green);border-color:var(--green)}
 .ck svg{display:none}.ck.dn svg{display:block}
-.tag{display:inline-flex;align-items:center;padding:3px 9px;font-size:11px;font-weight:600;border-radius:20px;border:.5px solid;font-family:inherit}
+/* ── MEMO ──────────────────────────────────────────────────────── */
+.memo-row{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:.5px solid var(--border)}
+.memo-input{flex:1;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--text);font-family:inherit;outline:none}
+.memo-input:focus{border-color:var(--blue)}
+/* ── TAGS ──────────────────────────────────────────────────────── */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;font-size:10px;font-weight:600;border-radius:20px;border:.5px solid;font-family:inherit}
 .tF{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
 .tL{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border)}
 .tO{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
 .tR{background:var(--gray-bg);color:var(--gray);border-color:var(--gray-border)}
-.ring-wrap{position:relative;width:84px;height:84px;flex-shrink:0}
+/* ── RING ──────────────────────────────────────────────────────── */
+.ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
 .ring-wrap svg{transform:rotate(-90deg)}
 .ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.met{flex:1;padding:11px 6px;background:var(--bg3);border-radius:var(--radius-sm);text-align:center}
-.mv{font-size:21px;font-weight:700;line-height:1}
-.ml{font-size:10px;color:var(--text2);margin-top:4px}
-.pb{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden;margin:5px 0 3px}
-.pf{height:100%;border-radius:4px;transition:width .4s ease}
-.drow{display:flex;align-items:center;padding:7px 0;border-bottom:.5px solid var(--border)}
-.dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;flex:1;padding-left:7px}
-.dbt{padding:4px 2px;font-size:10px;font-weight:600;border-radius:6px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
+/* ── METRICS ───────────────────────────────────────────────────── */
+.metrics{display:flex;gap:6px;margin-bottom:11px}
+.met{flex:1;padding:10px 6px;background:var(--bg3);border-radius:9px;text-align:center}
+.mv{font-size:20px;font-weight:700;line-height:1}
+.ml{font-size:9px;color:var(--text2);margin-top:4px}
+/* ── PROGRESS BAR ──────────────────────────────────────────────── */
+.pb{background:var(--bg3);border-radius:3px;height:4px;overflow:hidden;margin:4px 0 2px}
+.pf{height:100%;border-radius:3px;transition:width .4s ease}
+/* ── HEATMAP ───────────────────────────────────────────────────── */
+.heatmap{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;margin-bottom:6px}
+.hm-cell{aspect-ratio:1;border-radius:2px}
+/* ── DAYBAR ────────────────────────────────────────────────────── */
+.daybar-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.daybar-label{font-size:10px;color:var(--text2);width:16px;text-align:right;flex-shrink:0}
+.daybar-track{flex:1;background:var(--bg3);border-radius:3px;height:14px;overflow:hidden;position:relative}
+.daybar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px}
+.daybar-pct{font-size:9px;color:white;font-weight:700}
+/* ── SCHEDULE CAL ──────────────────────────────────────────────── */
+.drow{display:flex;align-items:center;padding:6px 0;border-bottom:.5px solid var(--border)}
+.dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;flex:1;padding-left:6px}
+.dbt{padding:3px 2px;font-size:9px;font-weight:600;border-radius:5px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
+/* ── FORMS ─────────────────────────────────────────────────────── */
 .fld{margin-bottom:9px}
 .fld label{font-size:11px;color:var(--text2);display:block;margin-bottom:3px;font-weight:500}
-.fld input,.fld select,.fld textarea{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;color:var(--text);font-family:inherit;outline:none}
-.fld input:focus,.fld select:focus{border-color:var(--blue)}
+.fld input,.fld select,.fld textarea{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue)}
 .fld select option{background:var(--bg3)}
-.btn{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
+/* ── BUTTONS ───────────────────────────────────────────────────── */
+.btn{padding:9px 14px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
 .btn-primary{background:var(--blue);border-color:var(--blue);color:white}
-.btn-sm{padding:5px 11px;font-size:12px;border-radius:8px}
-.btn-danger{color:var(--red);border:none;background:none;cursor:pointer;font-size:20px;padding:0 3px;font-family:inherit}
-.upl{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:10px;transition:all .2s}
+.btn-sm{padding:4px 10px;font-size:11px;border-radius:7px}
+.btn-danger{color:var(--red);border:none;background:none;cursor:pointer;font-size:19px;padding:0 3px;font-family:inherit;line-height:1}
+/* ── UPLOAD ────────────────────────────────────────────────────── */
+.upl{border:1.5px dashed var(--border2);border-radius:12px;padding:14px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:9px;transition:all .2s}
 .upl:active{background:var(--bg3)}
-.stitle{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
-.ef{background:var(--bg3);border-radius:var(--radius-sm);padding:12px;margin:4px 0 6px;border:.5px solid var(--border2)}
-.hrow{display:flex;align-items:center;padding:10px 0;border-bottom:.5px solid var(--border)}
-.warn{font-size:12px;color:var(--yellow);padding:7px 10px;background:var(--yellow-bg);border-radius:var(--radius-sm);border:.5px solid var(--yellow-border);margin-bottom:8px}
-#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
-#loading img{width:80px;height:80px;border-radius:20px;object-fit:cover}
-.spin{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.scroll::-webkit-scrollbar{width:3px}
-.scroll::-webkit-scrollbar-track{background:transparent}
-.scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-/* tabs inside card */
-.tab-row{display:flex;gap:0;border:.5px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:12px}
-.tab-btn{flex:1;padding:8px 4px;background:none;border:none;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
+/* ── HABIT EDIT ────────────────────────────────────────────────── */
+.ef{background:var(--bg3);border-radius:9px;padding:11px;margin:3px 0 5px;border:.5px solid var(--border2)}
+.hrow{display:flex;align-items:center;padding:9px 0;border-bottom:.5px solid var(--border)}
+/* ── TABS IN CARD ──────────────────────────────────────────────── */
+.tab-row{display:flex;border:.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.tab-btn{flex:1;padding:7px 4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
 .tab-btn.on{background:var(--blue);color:white}
-/* flight row in manual entry */
-.flight-chip{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg3);border-radius:8px;border:.5px solid var(--border);margin-bottom:5px}
-.quiet-badge{font-size:10px;color:var(--yellow);background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:4px;padding:1px 5px;margin-left:auto;flex-shrink:0}
+/* ── TEMPLATE CARD ─────────────────────────────────────────────── */
+.tpl-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:9px;border:.5px solid var(--border);margin-bottom:7px}
+/* ── GOAL ROW ──────────────────────────────────────────────────── */
+.goal-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:.5px solid var(--border)}
+.goal-ring{position:relative;width:36px;height:36px;flex-shrink:0}
+.goal-ring svg{transform:rotate(-90deg)}
+.goal-ring-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text)}
+/* ── FLIGHT CHIP ───────────────────────────────────────────────── */
+.flight-chip{display:flex;align-items:center;gap:6px;padding:6px 9px;background:var(--bg3);border-radius:7px;border:.5px solid var(--border);margin-bottom:4px;font-size:11px}
+.quiet-badge{font-size:9px;color:var(--yellow);background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:4px;padding:1px 4px;margin-left:auto;flex-shrink:0}
+/* ── FATIGUE CARD ──────────────────────────────────────────────── */
+.fat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:2px}
+.fat-item{background:var(--bg3);border-radius:8px;padding:9px 6px;text-align:center}
+.fat-val{font-size:18px;font-weight:700}
+.fat-lbl{font-size:9px;color:var(--text2);margin-top:3px}
+/* ── WARN ──────────────────────────────────────────────────────── */
+.warn{font-size:11px;color:var(--yellow);padding:7px 10px;background:var(--yellow-bg);border-radius:8px;border:.5px solid var(--yellow-border);margin-bottom:8px}
+/* ── LOADING ───────────────────────────────────────────────────── */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
+#loading img{width:76px;height:76px;border-radius:19px;object-fit:cover}
+.spin{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+/* ── CONFETTI ──────────────────────────────────────────────────── */
+.confetti-piece{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;animation:confetti-fall 1.8s ease-in forwards}
+/* ── THEME TOGGLE ──────────────────────────────────────────────── */
+.theme-toggle{display:flex;border:.5px solid var(--border);border-radius:8px;overflow:hidden}
+.theme-btn{flex:1;padding:7px 4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
+.theme-btn.on{background:var(--blue);color:white}
 </style>
 </head>
 <body>
@@ -99,85 +170,100 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 </div>
 
 <div id="app" style="display:none">
+  <!-- HEADER -->
   <div class="hdr">
-    <div class="hdr-logo">
-      <img src="icon-192.png" alt="SY"/>
-      <span class="hdr-title">SY Discipline</span>
+    <img src="icon-192.png" alt="SY"/>
+    <div class="hdr-title">SY Discipline</div>
+    <div class="hdr-mid">
+      <div class="hdr-date" id="hdr-date"></div>
+      <div class="hdr-dday" id="hdr-dday"></div>
     </div>
-    <div id="hdr-date" style="font-size:11px;color:var(--text2)"></div>
+    <button class="btn btn-sm" id="theme-quick-btn" onclick="cycleTheme()" style="font-size:14px;padding:4px 8px">🌙</button>
   </div>
 
   <!-- TODAY -->
   <div id="p-today" class="scroll">
-    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:13px">
+    <div class="week-strip" id="week-strip"></div>
+    <div style="display:flex;align-items:flex-start;gap:11px;margin-bottom:12px">
       <div style="flex:1;padding-top:3px">
-        <div id="td-badge" style="margin-bottom:6px"></div>
+        <div id="td-badge" style="margin-bottom:5px"></div>
         <div id="td-warn" class="warn" style="display:none">스케쥴 탭에서 오늘 유형을 설정해 주세요</div>
-        <div id="td-flights" style="margin-bottom:5px"></div>
-        <div id="td-info" style="font-size:12px;color:var(--text2)"></div>
+        <div id="td-flights" style="margin-bottom:4px"></div>
+        <div id="td-info" style="font-size:11px;color:var(--text2)"></div>
       </div>
       <div class="ring-wrap">
-        <svg width="84" height="84" viewBox="0 0 84 84">
-          <circle cx="42" cy="42" r="34" fill="none" stroke="var(--bg3)" stroke-width="8"/>
-          <circle id="ring" cx="42" cy="42" r="34" fill="none" stroke="var(--blue)" stroke-width="8"
-            stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="var(--bg3)" stroke-width="7"/>
+          <circle id="ring" cx="40" cy="40" r="32" fill="none" stroke="var(--blue)" stroke-width="7"
+            stroke-linecap="round" stroke-dasharray="201.1" stroke-dashoffset="201.1"
             style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
         </svg>
         <div class="ring-inner">
-          <div id="ring-p" style="font-size:18px;font-weight:700;color:var(--text);line-height:1">0%</div>
-          <div id="ring-s" style="font-size:10px;color:var(--text2);margin-top:2px">0/0</div>
+          <div id="ring-p" style="font-size:17px;font-weight:700;color:var(--text);line-height:1">0%</div>
+          <div id="ring-s" style="font-size:9px;color:var(--text2);margin-top:2px">0/0</div>
         </div>
       </div>
     </div>
     <div id="habit-list"></div>
-    <div style="height:10px"></div>
+    <div style="height:8px"></div>
   </div>
 
   <!-- STATS -->
   <div id="p-stats" class="scroll" style="display:none">
-    <div style="display:flex;gap:7px;margin-bottom:13px">
+    <div class="metrics" id="s-metrics">
       <div class="met"><div class="mv" id="s-td" style="color:var(--blue)">-</div><div class="ml">오늘 달성</div></div>
       <div class="met"><div class="mv" id="s-rt" style="color:var(--green)">-</div><div class="ml">30일 평균</div></div>
       <div class="met"><div class="mv" id="s-sk" style="color:var(--yellow)">-</div><div class="ml">최장 연속</div></div>
     </div>
+    <!-- Heatmap -->
+    <div class="card">
+      <div class="stitle">📅 달성 히트맵 (최근 91일)</div>
+      <div style="display:flex;gap:2px;margin-bottom:4px" id="hm-labels"></div>
+      <div class="heatmap" id="heatmap"></div>
+      <div style="display:flex;gap:5px;align-items:center;margin-top:6px">
+        <span style="font-size:10px;color:var(--text3)">낮음</span>
+        <div style="display:flex;gap:2px">${[0,1,2,3,4].map(i=>`<div style="width:11px;height:11px;border-radius:2px"></div>`).join('')}</div>
+        <span style="font-size:10px;color:var(--text3)">높음</span>
+      </div>
+      <div style="display:flex;gap:5px;align-items:center;margin-top:4px" id="hm-legend"></div>
+    </div>
+    <!-- Day pattern -->
+    <div class="card">
+      <div class="stitle">📊 요일별 달성률 패턴</div>
+      <div id="day-pattern"></div>
+    </div>
+    <!-- Fatigue -->
+    <div class="card">
+      <div class="stitle">⚡ 비행 피로도 (이번 달)</div>
+      <div class="fat-grid" id="fatigue-grid"></div>
+      <div id="wocl-list" style="margin-top:7px"></div>
+    </div>
+    <!-- Per habit -->
     <div id="stat-list"></div>
   </div>
 
   <!-- SCHEDULE -->
   <div id="p-sched" class="scroll" style="display:none">
-    <!-- Mode tabs -->
     <div class="tab-row">
-      <button class="tab-btn on" id="st-auto" onclick="setSchedMode('auto')">📎 사진 자동 분석</button>
+      <button class="tab-btn on" id="st-auto" onclick="setSchedMode('auto')">📎 사진 자동분석</button>
       <button class="tab-btn" id="st-manual" onclick="setSchedMode('manual')">✏️ 직접 입력</button>
     </div>
-
-    <!-- AUTO MODE -->
+    <!-- AUTO -->
     <div id="sched-auto">
-      <div class="card" style="padding:11px 13px;margin-bottom:10px">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5">
-          Claude API 키가 있으면 사진을 올리면 자동으로 분석합니다.<br>
-          없으면 ✏️ 직접 입력 탭을 사용하세요.
-        </div>
-        <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()" style="margin:0">
-          <div style="font-size:22px;margin-bottom:5px">📎</div>
-          <div style="font-size:13px;font-weight:600;margin-bottom:2px">스케쥴 사진 업로드</div>
-          <div style="font-size:11px;color:var(--text2)">JPG/PNG → AI 자동 분석</div>
-        </div>
-        <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
+      <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()">
+        <div style="font-size:20px;margin-bottom:4px">📎</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">스케쥴 사진 업로드</div>
+        <div style="font-size:11px;color:var(--text2)">JPG/PNG → AI 자동 분석 (API키 필요)</div>
       </div>
-      <div id="parse-st" style="display:none;text-align:center;padding:11px;border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:10px;font-size:13px"></div>
+      <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
+      <div id="parse-st" style="display:none;text-align:center;padding:10px;border-radius:9px;background:var(--bg2);margin-bottom:9px;font-size:12px"></div>
     </div>
-
-    <!-- MANUAL MODE -->
+    <!-- MANUAL (fixed) -->
     <div id="sched-manual" style="display:none">
       <div class="card" style="margin-bottom:10px">
-        <div class="stitle" style="margin-bottom:8px">날짜 선택 후 스케쥴 설정</div>
-        <div class="fld">
-          <label>날짜</label>
-          <input type="date" id="man-date" value=""/>
-        </div>
-        <div class="fld">
-          <label>스케쥴 유형</label>
+        <div class="stitle">날짜/유형 선택 후 저장</div>
+        <div class="fld"><label>날짜</label><input type="date" id="man-date"/></div>
+        <div class="fld"><label>스케쥴 유형</label>
           <select id="man-type" onchange="onManTypeChange()">
             <option value="">-- 선택 --</option>
             <option value="flight">✈ 비행</option>
@@ -186,104 +272,116 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
             <option value="reserve">📋 리저브 / SBY</option>
           </select>
         </div>
-        <!-- Flight details (shown only when flight selected) -->
-        <div id="man-flight-section" style="display:none">
-          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px">비행 편 정보 (알림 자동 차단용)</div>
+        <div id="man-flight-sec" style="display:none">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">비행 편 정보 (알림 자동 차단용)</div>
           <div id="man-flight-list"></div>
-          <button class="btn btn-sm" onclick="addFlightRow()" style="margin-top:4px;width:100%">+ 비행 편 추가</button>
+          <button class="btn btn-sm" onclick="addFlightRow()" style="width:100%;margin-top:3px">+ 비행 편 추가</button>
         </div>
         <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
-        <div id="man-msg" style="font-size:12px;text-align:center;margin-top:7px;display:none"></div>
+        <div id="man-msg" style="font-size:12px;text-align:center;margin-top:6px;display:none"></div>
       </div>
     </div>
-
-    <!-- CALENDAR -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <!-- Calendar nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
       <button class="btn btn-sm" onclick="prevM()">← 이전</button>
       <div id="m-lbl" style="font-size:13px;font-weight:700"></div>
       <button class="btn btn-sm" onclick="nextM()">다음 →</button>
     </div>
-    <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap">
-      <span class="tag tF" style="cursor:default;font-size:10px">✈ 비행</span>
-      <span class="tag tL" style="cursor:default;font-size:10px">🏨 레이오버</span>
-      <span class="tag tO" style="cursor:default;font-size:10px">⌂ 오프</span>
-      <span class="tag tR" style="cursor:default;font-size:10px">📋 리저브</span>
+    <div style="display:flex;gap:4px;margin-bottom:7px;flex-wrap:wrap">
+      <span class="tag tF" style="cursor:default">✈ 비행</span>
+      <span class="tag tL" style="cursor:default">🏨 레이오버</span>
+      <span class="tag tO" style="cursor:default">⌂ 오프</span>
+      <span class="tag tR" style="cursor:default">📋 리저브</span>
     </div>
-    <div class="card" style="padding:5px 13px"><div id="cal-list"></div></div>
+    <div class="card" style="padding:4px 12px"><div id="cal-list"></div></div>
+  </div>
+
+  <!-- GOALS -->
+  <div id="p-goal" class="scroll" style="display:none">
+    <!-- Weekly Goals -->
+    <div class="card">
+      <div class="stitle">🎯 주간 목표</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">이번 주 달성 현황 (월~일)</div>
+      <div id="goal-list"></div>
+    </div>
+    <!-- Templates -->
+    <div class="card">
+      <div class="stitle">📦 루틴 템플릿</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">탭 한 번으로 루틴 세트 전환</div>
+      <div id="tpl-list"></div>
+    </div>
   </div>
 
   <!-- SETTINGS -->
   <div id="p-set" class="scroll" style="display:none">
-    <!-- API KEY -->
+    <!-- Theme -->
+    <div class="card">
+      <div class="stitle">🎨 화면 모드</div>
+      <div class="theme-toggle">
+        <button class="theme-btn" id="th-auto" onclick="setTheme('auto')">자동</button>
+        <button class="theme-btn" id="th-dark" onclick="setTheme('dark')">다크</button>
+        <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
+      </div>
+    </div>
+    <!-- API Key -->
     <div class="card">
       <div class="stitle">🔑 Claude API 키 (선택)</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.55">
-        스케쥴 사진 자동 분석 시 필요합니다.<br>없으면 직접 입력 탭을 사용하세요.<br>
-        키는 이 기기에만 저장됩니다.
-      </div>
-      <div class="fld">
-        <label>API Key</label>
-        <div style="display:flex;gap:7px">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:9px;line-height:1.5">스케쥴 사진 자동분석에 필요합니다.<br>없으면 직접 입력 탭을 사용하세요.</div>
+      <div class="fld"><label>API Key</label>
+        <div style="display:flex;gap:6px">
           <input type="password" id="api-input" placeholder="sk-ant-api03-..." style="flex:1"/>
           <button class="btn btn-sm" onclick="togglePw()" id="pw-btn">보기</button>
         </div>
       </div>
-      <div style="display:flex;gap:7px;margin-bottom:7px">
+      <div style="display:flex;gap:6px;margin-bottom:7px">
         <button class="btn btn-primary" style="flex:1" onclick="saveKey()">저장</button>
         <button class="btn btn-sm" style="color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="clearKey()">삭제</button>
       </div>
-      <div id="key-msg" style="font-size:12px;display:none;padding:6px 10px;border-radius:7px;margin-bottom:7px"></div>
-      <div id="key-saved" style="font-size:12px;color:var(--text2);display:none"></div>
-      <div style="margin-top:10px;padding:10px 12px;background:var(--bg3);border-radius:9px;border:.5px solid var(--border)">
-        <div style="font-size:11px;color:var(--text3);line-height:1.7">
-          📌 <span style="color:var(--blue)">console.anthropic.com</span> → API Keys → Create Key<br>
-          <span style="color:var(--yellow)">⚠ 생성 직후에만 표시되니 바로 복사하세요</span>
-        </div>
+      <div id="key-msg" style="font-size:11px;display:none;padding:6px 9px;border-radius:7px;margin-bottom:6px"></div>
+      <div id="key-saved" style="font-size:11px;color:var(--text2);display:none"></div>
+      <div style="margin-top:9px;padding:9px 11px;background:var(--bg3);border-radius:8px">
+        <div style="font-size:11px;color:var(--text3);line-height:1.7">📌 <span style="color:var(--blue)">console.anthropic.com</span> → API Keys → Create Key<br><span style="color:var(--yellow)">⚠ 생성 직후에만 표시 — 바로 복사하세요</span></div>
       </div>
     </div>
-    <!-- NOTIFICATION -->
+    <!-- Notifications -->
     <div class="card">
       <div class="stitle">🔔 알림 설정</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.5">
-        비행 출발 전 자동 무음 구간:<br>
-        ICN 출발 → 5시간 전 / GMP 출발 → 4시간 전 / 기타 → 3시간 전<br>
-        비행 중(출발~도착)에는 모든 알림 자동 차단
-      </div>
-      <div id="n-status" style="font-size:12px;padding:6px 10px;border-radius:7px;margin-bottom:9px;background:var(--bg3);color:var(--text2)"></div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.5">ICN출발 5h전 / GMP출발 4h전 / 기타 3h전 자동 무음<br>비행 전날 취침 권장 알림 포함</div>
+      <div id="n-status" style="font-size:11px;padding:6px 9px;border-radius:7px;margin-bottom:8px;background:var(--bg3);color:var(--text2)"></div>
       <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%;display:none">알림 허용하기</button>
     </div>
-    <!-- HABITS -->
+    <!-- Habit management -->
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
         <div class="stitle" style="margin:0">✏️ 루틴 항목 관리</div>
         <button class="btn btn-primary btn-sm" onclick="toggleAdd()">+ 추가</button>
       </div>
-      <div id="add-f" style="display:none;background:var(--bg3);border-radius:var(--radius-sm);padding:13px;margin-bottom:11px;border:.5px solid var(--border2)">
-        <div id="add-err" style="display:none;font-size:12px;color:var(--red);margin-bottom:7px;padding:6px 10px;background:var(--red-bg);border-radius:6px"></div>
+      <div id="add-f" style="display:none;background:var(--bg3);border-radius:9px;padding:12px;margin-bottom:10px;border:.5px solid var(--border2)">
+        <div id="add-err" style="display:none;font-size:11px;color:var(--red);margin-bottom:7px;padding:5px 9px;background:var(--red-bg);border-radius:6px"></div>
         <div class="fld"><label>루틴 이름</label><input id="fn" placeholder="예: 비타민 복용"/></div>
-        <div style="display:flex;gap:8px">
-          <div class="fld" style="width:68px"><label>아이콘</label><input id="fe" value="⭐" maxlength="2" style="font-size:17px;text-align:center"/></div>
+        <div style="display:flex;gap:7px">
+          <div class="fld" style="width:65px"><label>아이콘</label><input id="fe" value="⭐" maxlength="2" style="font-size:16px;text-align:center"/></div>
           <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="ft" value="09:00"/></div>
         </div>
         <div class="fld"><label>적용일</label>
           <select id="fd">
-            <option value="all">매일</option>
-            <option value="flight">비행일만</option>
-            <option value="layover">레이오버만</option>
-            <option value="off">오프만</option>
+            <option value="all">매일</option><option value="flight">비행일만</option>
+            <option value="layover">레이오버만</option><option value="off">오프만</option>
           </select>
         </div>
-        <div style="display:flex;gap:8px">
+        <div class="fld"><label>주간 목표 (0 = 없음)</label><input type="number" id="fg" value="0" min="0" max="7" style="width:80px"/></div>
+        <div style="display:flex;gap:7px">
           <button class="btn" style="flex:1" onclick="toggleAdd()">취소</button>
           <button class="btn btn-primary" style="flex:2" onclick="addH()">추가하기</button>
         </div>
       </div>
       <div id="h-list"></div>
     </div>
-    <div style="text-align:center;padding:8px 0 2px;font-size:11px;color:var(--text3)">SY Discipline · JANG SIYOUNG</div>
-    <div style="height:10px"></div>
+    <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v3 · JANG SIYOUNG</div>
+    <div style="height:8px"></div>
   </div>
 
+  <!-- BOTTOM NAV -->
   <nav class="nav">
     <button class="nb on" id="nb-today" onclick="G('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>오늘
@@ -294,71 +392,79 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <button class="nb" id="nb-sched" onclick="G('sched')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>스케쥴
     </button>
+    <button class="nb" id="nb-goal" onclick="G('goal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>목표
+    </button>
     <button class="nb" id="nb-set" onclick="G('set')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>설정
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>설정
     </button>
   </nav>
 </div>
 
 <script>
-// ── CONSTANTS ───────────────────────────────────────────────────
-const TODAY=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
-const WD=['일','월','화','수','목','금','토'];
-const DLBL={all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
-const TYPES={
-  flight:{lbl:'비행',cls:'tF',badge:'✈ 비행일'},
-  layover:{lbl:'레이오버',cls:'tL',badge:'🏨 레이오버'},
-  off:{lbl:'오프',cls:'tO',badge:'⌂ 오프'},
-  reserve:{lbl:'리저브',cls:'tR',badge:'📋 리저브'},
+// ── CONSTANTS ────────────────────────────────────────────────────
+const TODAY = (()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
+const WD_KO = ['일','월','화','수','목','금','토'];
+const WD_WEEK = ['월','화','수','목','금','토','일'];
+const DLBL = {all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
+const TYPES = {
+  flight:{lbl:'비행',cls:'tF',badge:'✈ 비행일',dot:'#3b82f6'},
+  layover:{lbl:'레이오버',cls:'tL',badge:'🏨 레이오버',dot:'#f59e0b'},
+  off:{lbl:'오프',cls:'tO',badge:'⌂ 오프',dot:'#22c55e'},
+  reserve:{lbl:'리저브',cls:'tR',badge:'📋 리저브',dot:'#6b7280'},
 };
-// Airport quiet hours before departure
-const QUIET_HOURS={ICN:5,GMP:4};
-const DEFAULT_QUIET=3;
-
-// Pre-loaded May 2026 schedule (type + first departure info)
-const MAY26={
-  '2026-05-01':{type:'flight',flights:[{dep:'PUS',depTime:'22:20',arr:'PEK',arrTime:'00:05',fn:'KE2061'}]},
-  '2026-05-02':{type:'layover'},
-  '2026-05-03':{type:'flight',flights:[{dep:'PUS',depTime:'07:00',arr:'CJU',arrTime:'08:00',fn:'KE1505'},{dep:'CJU',depTime:'08:45',arr:'PUS',arrTime:'09:45',fn:'KE1512'},{dep:'PUS',depTime:'10:25',arr:'CJU',arrTime:'11:25',fn:'KE1517'},{dep:'CJU',depTime:'13:05',arr:'GMP',arrTime:'14:20',fn:'DH1214'}]},
-  '2026-05-04':{type:'off'},
-  '2026-05-05':{type:'reserve'},
-  '2026-05-06':{type:'flight',flights:[{dep:'ICN',depTime:'09:10',arr:'TSN',arrTime:'10:10',fn:'KE805'},{dep:'TSN',depTime:'11:30',arr:'ICN',arrTime:'14:20',fn:'KE806'}]},
-  '2026-05-07':{type:'reserve'},
-  '2026-05-08':{type:'flight',flights:[{dep:'ICN',depTime:'18:50',arr:'TAE',arrTime:'19:55',fn:'KE1431'}]},
-  '2026-05-09':{type:'layover'},
-  '2026-05-10':{type:'flight',flights:[{dep:'TAE',depTime:'07:55',arr:'ICN',arrTime:'09:00',fn:'KE1432'},{dep:'ICN',depTime:'10:40',arr:'PEK',arrTime:'12:05',fn:'KE855'},{dep:'PEK',depTime:'13:30',arr:'ICN',arrTime:'16:30',fn:'KE856'}]},
-  '2026-05-11':{type:'off'},'2026-05-12':{type:'off'},'2026-05-13':{type:'off'},'2026-05-14':{type:'off'},
-  '2026-05-15':{type:'reserve'},
-  '2026-05-16':{type:'reserve'},'2026-05-17':{type:'reserve'},'2026-05-18':{type:'reserve'},
-  '2026-05-19':{type:'off'},
-  '2026-05-20':{type:'flight',flights:[{dep:'ICN',depTime:'18:35',arr:'FUK',arrTime:'20:00',fn:'KE781'},{dep:'FUK',depTime:'21:05',arr:'ICN',arrTime:'22:35',fn:'KE782'}]},
-  '2026-05-21':{type:'reserve'},'2026-05-22':{type:'reserve'},
-  '2026-05-23':{type:'off'},'2026-05-24':{type:'off'},'2026-05-25':{type:'off'},
-  '2026-05-26':{type:'off'},
-  '2026-05-27':{type:'flight',flights:[{dep:'GMP',depTime:'07:05',arr:'CJU',arrTime:'08:20',fn:'KE1017'},{dep:'CJU',depTime:'09:00',arr:'GMP',arrTime:'10:15',fn:'KE1150'},{dep:'GMP',depTime:'12:45',arr:'CJU',arrTime:'14:00',fn:'DH1107'}]},
-  '2026-05-28':{type:'flight',flights:[{dep:'CJU',depTime:'07:00',arr:'GMP',arrTime:'08:15',fn:'KE1118'},{dep:'GMP',depTime:'10:10',arr:'CJU',arrTime:'11:25',fn:'KE1073'},{dep:'CJU',depTime:'12:05',arr:'GMP',arrTime:'13:20',fn:'KE1206'}]},
-  '2026-05-29':{type:'off'},'2026-05-30':{type:'off'},
-  '2026-05-31':{type:'flight',flights:[{dep:'GMP',depTime:'18:15',arr:'CJU',arrTime:'19:30',fn:'KE1195'},{dep:'CJU',depTime:'20:30',arr:'PUS',arrTime:'21:30',fn:'KE1558'}]},
+const QUIET_HOURS = {ICN:5,GMP:4};
+const DEF_QUIET = 3;
+const MAY26 = {
+  '2026-05-01':{type:'flight',flights:[{fn:'KE2061',dep:'PUS',depTime:'22:20',arr:'PEK',arrTime:'00:05'}]},
+  '2026-05-02':{type:'layover',flights:[]},
+  '2026-05-03':{type:'flight',flights:[{fn:'KE1505',dep:'PUS',depTime:'07:00',arr:'CJU',arrTime:'08:00'},{fn:'KE1512',dep:'CJU',depTime:'08:45',arr:'PUS',arrTime:'09:45'},{fn:'KE1517',dep:'PUS',depTime:'10:25',arr:'CJU',arrTime:'11:25'},{fn:'DH1214',dep:'CJU',depTime:'13:05',arr:'GMP',arrTime:'14:20'}]},
+  '2026-05-04':{type:'off',flights:[]},
+  '2026-05-05':{type:'reserve',flights:[]},
+  '2026-05-06':{type:'flight',flights:[{fn:'KE805',dep:'ICN',depTime:'09:10',arr:'TSN',arrTime:'10:10'},{fn:'KE806',dep:'TSN',depTime:'11:30',arr:'ICN',arrTime:'14:20'}]},
+  '2026-05-07':{type:'reserve',flights:[]},
+  '2026-05-08':{type:'flight',flights:[{fn:'KE1431',dep:'ICN',depTime:'18:50',arr:'TAE',arrTime:'19:55'}]},
+  '2026-05-09':{type:'layover',flights:[]},
+  '2026-05-10':{type:'flight',flights:[{fn:'KE1432',dep:'TAE',depTime:'07:55',arr:'ICN',arrTime:'09:00'},{fn:'KE855',dep:'ICN',depTime:'10:40',arr:'PEK',arrTime:'12:05'},{fn:'KE856',dep:'PEK',depTime:'13:30',arr:'ICN',arrTime:'16:30'}]},
+  '2026-05-11':{type:'off',flights:[]},'2026-05-12':{type:'off',flights:[]},'2026-05-13':{type:'off',flights:[]},'2026-05-14':{type:'off',flights:[]},
+  '2026-05-15':{type:'reserve',flights:[]},'2026-05-16':{type:'reserve',flights:[]},'2026-05-17':{type:'reserve',flights:[]},'2026-05-18':{type:'reserve',flights:[]},
+  '2026-05-19':{type:'off',flights:[]},
+  '2026-05-20':{type:'flight',flights:[{fn:'KE781',dep:'ICN',depTime:'18:35',arr:'FUK',arrTime:'20:00'},{fn:'KE782',dep:'FUK',depTime:'21:05',arr:'ICN',arrTime:'22:35'}]},
+  '2026-05-21':{type:'reserve',flights:[]},'2026-05-22':{type:'reserve',flights:[]},
+  '2026-05-23':{type:'off',flights:[]},'2026-05-24':{type:'off',flights:[]},'2026-05-25':{type:'off',flights:[]},'2026-05-26':{type:'off',flights:[]},
+  '2026-05-27':{type:'flight',flights:[{fn:'KE1017',dep:'GMP',depTime:'07:05',arr:'CJU',arrTime:'08:20'},{fn:'KE1150',dep:'CJU',depTime:'09:00',arr:'GMP',arrTime:'10:15'},{fn:'DH1107',dep:'GMP',depTime:'12:45',arr:'CJU',arrTime:'14:00'}]},
+  '2026-05-28':{type:'flight',flights:[{fn:'KE1118',dep:'CJU',depTime:'07:00',arr:'GMP',arrTime:'08:15'},{fn:'KE1073',dep:'GMP',depTime:'10:10',arr:'CJU',arrTime:'11:25'},{fn:'KE1206',dep:'CJU',depTime:'12:05',arr:'GMP',arrTime:'13:20'}]},
+  '2026-05-29':{type:'off',flights:[]},'2026-05-30':{type:'off',flights:[]},
+  '2026-05-31':{type:'flight',flights:[{fn:'KE1195',dep:'GMP',depTime:'18:15',arr:'CJU',arrTime:'19:30'},{fn:'KE1558',dep:'CJU',depTime:'20:30',arr:'PUS',arrTime:'21:30'}]},
 };
-
-const DEFS=[
-  {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true},
-  {id:'h2',name:'수분 2L 섭취',emoji:'💧',time:'08:00',days:'all',on:true},
-  {id:'h3',name:'영어 학습 30분',emoji:'📖',time:'09:30',days:'all',on:true},
-  {id:'h4',name:'비행 전 브리핑',emoji:'✈️',time:'05:30',days:'flight',on:true},
-  {id:'h5',name:'재테크 공부',emoji:'📈',time:'20:00',days:'off',on:true},
-  {id:'h6',name:'명상',emoji:'🧘',time:'21:30',days:'all',on:true},
-  {id:'h7',name:'딸이랑 놀기',emoji:'👶',time:'18:00',days:'all',on:true},
+const DEFS = [
+  {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true,goal:5},
+  {id:'h2',name:'수분 2L 섭취',emoji:'💧',time:'08:00',days:'all',on:true,goal:7},
+  {id:'h3',name:'영어 학습 30분',emoji:'📖',time:'09:30',days:'all',on:true,goal:5},
+  {id:'h4',name:'비행 전 브리핑',emoji:'✈️',time:'05:30',days:'flight',on:true,goal:0},
+  {id:'h5',name:'재테크 공부',emoji:'📈',time:'20:00',days:'off',on:true,goal:0},
+  {id:'h6',name:'명상',emoji:'🧘',time:'21:30',days:'all',on:true,goal:5},
+  {id:'h7',name:'딸이랑 놀기',emoji:'👶',time:'18:00',days:'all',on:true,goal:7},
+  {id:'h8',name:'시차 적응 루틴',emoji:'🕐',time:'22:00',days:'layover',on:true,goal:0},
+  {id:'h9',name:'현지 운동',emoji:'🏃',time:'09:00',days:'layover',on:true,goal:0},
+];
+const TEMPLATES = [
+  {name:'비행일 팩',emoji:'✈️',desc:'브리핑+수분+명상',ids:['h4','h2','h6'],days:'flight'},
+  {name:'오프일 팩',emoji:'⌂',desc:'운동+영어+재테크+명상+딸',ids:['h1','h3','h5','h6','h7'],days:'off'},
+  {name:'레이오버 팩',emoji:'🏨',desc:'수분+시차적응+명상',ids:['h2','h8','h6'],days:'layover'},
+  {name:'전체 ON',emoji:'⭐',desc:'모든 루틴 활성화',ids:'all',days:null},
 ];
 
 // ── STATE ────────────────────────────────────────────────────────
-let H=[...DEFS],C={},SC={};
-let editId=null,addOpen=false,schedMode='auto',manFlights=[];
-let calY=new Date().getFullYear(),calM=new Date().getMonth();
-let ntT=[],curTab='today',pwVisible=false;
+let H=[...DEFS.map(d=>({...d}))], C={}, CT={}, M={}, SC={};
+let editId=null, addOpen=false, schedMode='auto', manFlights=[];
+let calY=new Date().getFullYear(), calM=new Date().getMonth();
+let ntT=[], curTab='today', pwVisible=false, curTheme='dark';
+let celebrated=false;
 
-const KEY_H='syv2-h',KEY_C='syv2-c',KEY_S='syv2-s',KEY_API='syv2-apikey';
-const ls={
+// ── STORAGE ──────────────────────────────────────────────────────
+const KH='syv2-h',KC='syv2-c',KCT='syv3-ct',KM='syv3-m',KS='syv2-s',KAPI='syv2-apikey',KTH='syv3-theme';
+const ls = {
   get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
   raw:k=>{try{return localStorage.getItem(k)||'';}catch{return '';}},
@@ -367,94 +473,134 @@ const ls={
 };
 
 // ── SC HELPERS ───────────────────────────────────────────────────
-// SC entries are objects: {type, flights:[{dep,depTime,arr,arrTime,fn}]}
-// or legacy strings (type only)
 function getEntry(ds){
   const e=SC[ds]||MAY26[ds]||null;
   if(!e)return null;
   if(typeof e==='string')return{type:e,flights:[]};
   return{type:e.type||null,flights:e.flights||[]};
 }
-function getType(ds){const e=getEntry(ds);return e?e.type:null;}
-function getFlights(ds){const e=getEntry(ds);return e?e.flights:[];}
+const getType=ds=>{const e=getEntry(ds);return e?e.type:null;};
+const getFlights=ds=>{const e=getEntry(ds);return e?e.flights:[];};
 function setEntry(ds,type,flights){
   SC[ds]={type,flights:flights||[]};
-  // Save only non-MAY26 overrides to keep storage small
   const toSave={};
   Object.keys(SC).forEach(k=>{
-    const m=MAY26[k];
-    const s=SC[k];
+    const m=MAY26[k]; const s=SC[k];
     if(!m||JSON.stringify(m)!==JSON.stringify(s))toSave[k]=s;
   });
-  ls.set(KEY_S,toSave);
+  ls.set(KS,toSave);
 }
 
-// ── QUIET TIME CHECK ─────────────────────────────────────────────
-// Returns true if notifTime (HH:MM string) should be silenced on TODAY
+// ── DS HELPERS ───────────────────────────────────────────────────
+const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const dS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const toMins=t=>{if(!t)return null;const[h,m]=t.split(':').map(Number);return h*60+m;};
+
+// ── QUIET TIME ───────────────────────────────────────────────────
 function isQuietTime(timeStr){
-  const typ=getType(TODAY);
-  if(typ!=='flight')return false;
-  const flights=getFlights(TODAY);
-  if(!flights||!flights.length)return false;
-  const [nh,nm]=timeStr.split(':').map(Number);
-  const notifMins=nh*60+nm;
+  const typ=getType(TODAY); if(typ!=='flight')return false;
+  const flights=getFlights(TODAY); if(!flights||!flights.length)return false;
+  const nm=toMins(timeStr); if(nm===null)return false;
   for(const fl of flights){
     if(!fl.depTime)continue;
-    const [dh,dm]=fl.depTime.split(':').map(Number);
-    const depMins=dh*60+dm;
-    const quietHours=QUIET_HOURS[fl.dep]??DEFAULT_QUIET;
-    const quietStart=depMins-quietHours*60;
-    // Arrival time
-    let arrMins=null;
-    if(fl.arrTime){
-      const [ah,am]=fl.arrTime.split(':').map(Number);
-      arrMins=ah*60+am;
-      if(arrMins<depMins)arrMins+=24*60; // next day arrival
-    }
-    const flightEnd=arrMins??depMins+120; // fallback 2h after dep
-    // Quiet window: quietStart → flightEnd
-    if(notifMins>=quietStart&&notifMins<=flightEnd)return true;
-    // Handle wrap-around (quiet start before midnight)
-    if(quietStart<0&&notifMins<=(flightEnd))return true;
+    const dep=toMins(fl.depTime);
+    const qh=(QUIET_HOURS[fl.dep]??DEF_QUIET)*60;
+    const qs=dep-qh;
+    const arr=fl.arrTime?toMins(fl.arrTime):dep+120;
+    const arrAdj=arr<dep?arr+1440:arr;
+    if(nm>=qs&&nm<=arrAdj)return true;
+    if(qs<0&&nm<=(arrAdj))return true;
   }
   return false;
 }
 
+// ── THEME ────────────────────────────────────────────────────────
+function applyTheme(mode){
+  curTheme=mode;
+  const prefersDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const actual=mode==='auto'?(prefersDark?'dark':'light'):mode;
+  document.documentElement.setAttribute('data-theme',actual);
+  document.getElementById('theme-quick-btn').textContent=actual==='dark'?'☀️':'🌙';
+  ['auto','dark','light'].forEach(t=>document.getElementById('th-'+t)?.classList.toggle('on',t===mode));
+  ls.setRaw(KTH,mode);
+}
+function setTheme(mode){applyTheme(mode);}
+function cycleTheme(){
+  const modes=['dark','light','auto'];
+  const next=modes[(modes.indexOf(curTheme)+1)%3];
+  applyTheme(next);
+}
+
+// ── D-DAY ────────────────────────────────────────────────────────
+function nextFlightDate(){
+  for(let i=0;i<60;i++){
+    const ds=DS(i);
+    if(getType(ds)==='flight')return{ds,days:i};
+  }
+  return null;
+}
+function rdHeader(){
+  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+  const nf=nextFlightDate();
+  const el=document.getElementById('hdr-dday');
+  if(nf){
+    const fl=getFlights(nf.ds);
+    const info=fl&&fl.length?` ${fl[0].dep}→${fl[0].arr}`:'';
+    el.textContent=nf.days===0?`✈ 오늘 비행${info}`:nf.days===1?`✈ 내일 비행${info}`:`✈ D-${nf.days}${info}`;
+  } else el.textContent='';
+}
+
 // ── INIT ─────────────────────────────────────────────────────────
 async function init(){
-  const h=ls.get(KEY_H),c=ls.get(KEY_C),s=ls.get(KEY_S);
-  if(h)H=h; if(c)C=c;
-  SC={};
-  // Merge saved overrides over MAY26
-  if(s)Object.assign(SC,s);
-  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-  // Set manual date default to today
+  const[h,c,ct,m,s,th]=[ls.get(KH),ls.get(KC),ls.get(KCT),ls.get(KM),ls.get(KS),ls.raw(KTH)];
+  if(h)H=h; if(c)C=c; if(ct)CT=ct; if(m)M=m;
+  SC={}; if(s)Object.assign(SC,s);
+  applyTheme(th||'dark');
   document.getElementById('man-date').value=TODAY;
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='flex';
-  rdToday();schedN();
+  rdHeader(); rdWeekStrip(); rdToday(); schedN();
 }
 
+// ── NAV ──────────────────────────────────────────────────────────
 function G(tab){
   curTab=tab;
-  ['today','stats','sched','set'].forEach(t=>{
+  ['today','stats','sched','goal','set'].forEach(t=>{
     document.getElementById('p-'+t).style.display=t===tab?'':'none';
     document.getElementById('nb-'+t).classList.toggle('on',t===tab);
   });
-  if(tab==='today')rdToday();
+  if(tab==='today'){rdWeekStrip();rdToday();}
   else if(tab==='stats')rdStats();
   else if(tab==='sched')rdSched();
+  else if(tab==='goal')rdGoal();
   else rdSet();
 }
 
-const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
-const dS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+// ── WEEK STRIP ───────────────────────────────────────────────────
+function rdWeekStrip(){
+  const d=new Date();
+  const dow=d.getDay(); // 0=Sun
+  const monday=new Date(d);
+  monday.setDate(d.getDate()-(dow===0?6:dow-1));
+  const strip=document.getElementById('week-strip');
+  strip.innerHTML=WD_WEEK.map((wd,i)=>{
+    const dt=new Date(monday);
+    dt.setDate(monday.getDate()+i);
+    const ds=dS(dt);
+    const isT=ds===TODAY;
+    const t=getType(ds);
+    const dotColor=t?TYPES[t].dot:'var(--bg3)';
+    const sunSat=dt.getDay()===0||dt.getDay()===6;
+    return `<div class="ws-day">
+      <div style="font-size:9px;color:${sunSat?'var(--red)':'var(--text3)'};margin-bottom:2px">${wd}</div>
+      <div class="ws-num${isT?' today':''}" style="${!isT&&sunSat?'color:var(--red)':''}">${dt.getDate()}</div>
+      <div class="ws-dot" style="background:${dotColor}"></div>
+    </div>`;
+  }).join('');
+}
 
 // ── TODAY ────────────────────────────────────────────────────────
-function thabs(){
-  const t=getType(TODAY);
-  return H.filter(h=>h.on&&(h.days==='all'||h.days===t));
-}
+function thabs(){const t=getType(TODAY);return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
 const tdn=()=>thabs().filter(h=>C[TODAY]?.[h.id]).length;
 
 function rdToday(){
@@ -462,41 +608,62 @@ function rdToday(){
   const typ=getType(TODAY);
   document.getElementById('td-badge').innerHTML=typ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
   document.getElementById('td-warn').style.display=typ?'none':'';
-  // Show today's flights
   const flights=getFlights(TODAY);
   const fEl=document.getElementById('td-flights');
   if(flights&&flights.length){
     fEl.innerHTML=flights.map(fl=>{
-      const qh=QUIET_HOURS[fl.dep]??DEFAULT_QUIET;
-      return `<div class="flight-chip">
-        <span style="font-size:11px;font-weight:700;color:var(--blue)">${fl.fn||''}</span>
-        <span style="font-size:11px;color:var(--text2)">${fl.dep} ${fl.depTime} → ${fl.arr} ${fl.arrTime||''}</span>
-        <span class="quiet-badge">${qh}h 전 무음</span>
-      </div>`;
+      const qh=QUIET_HOURS[fl.dep]??DEF_QUIET;
+      return `<div class="flight-chip"><span style="font-size:10px;font-weight:700;color:var(--blue)">${fl.fn||''}</span><span style="color:var(--text2)">${fl.dep} ${fl.depTime}→${fl.arr} ${fl.arrTime||''}</span><span class="quiet-badge">${qh}h전무음</span></div>`;
     }).join('');
   } else fEl.innerHTML='';
   document.getElementById('td-info').textContent=pct===100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
-  const circ=2*Math.PI*34;
+  const circ=2*Math.PI*32;
   const ring=document.getElementById('ring');
   ring.style.strokeDashoffset=(circ-pct/100*circ).toFixed(1);
   ring.style.stroke=pct>=100?'var(--green)':'var(--blue)';
   const rp=document.getElementById('ring-p');
-  rp.textContent=pct+'%';rp.style.color=pct>=100?'var(--green)':'var(--text)';
+  rp.textContent=pct+'%'; rp.style.color=pct>=100?'var(--green)':'var(--text)';
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
+  // Confetti
+  if(pct>=100&&tot>0&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
+  if(pct<100)celebrated=false;
   const el=document.getElementById('habit-list');
   if(!ths.length){
-    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:22px"><div style="font-size:30px;margin-bottom:8px">✈️</div><div>오늘 루틴이 없습니다</div><div style="font-size:11px;margin-top:4px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
+    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:20px"><div style="font-size:28px;margin-bottom:7px">✈️</div><div style="font-size:13px">오늘 루틴이 없습니다</div><div style="font-size:11px;margin-top:3px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
     return;
   }
+  // Weekly count for each habit
+  function weekCount(hid){
+    let cnt=0;
+    const d=new Date();const dow=d.getDay();
+    const monday=new Date(d);monday.setDate(d.getDate()-(dow===0?6:dow-1));
+    for(let i=0;i<7;i++){const dt=new Date(monday);dt.setDate(monday.getDate()+i);if(C[dS(dt)]?.[hid])cnt++;}
+    return cnt;
+  }
   el.innerHTML=ths.map(h=>{
-    const d=!!C[TODAY]?.[h.id];
-    const quiet=!d&&isQuietTime(h.time);
-    return `<div class="hi${d?' dn':''}${quiet?' skip':''}" onclick="${quiet||d?'':'tog(\''+h.id+'\')'}">
-      <div class="ck${d?' dn':''}"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span style="font-size:19px;flex-shrink:0">${h.emoji}</span>
+    const done=!!C[TODAY]?.[h.id];
+    const quiet=!done&&isQuietTime(h.time);
+    const ctTime=CT[TODAY]?.[h.id]||null;
+    const memo=M[TODAY]?.[h.id]||'';
+    const wc=weekCount(h.id);
+    const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
+    const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:4px">${ctTime} 완료</span>`:'';
+    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':done?`openMemo('${h.id}')`:`tog('${h.id}')`}" style="animation:fadeIn .2s ease">
+      <div class="ck${done?' dn':''}">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:600;color:${d?'var(--green)':quiet?'var(--text3)':'var(--text)'};${d?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
-        <div style="font-size:10px;color:var(--text3);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}${quiet?' · 🔕 비행 무음':''}</div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap">
+          <span style="font-size:18px;margin-right:7px">${h.emoji}</span>
+          <span style="font-size:13px;font-weight:600;color:${done?'var(--green)':quiet?'var(--text3)':'var(--text)'};${done?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:160px">${h.name}</span>
+          ${goalBadge}${timeLabel}
+        </div>
+        <div style="font-size:9px;color:var(--text3);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}${quiet?' · 🔕 비행 무음':''}</div>
+        ${memo?`<div style="font-size:10px;color:var(--text2);margin-top:3px;padding:3px 6px;background:var(--bg3);border-radius:5px">📝 ${memo}</div>`:''}
+        ${done?`<div class="memo-row" id="memo-row-${h.id}" style="display:none">
+          <input class="memo-input" id="memo-inp-${h.id}" placeholder="메모 입력..." value="${memo}" oninput="saveMemo('${h.id}',this.value)" onclick="event.stopPropagation()"/>
+          <button class="btn btn-sm" onclick="event.stopPropagation();closeMemo('${h.id}')" style="flex-shrink:0;font-size:10px">저장</button>
+        </div>`:''}
       </div>
     </div>`;
   }).join('');
@@ -504,8 +671,49 @@ function rdToday(){
 
 function tog(id){
   if(!C[TODAY])C[TODAY]={};
-  C[TODAY][id]=!C[TODAY][id];
-  ls.set(KEY_C,C);schedN();rdToday();
+  if(!CT[TODAY])CT[TODAY]={};
+  const nowDone=!C[TODAY][id];
+  C[TODAY][id]=nowDone;
+  if(nowDone){
+    const now=new Date();
+    const h=String(now.getHours()).padStart(2,'0'),m=String(now.getMinutes()).padStart(2,'0');
+    CT[TODAY][id]=`${h}:${m}`;
+    // Haptic
+    if(navigator.vibrate)navigator.vibrate(50);
+  } else {
+    delete CT[TODAY][id];
+    if(M[TODAY])delete M[TODAY][id];
+  }
+  ls.set(KC,C); ls.set(KCT,CT); ls.set(KM,M);
+  schedN(); rdToday();
+}
+
+function openMemo(id){
+  const row=document.getElementById('memo-row-'+id);
+  if(row)row.style.display=row.style.display==='none'?'flex':'none';
+}
+function closeMemo(id){
+  const row=document.getElementById('memo-row-'+id);
+  if(row)row.style.display='none';
+  rdToday();
+}
+function saveMemo(id,val){
+  if(!M[TODAY])M[TODAY]={};
+  M[TODAY][id]=val;
+  ls.set(KM,M);
+}
+
+// ── CONFETTI ─────────────────────────────────────────────────────
+function celebrate(){
+  const cols=['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#ec4899','#14b8a6'];
+  for(let i=0;i<55;i++){
+    const el=document.createElement('div');
+    const sz=Math.random()*8+4;
+    el.className='confetti-piece';
+    el.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};left:${Math.random()*100}vw;top:-12px;animation-duration:${Math.random()*1.2+1}s;animation-delay:${Math.random()*.6}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2500);
+  }
 }
 
 // ── STATS ────────────────────────────────────────────────────────
@@ -519,6 +727,13 @@ function rate30(id){
   for(let i=1;i<=30;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;tot++;if(C[ds]?.[id])dn++;}
   return tot?Math.round(dn/tot*100):0;
 }
+function dayRate(ds){
+  const ths=H.filter(h=>{const t=getType(ds);return h.on&&(h.days==='all'||h.days===t);});
+  if(!ths.length)return null;
+  const dn=ths.filter(h=>C[ds]?.[h.id]).length;
+  return Math.round(dn/ths.length*100);
+}
+
 function rdStats(){
   const ths=thabs(),dn=tdn();
   document.getElementById('s-td').textContent=`${dn}/${ths.length}`;
@@ -527,25 +742,116 @@ function rdStats(){
   document.getElementById('s-rt').textContent=avg+'%';
   const ms=act.length?Math.max(...act.map(h=>streak(h.id))):0;
   document.getElementById('s-sk').textContent=ms+'일';
+  rdHeatmap(); rdDayPattern(); rdFatigue();
   document.getElementById('stat-list').innerHTML=act.map(h=>{
     const sk=streak(h.id),r=rate30(h.id);
     const fc=r>=80?'var(--green)':r>=50?'var(--yellow)':'var(--red)';
-    return `<div class="card">
+    return `<div class="card" style="animation:fadeIn .25s ease">
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
-        <span style="font-size:19px">${h.emoji}</span>
+        <span style="font-size:18px">${h.emoji}</span>
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
-          <div style="font-size:10px;color:var(--text2)">${DLBL[h.days]||h.days}</div>
+          <div style="font-size:10px;color:var(--text2)">${DLBL[h.days]||h.days}${h.goal>0?` · 주 ${h.goal}회 목표`:''}</div>
         </div>
         <div style="text-align:right;flex-shrink:0">
-          <div style="font-size:17px;font-weight:700;color:var(--yellow)">${sk}일</div>
-          <div style="font-size:10px;color:var(--text2)">연속</div>
+          <div style="font-size:16px;font-weight:700;color:var(--yellow)">${sk}일</div>
+          <div style="font-size:9px;color:var(--text2)">연속</div>
         </div>
       </div>
       <div class="pb"><div class="pf" style="width:${r}%;background:${fc}"></div></div>
       <div style="font-size:10px;color:var(--text2);text-align:right">30일 달성률 ${r}%</div>
     </div>`;
   }).join('');
+}
+
+function rdHeatmap(){
+  // 91 days = 13 weeks x 7, start from Monday 13 weeks ago
+  const today=new Date();
+  const dow=today.getDay();
+  const monday=new Date(today);
+  monday.setDate(today.getDate()-(dow===0?6:dow-1)-(12*7));
+  const cells=[];
+  for(let i=0;i<91;i++){
+    const d=new Date(monday);d.setDate(monday.getDate()+i);
+    const ds=dS(d);
+    const r=dayRate(ds);
+    let bg;
+    if(r===null)bg='var(--hm0)';
+    else if(r===0)bg='var(--hm0)';
+    else if(r<50)bg='var(--hm1)';
+    else if(r<80)bg='var(--hm2)';
+    else if(r<100)bg='var(--hm3)';
+    else bg='var(--hm4)';
+    const isT=ds===TODAY;
+    cells.push(`<div class="hm-cell" style="background:${bg};${isT?'outline:1.5px solid var(--blue);outline-offset:1px':''}" title="${ds}: ${r===null?'데이터없음':r+'%'}"></div>`);
+  }
+  // Build 7 rows x 13 cols grid (transpose)
+  const grid=[];
+  for(let col=0;col<13;col++)for(let row=0;row<7;row++)grid.push(cells[col*7+row]);
+  document.getElementById('heatmap').innerHTML=grid.join('');
+  document.getElementById('hm-legend').innerHTML=`<div style="display:flex;gap:3px;align-items:center">
+    ${['var(--hm0)','var(--hm1)','var(--hm2)','var(--hm3)','var(--hm4)'].map(c=>`<div style="width:12px;height:12px;border-radius:2px;background:${c}"></div>`).join('')}
+  </div><span style="font-size:10px;color:var(--text3)">0% → 100%</span>`;
+}
+
+function rdDayPattern(){
+  const counts=[0,0,0,0,0,0,0];
+  const totals=[0,0,0,0,0,0,0];
+  for(let i=1;i<=90;i++){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const ds=dS(d);
+    const dow=d.getDay();
+    const idx=dow===0?6:dow-1; // Mon=0
+    const r=dayRate(ds);
+    if(r!==null){counts[idx]+=r;totals[idx]++;}
+  }
+  const avgs=counts.map((c,i)=>totals[i]?Math.round(c/totals[i]):0);
+  document.getElementById('day-pattern').innerHTML=WD_WEEK.map((wd,i)=>{
+    const pct=avgs[i];
+    const fc=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--blue)';
+    return `<div class="daybar-row">
+      <div class="daybar-label">${wd}</div>
+      <div class="daybar-track">
+        <div class="daybar-fill" style="width:${pct}%;background:${fc};min-width:${pct>0?24:0}px">
+          ${pct>15?`<span class="daybar-pct">${pct}%</span>`:''}
+        </div>
+      </div>
+      ${pct<=15?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${pct}%</span>`:''}
+    </div>`;
+  }).join('');
+}
+
+function rdFatigue(){
+  const now=new Date();
+  const y=now.getFullYear(),m=now.getMonth();
+  const end=new Date(y,m+1,0).getDate();
+  let flightHours=0,layoverNights=0;
+  const woclFlights=[];
+  for(let i=1;i<=end;i++){
+    const dt=new Date(y,m,i);const ds=dS(dt);
+    const t=getType(ds);
+    if(t==='layover')layoverNights++;
+    if(t==='flight'){
+      const fls=getFlights(ds);
+      fls.forEach(fl=>{
+        if(!fl.depTime||!fl.arrTime)return;
+        let dep=toMins(fl.depTime),arr=toMins(fl.arrTime);
+        if(arr<dep)arr+=1440;
+        flightHours+=(arr-dep)/60;
+        // WOCL: 02:00-05:59
+        const woclStart=120,woclEnd=359;
+        if(dep<=woclEnd&&arr>=woclStart)woclFlights.push({ds,fn:fl.fn,dep:fl.depTime,arr:fl.arrTime});
+      });
+    }
+  }
+  const mName=now.toLocaleDateString('ko-KR',{month:'long'});
+  document.getElementById('fatigue-grid').innerHTML=`
+    <div class="fat-item"><div class="fat-val" style="color:var(--blue)">${Math.round(flightHours)}h</div><div class="fat-lbl">비행시간</div></div>
+    <div class="fat-item"><div class="fat-val" style="color:var(--yellow)">${layoverNights}박</div><div class="fat-lbl">레이오버</div></div>
+    <div class="fat-item"><div class="fat-val" style="color:${woclFlights.length?'var(--red)':'var(--green)'}">x${woclFlights.length}</div><div class="fat-lbl">WOCL비행</div></div>`;
+  document.getElementById('wocl-list').innerHTML=woclFlights.length?`
+    <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:5px">⚠ WOCL 구간 비행 (02:00-05:59)</div>
+    ${woclFlights.map(f=>`<div style="font-size:10px;color:var(--text2);padding:3px 0">${f.ds.slice(5)} ${f.fn} ${f.dep}→${f.arr}</div>`).join('')}`:'<div style="font-size:11px;color:var(--green)">✅ WOCL 구간 비행 없음</div>';
 }
 
 // ── SCHEDULE ─────────────────────────────────────────────────────
@@ -563,16 +869,15 @@ function rdSched(){
   let rows='';
   for(let i=1;i<=end;i++){
     const dt=new Date(calY,calM,i),ds=dS(dt),isT=ds===TODAY;
-    const t=getType(ds);
-    const fls=getFlights(ds);
+    const t=getType(ds),fls=getFlights(ds);
     const dc=dt.getDay()===0?'var(--red)':dt.getDay()===6?'var(--blue)':'var(--text2)';
     const btns=Object.entries(TYPES).map(([k,{lbl,cls}])=>
       `<button class="dbt${t===k?' '+cls:''}" onclick="setDayType('${ds}','${k}')">${lbl}</button>`
     ).join('');
-    const flInfo=fls&&fls.length?`<div style="font-size:9px;color:var(--blue);margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${fls[0].dep} ${fls[0].depTime}${fls.length>1?` +${fls.length-1}`:''}</div>`:'';
+    const flInfo=fls&&fls.length?`<div style="font-size:8px;color:var(--blue);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:36px">${fls[0].dep}${fls[0].depTime?fls[0].depTime.slice(0,5):''}</div>`:'';
     rows+=`<div class="drow">
       <div style="width:38px;flex-shrink:0;text-align:center">
-        <div style="font-size:9px;color:${dc};font-weight:600">${WD[dt.getDay()]}</div>
+        <div style="font-size:8px;color:${dc};font-weight:600">${WD_KO[dt.getDay()]}</div>
         <div style="font-size:13px;font-weight:${isT?'700':'400'};color:${isT?'var(--blue)':'var(--text)'}">${i}</div>
         ${flInfo}
       </div>
@@ -584,185 +889,204 @@ function rdSched(){
 
 function setDayType(ds,typ){
   const cur=getEntry(ds);
-  // Toggle: if same type, remove
-  if(cur&&cur.type===typ){
-    delete SC[ds]; ls.set(KEY_S,SC);
-  } else {
-    setEntry(ds,typ,cur?cur.flights:[]);
-  }
+  if(cur&&cur.type===typ){delete SC[ds];ls.set(KS,SC);}
+  else setEntry(ds,typ,cur?cur.flights:[]);
   rdSched();
-  if(ds===TODAY&&curTab==='today')rdToday();
+  if(ds===TODAY){rdToday();rdWeekStrip();}
 }
-
 function prevM(){if(calM===0){calY--;calM=11;}else calM--;rdSched();}
 function nextM(){if(calM===11){calY++;calM=0;}else calM++;rdSched();}
 
-// ── MANUAL ENTRY ─────────────────────────────────────────────────
+// ── MANUAL ENTRY (FIXED) ─────────────────────────────────────────
 function onManTypeChange(){
   const t=document.getElementById('man-type').value;
-  document.getElementById('man-flight-section').style.display=t==='flight'?'':'none';
+  document.getElementById('man-flight-sec').style.display=t==='flight'?'':'none';
+  if(t==='flight'&&manFlights.length===0){addFlightRow();}
 }
 function addFlightRow(){
-  manFlights.push({dep:'',depTime:'',arr:'',arrTime:'',fn:''});
+  manFlights.push({fn:'',dep:'',depTime:'',arr:'',arrTime:''});
   renderFlightRows();
 }
-function removeFlightRow(i){
-  manFlights.splice(i,1);
-  renderFlightRows();
-}
+function removeFlightRow(i){manFlights.splice(i,1);renderFlightRows();}
 function renderFlightRows(){
   document.getElementById('man-flight-list').innerHTML=manFlights.map((fl,i)=>`
-    <div style="background:var(--bg3);border:.5px solid var(--border);border-radius:8px;padding:9px;margin-bottom:6px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-        <span style="font-size:11px;font-weight:600;color:var(--text2)">편 ${i+1}</span>
-        <button onclick="removeFlightRow(${i})" class="btn-danger" style="font-size:14px">×</button>
+    <div style="background:var(--bg3);border:.5px solid var(--border);border-radius:7px;padding:8px;margin-bottom:5px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:10px;font-weight:600;color:var(--text2)">편 ${i+1}</span>
+        <button onclick="removeFlightRow(${i})" class="btn-danger" style="font-size:16px">×</button>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:6px">
+      <div style="display:flex;gap:5px;margin-bottom:5px">
         <div class="fld" style="flex:1;margin:0"><label>편명</label><input placeholder="KE805" value="${fl.fn}" oninput="manFlights[${i}].fn=this.value"/></div>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:4px">
-        <div class="fld" style="flex:1;margin:0"><label>출발지</label><input placeholder="ICN" maxlength="3" style="text-transform:uppercase" value="${fl.dep}" oninput="manFlights[${i}].dep=this.value.toUpperCase()"/></div>
-        <div class="fld" style="flex:1;margin:0"><label>출발시간</label><input type="time" value="${fl.depTime}" onchange="manFlights[${i}].depTime=this.value"/></div>
+      <div style="display:flex;gap:5px;margin-bottom:5px">
+        <div class="fld" style="flex:1;margin:0"><label>출발지</label><input placeholder="ICN" maxlength="3" value="${fl.dep}" oninput="manFlights[${i}].dep=this.value.toUpperCase()"/></div>
+        <div class="fld" style="flex:1;margin:0"><label>출발시각</label><input type="time" value="${fl.depTime}" onchange="manFlights[${i}].depTime=this.value"/></div>
       </div>
-      <div style="display:flex;gap:6px">
-        <div class="fld" style="flex:1;margin:0"><label>도착지</label><input placeholder="TSN" maxlength="3" style="text-transform:uppercase" value="${fl.arr}" oninput="manFlights[${i}].arr=this.value.toUpperCase()"/></div>
-        <div class="fld" style="flex:1;margin:0"><label>도착시간</label><input type="time" value="${fl.arrTime}" onchange="manFlights[${i}].arrTime=this.value"/></div>
+      <div style="display:flex;gap:5px">
+        <div class="fld" style="flex:1;margin:0"><label>도착지</label><input placeholder="TSN" maxlength="3" value="${fl.arr}" oninput="manFlights[${i}].arr=this.value.toUpperCase()"/></div>
+        <div class="fld" style="flex:1;margin:0"><label>도착시각</label><input type="time" value="${fl.arrTime}" onchange="manFlights[${i}].arrTime=this.value"/></div>
       </div>
     </div>`).join('');
 }
+
 function saveManual(){
   const ds=document.getElementById('man-date').value;
   const typ=document.getElementById('man-type').value;
-  if(!ds||!typ){showManMsg('날짜와 유형을 선택해 주세요','var(--red)');return;}
-  setEntry(ds,typ,typ==='flight'?[...manFlights]:[]);
+  if(!ds){showManMsg('날짜를 선택해 주세요','var(--red)');return;}
+  if(!typ){showManMsg('스케쥴 유형을 선택해 주세요','var(--red)');return;}
+  const flights=typ==='flight'?manFlights.filter(f=>f.depTime||f.dep):[];
+  setEntry(ds,typ,flights);
+  // ✅ KEY FIX: navigate calendar to saved month
+  const dt=new Date(ds+'T12:00:00');
+  calY=dt.getFullYear(); calM=dt.getMonth();
   rdSched();
-  if(ds===TODAY&&curTab==='today')rdToday();
-  schedN();
-  showManMsg(`✅ ${ds} 저장 완료`,'var(--green)');
-  // Reset flights
-  manFlights=[];
-  document.getElementById('man-flight-list').innerHTML='';
-  document.getElementById('man-type').value='';
-  document.getElementById('man-flight-section').style.display='none';
+  if(ds===TODAY){rdToday();rdWeekStrip();}
+  schedN(); rdHeader();
+  showManMsg(`✅ ${ds.slice(5).replace('-','/')} 저장 완료! 아래 달력에서 확인하세요`,'var(--green)');
 }
 function showManMsg(msg,color){
   const el=document.getElementById('man-msg');
   el.textContent=msg;el.style.color=color;el.style.display='';
-  setTimeout(()=>el.style.display='none',3000);
+  if(color==='var(--green)')setTimeout(()=>el.style.display='none',4000);
 }
 
-// ── FILE UPLOAD (AI) ──────────────────────────────────────────────
+// ── FILE UPLOAD ──────────────────────────────────────────────────
 async function handleFile(e){
   const f=e.target.files[0];if(!f)return;
   const pEl=document.getElementById('parse-st');
-  pEl.style.display='';pEl.style.color='var(--text2)';pEl.textContent='🔍 AI가 스케쥴을 분석하는 중...';
+  pEl.style.display='';pEl.style.color='var(--text2)';pEl.textContent='🔍 AI 분석 중...';
   document.getElementById('upl-area').style.pointerEvents='none';
   try{
-    const apiKey=ls.raw(KEY_API);
-    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요 (없으면 직접 입력 탭 사용)');
-    const b64=await new Promise((res,rej)=>{
-      const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('파일 읽기 실패'));r.readAsDataURL(f);
-    });
+    const apiKey=ls.raw(KAPI);
+    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요');
+    const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('파일 읽기 실패'));r.readAsDataURL(f);});
     const parsed=await parseImg(b64,f.type,apiKey);
     const keys=Object.keys(parsed);
     if(!keys.length)throw new Error('스케쥴 데이터를 찾지 못했어요');
-    // Merge parsed data
-    keys.forEach(ds=>{
-      const p=parsed[ds];
-      const existing=getEntry(ds);
-      SC[ds]={type:p.type,flights:p.flights||(existing?existing.flights:[])};
-    });
-    ls.set(KEY_S,SC);
+    keys.forEach(ds=>{const p=parsed[ds];const ex=getEntry(ds);SC[ds]={type:p.type,flights:p.flights||(ex?ex.flights:[])};});
+    ls.set(KS,SC);
     const first=new Date(keys.sort()[0]+'T12:00:00');
     calY=first.getFullYear();calM=first.getMonth();
     pEl.style.color='var(--green)';pEl.textContent=`✅ ${keys.length}일 스케쥴 입력 완료!`;
-    rdSched();schedN();
+    rdSched();rdHeader();rdWeekStrip();schedN();
     setTimeout(()=>pEl.style.display='none',3000);
-  }catch(err){
-    pEl.style.color='var(--red)';pEl.textContent='❌ '+err.message;
-  }
+  }catch(err){pEl.style.color='var(--red)';pEl.textContent='❌ '+err.message;}
   document.getElementById('upl-area').style.pointerEvents='';
   e.target.value='';
 }
-
 async function parseImg(b64,mtype,apiKey){
   const resp=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'x-api-key':apiKey,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true',
-    },
-    body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',max_tokens:2000,
+    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,
       messages:[{role:'user',content:[
         {type:'image',source:{type:'base64',media_type:mtype,data:b64}},
-        {type:'text',text:`항공사 파일럿 스케쥴 이미지입니다.
-각 날짜를 분석해 JSON으로 반환하세요.
-type 분류:
-- "flight": 항공 편명(KE/DH/HM/OZ 등)이 있는 날
-- "layover": LO(레이오버)로 표시된 날 (전날 비행 후 현지 숙박)
-- "off": RDO, DO, ATDO, MEDCHK
-- "reserve": RESERVE, SBY, AP_SBY, HM_SBY
-flights 배열에는 각 비행 편 정보를 넣으세요 (있으면).
-연도/월을 이미지에서 정확히 확인하세요.
-설명 없이 JSON만 반환:
-{
-  "YYYY-MM-DD": {
-    "type": "flight|layover|off|reserve",
-    "flights": [
-      {"fn":"KE805","dep":"ICN","depTime":"09:10","arr":"TSN","arrTime":"10:10"}
-    ]
-  }
-}`}
-      ]}]
-    })
+        {type:'text',text:`파일럿 스케쥴 이미지. 각 날짜를 JSON으로 반환하세요.\ntype: flight(편명있는날)/layover(LO표시)/off(RDO,DO,ATDO,MEDCHK)/reserve(RESERVE,SBY)\nflights 배열에 편 정보 포함.\n연도/월 이미지에서 확인.\nJSON만 반환(설명없이):\n{"YYYY-MM-DD":{"type":"flight","flights":[{"fn":"KE805","dep":"ICN","depTime":"09:10","arr":"TSN","arrTime":"10:10"}]}}`}
+      ]}]})
   });
-  if(!resp.ok){
-    const err=await resp.json().catch(()=>({}));
-    if(resp.status===401)throw new Error('API 키가 잘못되었습니다');
-    throw new Error(err?.error?.message||`API 오류 (${resp.status})`);
-  }
+  if(!resp.ok){const e=await resp.json().catch(()=>({}));if(resp.status===401)throw new Error('API 키가 잘못되었습니다');throw new Error(e?.error?.message||`오류 ${resp.status}`);}
   const data=await resp.json();
   const txt=data.content?.find(b=>b.type==='text')?.text||'';
-  const m=txt.match(/\{[\s\S]*\}/);
-  if(!m)throw new Error('파싱 실패');
+  const m=txt.match(/\{[\s\S]*\}/);if(!m)throw new Error('파싱 실패');
   return JSON.parse(m[0]);
+}
+
+// ── GOALS TAB ────────────────────────────────────────────────────
+function rdGoal(){
+  // Weekly counts
+  const d=new Date();const dow=d.getDay();
+  const monday=new Date(d);monday.setDate(d.getDate()-(dow===0?6:dow-1));
+  function weekCount(hid){
+    let cnt=0;
+    for(let i=0;i<7;i++){const dt=new Date(monday);dt.setDate(monday.getDate()+i);if(C[dS(dt)]?.[hid])cnt++;}
+    return cnt;
+  }
+  const act=H.filter(h=>h.on&&h.goal>0);
+  document.getElementById('goal-list').innerHTML=act.length?act.map(h=>{
+    const wc=weekCount(h.id),g=h.goal,pct=Math.min(100,Math.round(wc/g*100));
+    const circ=2*Math.PI*16;
+    const fc=pct>=100?'var(--green)':pct>=50?'var(--yellow)':'var(--blue)';
+    return `<div class="goal-row">
+      <div class="goal-ring">
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="16" fill="none" stroke="var(--bg3)" stroke-width="4"/>
+          <circle cx="18" cy="18" r="16" fill="none" stroke="${fc}" stroke-width="4" stroke-linecap="round"
+            stroke-dasharray="${circ}" stroke-dashoffset="${(circ-pct/100*circ).toFixed(1)}" transform="rotate(-90 18 18)"/>
+        </svg>
+        <div class="goal-ring-inner" style="color:${fc}">${wc}</div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.emoji} ${h.name}</div>
+        <div style="font-size:10px;color:var(--text2)">주 ${g}회 목표 · ${wc}/${g}회 달성</div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:${fc};flex-shrink:0">${pct}%</div>
+    </div>`;
+  }).join(''):'<div style="color:var(--text2);font-size:12px;text-align:center;padding:16px">설정 탭에서 루틴 항목을 편집하고<br>주간 목표 횟수를 설정해 주세요</div>';
+
+  // Templates
+  document.getElementById('tpl-list').innerHTML=TEMPLATES.map(tpl=>{
+    const desc=tpl.ids==='all'?'모든 루틴':H.filter(h=>tpl.ids.includes(h.id)).map(h=>h.emoji).join('');
+    return `<div class="tpl-card">
+      <span style="font-size:22px">${tpl.emoji}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600">${tpl.name}</div>
+        <div style="font-size:10px;color:var(--text2)">${tpl.desc}</div>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="applyTemplate('${JSON.stringify(tpl).replace(/'/g,'&apos;')}')">적용</button>
+    </div>`;
+  }).join('');
+}
+
+function applyTemplate(tplJson){
+  const tpl=JSON.parse(tplJson.replace(/&apos;/g,"'"));
+  if(tpl.ids==='all'){H=H.map(h=>({...h,on:true}));}
+  else{H=H.map(h=>({...h,on:tpl.ids.includes(h.id)}));}
+  ls.set(KH,H);
+  rdGoal();rdToday();
+  alert(`✅ "${tpl.name}" 적용 완료!`);
 }
 
 // ── SETTINGS ─────────────────────────────────────────────────────
 function rdSet(){
-  const savedKey=ls.raw(KEY_API);
+  // API key
+  const savedKey=ls.raw(KAPI);
   const inp=document.getElementById('api-input');
   const ks=document.getElementById('key-saved');
   inp.value='';
-  if(savedKey){inp.placeholder='새 키 입력 시 교체됩니다';ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;ks.style.display='';}
+  if(savedKey){inp.placeholder='새 키 입력 시 교체';ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;ks.style.display='';}
   else{inp.placeholder='sk-ant-api03-...';ks.style.display='none';}
+  // Notifications
   const p='Notification' in window?Notification.permission:'unsupported';
   const ns=document.getElementById('n-status'),nb=document.getElementById('n-btn');
   if(p==='granted'){ns.textContent='✅ 알림 활성화됨';ns.style.background='var(--green-bg)';ns.style.color='var(--green)';nb.style.display='none';}
   else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정 > Safari > 알림에서 허용';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
   else if(p==='unsupported'){ns.textContent='⚠️ 홈화면 추가 후 알림 사용 가능';ns.style.background='var(--yellow-bg)';ns.style.color='var(--yellow)';nb.style.display='none';}
   else{ns.textContent='허용하면 루틴 시간에 알람을 받을 수 있어요';ns.style.background='var(--bg3)';ns.style.color='var(--text2)';nb.style.display='';}
-  document.getElementById('h-list').innerHTML=H.map(h=>`
+  // Theme buttons
+  ['auto','dark','light'].forEach(t=>document.getElementById('th-'+t)?.classList.toggle('on',t===curTheme));
+  // Habit list
+  document.getElementById('h-list').innerHTML=H.map((h,idx)=>`
     <div>
       <div class="hrow">
-        <span style="font-size:19px;margin-right:8px;flex-shrink:0">${h.emoji}</span>
-        <div style="flex:1;min-width:0;margin-right:7px">
-          <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:${h.on?'var(--text)':'var(--text3)'}">${h.name}</div>
-          <div style="font-size:10px;color:var(--text2)">⏰ ${h.time} · ${DLBL[h.days]||h.days}</div>
+        <div style="display:flex;flex-direction:column;gap:2px;margin-right:5px;flex-shrink:0">
+          <button onclick="moveH(${idx},-1)" class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1" ${idx===0?'disabled':''}>▲</button>
+          <button onclick="moveH(${idx},1)" class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1" ${idx===H.length-1?'disabled':''}>▼</button>
+        </div>
+        <span style="font-size:18px;margin-right:7px;flex-shrink:0">${h.emoji}</span>
+        <div style="flex:1;min-width:0;margin-right:6px">
+          <div style="font-size:12px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:${h.on?'var(--text)':'var(--text3)'}">${h.name}</div>
+          <div style="font-size:9px;color:var(--text2)">⏰ ${h.time} · ${DLBL[h.days]||h.days}${h.goal>0?` · 주${h.goal}회`:''}</div>
         </div>
         <div style="display:flex;gap:3px;flex-shrink:0;align-items:center">
-          <button onclick="editH('${h.id}')" class="btn btn-sm" style="color:${editId===h.id?'var(--blue)':'var(--text2)'};border-color:${editId===h.id?'var(--blue-border)':'var(--border)'}">${editId===h.id?'닫기':'편집'}</button>
-          <button onclick="togOn('${h.id}')" class="btn btn-sm" style="color:${h.on?'var(--green)':'var(--text3)'};border-color:${h.on?'var(--green-border)':'var(--border)'}">${h.on?'ON':'OFF'}</button>
+          <button onclick="editH('${h.id}')" class="btn btn-sm" style="font-size:10px;color:${editId===h.id?'var(--blue)':'var(--text2)'};border-color:${editId===h.id?'var(--blue-border)':'var(--border)'}">${editId===h.id?'닫기':'편집'}</button>
+          <button onclick="togOn('${h.id}')" class="btn btn-sm" style="font-size:10px;color:${h.on?'var(--green)':'var(--text3)'};border-color:${h.on?'var(--green-border)':'var(--border)'}">${h.on?'ON':'OFF'}</button>
           <button onclick="delH('${h.id}')" class="btn-danger">×</button>
         </div>
       </div>
       ${editId===h.id?`<div class="ef">
-        <div class="fld"><label>루틴 이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}"/></div>
-        <div style="display:flex;gap:8px">
-          <div class="fld" style="width:68px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:17px;text-align:center"/></div>
+        <div class="fld"><label>이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}"/></div>
+        <div style="display:flex;gap:7px">
+          <div class="fld" style="width:65px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:16px;text-align:center"/></div>
           <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="et" value="${h.time}"/></div>
         </div>
         <div class="fld"><label>적용일</label>
@@ -773,7 +1097,8 @@ function rdSet(){
             <option value="off"${h.days==='off'?' selected':''}>오프만</option>
           </select>
         </div>
-        <div style="display:flex;gap:8px">
+        <div class="fld"><label>주간 목표 (0=없음)</label><input type="number" id="eg" value="${h.goal||0}" min="0" max="7" style="width:80px"/></div>
+        <div style="display:flex;gap:7px">
           <button class="btn" style="flex:1" onclick="editId=null;rdSet()">취소</button>
           <button class="btn btn-primary" style="flex:2" onclick="saveH('${h.id}')">저장하기</button>
         </div>
@@ -781,51 +1106,41 @@ function rdSet(){
     </div>`).join('');
 }
 
-function togglePw(){
-  pwVisible=!pwVisible;
-  document.getElementById('api-input').type=pwVisible?'text':'password';
-  document.getElementById('pw-btn').textContent=pwVisible?'숨기기':'보기';
+function moveH(idx,dir){
+  const ni=idx+dir;if(ni<0||ni>=H.length)return;
+  [H[idx],H[ni]]=[H[ni],H[idx]];ls.set(KH,H);rdSet();
 }
-function saveKey(){
-  const v=document.getElementById('api-input').value.trim();
-  if(!v){showKeyMsg('입력된 키가 없습니다','var(--red)','var(--red-bg)');return;}
-  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다 (sk-ant- 로 시작)','var(--red)','var(--red-bg)');return;}
-  ls.setRaw(KEY_API,v);
-  document.getElementById('api-input').value='';
-  document.getElementById('api-input').placeholder='새 키 입력 시 교체됩니다';
-  document.getElementById('key-saved').textContent=`✅ 저장됨: ${v.slice(0,18)}...`;
-  document.getElementById('key-saved').style.display='';
-  showKeyMsg('API 키가 저장되었습니다','var(--green)','var(--green-bg)');
-}
-function clearKey(){
-  if(!confirm('API 키를 삭제할까요?'))return;
-  ls.del(KEY_API);
-  document.getElementById('api-input').value='';
-  document.getElementById('api-input').placeholder='sk-ant-api03-...';
-  document.getElementById('key-saved').style.display='none';
-  showKeyMsg('API 키가 삭제되었습니다','var(--text2)','var(--bg3)');
-}
-function showKeyMsg(msg,color,bg){
-  const el=document.getElementById('key-msg');
-  el.textContent=msg;el.style.color=color;el.style.background=bg;el.style.display='';
-  setTimeout(()=>el.style.display='none',3000);
-}
-
 function saveH(id){
   const n=document.getElementById('en').value.trim();if(!n)return;
-  H=H.map(h=>h.id===id?{...h,name:n,emoji:document.getElementById('ee').value||h.emoji,time:document.getElementById('et').value,days:document.getElementById('ed').value}:h);
-  editId=null;ls.set(KEY_H,H);rdSet();
+  H=H.map(h=>h.id===id?{...h,name:n,emoji:document.getElementById('ee').value||h.emoji,time:document.getElementById('et').value,days:document.getElementById('ed').value,goal:parseInt(document.getElementById('eg').value)||0}:h);
+  editId=null;ls.set(KH,H);rdSet();
 }
 function editH(id){editId=editId===id?null:id;rdSet();}
-function togOn(id){H=H.map(h=>h.id===id?{...h,on:!h.on}:h);ls.set(KEY_H,H);rdSet();}
-function delH(id){if(!confirm('삭제할까요?'))return;H=H.filter(h=>h.id!==id);ls.set(KEY_H,H);rdSet();}
+function togOn(id){H=H.map(h=>h.id===id?{...h,on:!h.on}:h);ls.set(KH,H);rdSet();}
+function delH(id){if(!confirm('삭제할까요?'))return;H=H.filter(h=>h.id!==id);ls.set(KH,H);rdSet();}
 function toggleAdd(){addOpen=!addOpen;document.getElementById('add-f').style.display=addOpen?'':'none';if(!addOpen)document.getElementById('add-err').style.display='none';}
 function addH(){
   const n=document.getElementById('fn').value.trim();
   if(!n){const e=document.getElementById('add-err');e.textContent='이름을 입력해 주세요';e.style.display='';return;}
-  H.push({id:'h'+Date.now(),name:n,emoji:document.getElementById('fe').value||'⭐',time:document.getElementById('ft').value,days:document.getElementById('fd').value,on:true});
-  document.getElementById('fn').value='';ls.set(KEY_H,H);toggleAdd();rdSet();
+  H.push({id:'h'+Date.now(),name:n,emoji:document.getElementById('fe').value||'⭐',time:document.getElementById('ft').value,days:document.getElementById('fd').value,goal:parseInt(document.getElementById('fg').value)||0,on:true});
+  document.getElementById('fn').value='';ls.set(KH,H);toggleAdd();rdSet();
 }
+
+// API key
+function togglePw(){pwVisible=!pwVisible;document.getElementById('api-input').type=pwVisible?'text':'password';document.getElementById('pw-btn').textContent=pwVisible?'숨기기':'보기';}
+function saveKey(){
+  const v=document.getElementById('api-input').value.trim();
+  if(!v){showKeyMsg('입력된 키가 없습니다','var(--red)','var(--red-bg)');return;}
+  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다','var(--red)','var(--red-bg)');return;}
+  ls.setRaw(KAPI,v);
+  document.getElementById('api-input').value='';
+  document.getElementById('api-input').placeholder='새 키 입력 시 교체';
+  document.getElementById('key-saved').textContent=`✅ 저장됨: ${v.slice(0,18)}...`;
+  document.getElementById('key-saved').style.display='';
+  showKeyMsg('저장 완료','var(--green)','var(--green-bg)');
+}
+function clearKey(){if(!confirm('삭제할까요?'))return;ls.del(KAPI);document.getElementById('api-input').placeholder='sk-ant-api03-...';document.getElementById('key-saved').style.display='none';showKeyMsg('삭제됨','var(--text2)','var(--bg3)');}
+function showKeyMsg(msg,c,bg){const el=document.getElementById('key-msg');el.textContent=msg;el.style.color=c;el.style.background=bg;el.style.display='';setTimeout(()=>el.style.display='none',3000);}
 
 // ── SMART NOTIFICATIONS ───────────────────────────────────────────
 function reqN(){if(!('Notification' in window))return;Notification.requestPermission().then(()=>{schedN();rdSet();});}
@@ -833,21 +1148,43 @@ function schedN(){
   ntT.forEach(clearTimeout);ntT=[];
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   const now=new Date();
+
+  // 1. Habit notifications with quiet time check
   thabs().forEach(h=>{
-    if(isQuietTime(h.time))return; // skip quiet time
+    if(isQuietTime(h.time))return;
     const[hh,mm]=h.time.split(':').map(Number);
     const t=new Date();t.setHours(hh,mm,0,0);
     const d=t-now;
     if(d>0)ntT.push(setTimeout(()=>{
-      // Double-check at fire time
-      if(C[TODAY]?.[h.id])return;
-      if(isQuietTime(h.time))return;
+      if(C[TODAY]?.[h.id]||isQuietTime(h.time))return;
       try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
     },d));
   });
+
+  // 2. Pre-flight sleep recommendation (send at 21:00 if tomorrow has a flight)
+  const tmrw=DS(1);
+  if(getType(tmrw)==='flight'){
+    const fls=getFlights(tmrw);
+    if(fls&&fls.length){
+      const alertTime=new Date();alertTime.setHours(21,0,0,0);
+      const firstFl=fls.sort((a,b)=>(a.depTime||'99:99').localeCompare(b.depTime||'99:99'))[0];
+      if(firstFl&&firstFl.depTime){
+        const depMins=toMins(firstFl.depTime);
+        const bedtimeMins=((depMins-600)+1440)%1440;
+        const bh=String(Math.floor(bedtimeMins/60)).padStart(2,'0');
+        const bm=String(bedtimeMins%60).padStart(2,'0');
+        const d=alertTime-now;
+        if(d>0)ntT.push(setTimeout(()=>{
+          try{new Notification('✈ 비행 전날 알림',{body:`내일 ${firstFl.fn||''} ${firstFl.dep} ${firstFl.depTime} 출발 → 오늘 ${bh}:${bm} 취침 권장`,icon:'icon-192.png'});}catch{}
+        },d));
+      }
+    }
+  }
 }
 
+// ── SERVICE WORKER ───────────────────────────────────────────────
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(curTheme==='auto')applyTheme('auto');});
 window.addEventListener('load',init);
 </script>
 </body>
