@@ -11,78 +11,83 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <title>SY Discipline</title>
 <style>
-  :root{
-    --bg:#0a0e1a;--bg2:#111827;--bg3:#1f2937;
-    --border:#374151;--border2:#4b5563;
-    --text:#f9fafb;--text2:#9ca3af;--text3:#6b7280;
-    --blue:#3b82f6;--blue-bg:#1e3a5f;--blue-border:#2563eb;
-    --green:#22c55e;--green-bg:#14532d;--green-border:#16a34a;
-    --yellow:#f59e0b;--yellow-bg:#451a03;--yellow-border:#d97706;
-    --red:#ef4444;--red-bg:#450a0a;--red-border:#dc2626;
-    --gray:#6b7280;--gray-bg:#1f2937;--gray-border:#374151;
-    --radius:14px;--radius-sm:9px;
-    --safe-top:env(safe-area-inset-top,0px);
-    --safe-bot:env(safe-area-inset-bottom,0px);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden}
-  #app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
-  .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 8px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
-  .hdr-logo{display:flex;align-items:center;gap:9px}
-  .hdr-logo img{width:30px;height:30px;border-radius:8px}
-  .hdr-title{font-size:17px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(var(--safe-bot) + 2px)}
-  .nb{flex:1;padding:10px 2px 8px;background:none;border:none;font-size:10px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
-  .nb.on{color:var(--blue)}
-  .nb svg{width:22px;height:22px}
-  .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px 20px}
-  .card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:10px}
-  .hi{display:flex;align-items:center;gap:10px;padding:12px 14px;border:.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none}
-  .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
-  .ck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
-  .ck.dn{background:var(--green);border-color:var(--green)}
-  .ck svg{display:none}
-  .ck.dn svg{display:block}
-  .tag{display:inline-flex;align-items:center;padding:3px 9px;font-size:11px;font-weight:600;border-radius:20px;border:.5px solid;cursor:pointer;font-family:inherit}
-  .tF{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
-  .tL{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border)}
-  .tO{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
-  .tR{background:var(--gray-bg);color:var(--gray);border-color:var(--gray-border)}
-  .ring-wrap{position:relative;width:88px;height:88px;flex-shrink:0}
-  .ring-wrap svg{transform:rotate(-90deg)}
-  .ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .met{flex:1;padding:12px 8px;background:var(--bg3);border-radius:var(--radius-sm);text-align:center}
-  .mv{font-size:22px;font-weight:700;line-height:1}
-  .ml{font-size:10px;color:var(--text2);margin-top:5px}
-  .pb{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden;margin:5px 0 3px}
-  .pf{height:100%;border-radius:4px;transition:width .4s ease}
-  .drow{display:flex;align-items:center;padding:8px 0;border-bottom:.5px solid var(--border)}
-  .dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;flex:1;padding-left:8px}
-  .dbt{padding:4px 2px;font-size:10px;font-weight:600;border-radius:6px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
-  .fld{margin-bottom:10px}
-  .fld label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:500}
-  .fld input,.fld select{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;color:var(--text);font-family:inherit;outline:none}
-  .fld input:focus,.fld select:focus{border-color:var(--blue)}
-  .fld select option{background:var(--bg3)}
-  .btn{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
-  .btn-primary{background:var(--blue);border-color:var(--blue);color:white}
-  .btn-sm{padding:5px 11px;font-size:12px;border-radius:8px}
-  .btn-danger{color:var(--red);border:none;background:none}
-  .upl{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:18px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:12px;transition:all .2s}
-  .upl:active{background:var(--bg3)}
-  .stitle{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
-  .ef{background:var(--bg3);border-radius:var(--radius-sm);padding:13px;margin:4px 0 6px;border:.5px solid var(--border2)}
-  .hrow{display:flex;align-items:center;padding:10px 0;border-bottom:.5px solid var(--border)}
-  .warn{font-size:12px;color:var(--yellow);padding:8px 11px;background:var(--yellow-bg);border-radius:var(--radius-sm);border:.5px solid var(--yellow-border);margin-bottom:8px}
-  #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
-  #loading img{width:80px;height:80px;border-radius:20px}
-  .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .scroll::-webkit-scrollbar{width:3px}
-  .scroll::-webkit-scrollbar-track{background:transparent}
-  .scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-  .pw-row{display:flex;gap:8px;align-items:center}
-  .pw-row input{flex:1}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1f2937;
+  --border:#374151;--border2:#4b5563;
+  --text:#f9fafb;--text2:#9ca3af;--text3:#6b7280;
+  --blue:#3b82f6;--blue-bg:#1e3a5f;--blue-border:#2563eb;
+  --green:#22c55e;--green-bg:#14532d;--green-border:#16a34a;
+  --yellow:#f59e0b;--yellow-bg:#451a03;--yellow-border:#d97706;
+  --red:#ef4444;--red-bg:#450a0a;--red-border:#dc2626;
+  --gray:#6b7280;--gray-bg:#1f2937;--gray-border:#374151;
+  --radius:14px;--radius-sm:9px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 8px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
+.hdr-logo{display:flex;align-items:center;gap:8px}
+.hdr-logo img{width:34px;height:34px;border-radius:9px;object-fit:cover;display:block}
+.hdr-title{font-size:17px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(var(--safe-bot) + 2px)}
+.nb{flex:1;padding:10px 2px 8px;background:none;border:none;font-size:10px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
+.nb.on{color:var(--blue)}
+.nb svg{width:21px;height:21px}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 15px 20px}
+.card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--radius);padding:13px 14px;margin-bottom:10px}
+.hi{display:flex;align-items:center;gap:10px;padding:11px 13px;border:.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:7px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
+.hi.dn{background:var(--green-bg);border-color:var(--green-border)}
+.hi.skip{opacity:.45;cursor:default}
+.ck{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ck.dn{background:var(--green);border-color:var(--green)}
+.ck svg{display:none}.ck.dn svg{display:block}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;font-size:11px;font-weight:600;border-radius:20px;border:.5px solid;font-family:inherit}
+.tF{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
+.tL{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border)}
+.tO{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+.tR{background:var(--gray-bg);color:var(--gray);border-color:var(--gray-border)}
+.ring-wrap{position:relative;width:84px;height:84px;flex-shrink:0}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.met{flex:1;padding:11px 6px;background:var(--bg3);border-radius:var(--radius-sm);text-align:center}
+.mv{font-size:21px;font-weight:700;line-height:1}
+.ml{font-size:10px;color:var(--text2);margin-top:4px}
+.pb{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden;margin:5px 0 3px}
+.pf{height:100%;border-radius:4px;transition:width .4s ease}
+.drow{display:flex;align-items:center;padding:7px 0;border-bottom:.5px solid var(--border)}
+.dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;flex:1;padding-left:7px}
+.dbt{padding:4px 2px;font-size:10px;font-weight:600;border-radius:6px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
+.fld{margin-bottom:9px}
+.fld label{font-size:11px;color:var(--text2);display:block;margin-bottom:3px;font-weight:500}
+.fld input,.fld select,.fld textarea{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;color:var(--text);font-family:inherit;outline:none}
+.fld input:focus,.fld select:focus{border-color:var(--blue)}
+.fld select option{background:var(--bg3)}
+.btn{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:white}
+.btn-sm{padding:5px 11px;font-size:12px;border-radius:8px}
+.btn-danger{color:var(--red);border:none;background:none;cursor:pointer;font-size:20px;padding:0 3px;font-family:inherit}
+.upl{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:10px;transition:all .2s}
+.upl:active{background:var(--bg3)}
+.stitle{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
+.ef{background:var(--bg3);border-radius:var(--radius-sm);padding:12px;margin:4px 0 6px;border:.5px solid var(--border2)}
+.hrow{display:flex;align-items:center;padding:10px 0;border-bottom:.5px solid var(--border)}
+.warn{font-size:12px;color:var(--yellow);padding:7px 10px;background:var(--yellow-bg);border-radius:var(--radius-sm);border:.5px solid var(--yellow-border);margin-bottom:8px}
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
+#loading img{width:80px;height:80px;border-radius:20px;object-fit:cover}
+.spin{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scroll::-webkit-scrollbar{width:3px}
+.scroll::-webkit-scrollbar-track{background:transparent}
+.scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* tabs inside card */
+.tab-row{display:flex;gap:0;border:.5px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:12px}
+.tab-btn{flex:1;padding:8px 4px;background:none;border:none;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
+.tab-btn.on{background:var(--blue);color:white}
+/* flight row in manual entry */
+.flight-chip{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg3);border-radius:8px;border:.5px solid var(--border);margin-bottom:5px}
+.quiet-badge{font-size:10px;color:var(--yellow);background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:4px;padding:1px 5px;margin-left:auto;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -90,7 +95,7 @@
 <div id="loading">
   <img src="icon-192.png" alt="SY"/>
   <div class="spin"></div>
-  <div style="font-size:13px;color:var(--text2)">SY Discipline</div>
+  <div style="font-size:12px;color:var(--text2)">SY Discipline</div>
 </div>
 
 <div id="app" style="display:none">
@@ -99,27 +104,28 @@
       <img src="icon-192.png" alt="SY"/>
       <span class="hdr-title">SY Discipline</span>
     </div>
-    <div id="hdr-date" style="font-size:12px;color:var(--text2)"></div>
+    <div id="hdr-date" style="font-size:11px;color:var(--text2)"></div>
   </div>
 
   <!-- TODAY -->
   <div id="p-today" class="scroll">
-    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
-      <div style="flex:1;padding-top:4px">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:13px">
+      <div style="flex:1;padding-top:3px">
         <div id="td-badge" style="margin-bottom:6px"></div>
         <div id="td-warn" class="warn" style="display:none">스케쥴 탭에서 오늘 유형을 설정해 주세요</div>
+        <div id="td-flights" style="margin-bottom:5px"></div>
         <div id="td-info" style="font-size:12px;color:var(--text2)"></div>
       </div>
       <div class="ring-wrap">
-        <svg width="88" height="88" viewBox="0 0 88 88">
-          <circle cx="44" cy="44" r="36" fill="none" stroke="var(--bg3)" stroke-width="8"/>
-          <circle id="ring" cx="44" cy="44" r="36" fill="none" stroke="var(--blue)" stroke-width="8"
-            stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"
+        <svg width="84" height="84" viewBox="0 0 84 84">
+          <circle cx="42" cy="42" r="34" fill="none" stroke="var(--bg3)" stroke-width="8"/>
+          <circle id="ring" cx="42" cy="42" r="34" fill="none" stroke="var(--blue)" stroke-width="8"
+            stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"
             style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
         </svg>
         <div class="ring-inner">
-          <div id="ring-p" style="font-size:19px;font-weight:700;color:var(--text);line-height:1">0%</div>
-          <div id="ring-s" style="font-size:10px;color:var(--text2);margin-top:3px">0/0</div>
+          <div id="ring-p" style="font-size:18px;font-weight:700;color:var(--text);line-height:1">0%</div>
+          <div id="ring-s" style="font-size:10px;color:var(--text2);margin-top:2px">0/0</div>
         </div>
       </div>
     </div>
@@ -129,7 +135,7 @@
 
   <!-- STATS -->
   <div id="p-stats" class="scroll" style="display:none">
-    <div style="display:flex;gap:8px;margin-bottom:14px">
+    <div style="display:flex;gap:7px;margin-bottom:13px">
       <div class="met"><div class="mv" id="s-td" style="color:var(--blue)">-</div><div class="ml">오늘 달성</div></div>
       <div class="met"><div class="mv" id="s-rt" style="color:var(--green)">-</div><div class="ml">30일 평균</div></div>
       <div class="met"><div class="mv" id="s-sk" style="color:var(--yellow)">-</div><div class="ml">최장 연속</div></div>
@@ -139,82 +145,124 @@
 
   <!-- SCHEDULE -->
   <div id="p-sched" class="scroll" style="display:none">
-    <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()">
-      <div style="font-size:24px;margin-bottom:6px">📎</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:3px">스케쥴 파일 업로드</div>
-      <div style="font-size:12px;color:var(--text2)">JPG/PNG → AI 자동 분석 후 입력</div>
+    <!-- Mode tabs -->
+    <div class="tab-row">
+      <button class="tab-btn on" id="st-auto" onclick="setSchedMode('auto')">📎 사진 자동 분석</button>
+      <button class="tab-btn" id="st-manual" onclick="setSchedMode('manual')">✏️ 직접 입력</button>
     </div>
-    <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
-    <div id="parse-st" style="display:none;text-align:center;padding:12px;border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:12px;font-size:13px"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <button class="btn" onclick="prevM()">← 이전</button>
-      <div id="m-lbl" style="font-size:14px;font-weight:700"></div>
-      <button class="btn" onclick="nextM()">다음 →</button>
+
+    <!-- AUTO MODE -->
+    <div id="sched-auto">
+      <div class="card" style="padding:11px 13px;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5">
+          Claude API 키가 있으면 사진을 올리면 자동으로 분석합니다.<br>
+          없으면 ✏️ 직접 입력 탭을 사용하세요.
+        </div>
+        <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()" style="margin:0">
+          <div style="font-size:22px;margin-bottom:5px">📎</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">스케쥴 사진 업로드</div>
+          <div style="font-size:11px;color:var(--text2)">JPG/PNG → AI 자동 분석</div>
+        </div>
+        <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
+      </div>
+      <div id="parse-st" style="display:none;text-align:center;padding:11px;border-radius:var(--radius-sm);background:var(--bg2);margin-bottom:10px;font-size:13px"></div>
     </div>
-    <div style="display:flex;gap:5px;margin-bottom:10px">
+
+    <!-- MANUAL MODE -->
+    <div id="sched-manual" style="display:none">
+      <div class="card" style="margin-bottom:10px">
+        <div class="stitle" style="margin-bottom:8px">날짜 선택 후 스케쥴 설정</div>
+        <div class="fld">
+          <label>날짜</label>
+          <input type="date" id="man-date" value=""/>
+        </div>
+        <div class="fld">
+          <label>스케쥴 유형</label>
+          <select id="man-type" onchange="onManTypeChange()">
+            <option value="">-- 선택 --</option>
+            <option value="flight">✈ 비행</option>
+            <option value="layover">🏨 레이오버</option>
+            <option value="off">⌂ 오프 / RDO</option>
+            <option value="reserve">📋 리저브 / SBY</option>
+          </select>
+        </div>
+        <!-- Flight details (shown only when flight selected) -->
+        <div id="man-flight-section" style="display:none">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px">비행 편 정보 (알림 자동 차단용)</div>
+          <div id="man-flight-list"></div>
+          <button class="btn btn-sm" onclick="addFlightRow()" style="margin-top:4px;width:100%">+ 비행 편 추가</button>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
+        <div id="man-msg" style="font-size:12px;text-align:center;margin-top:7px;display:none"></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <button class="btn btn-sm" onclick="prevM()">← 이전</button>
+      <div id="m-lbl" style="font-size:13px;font-weight:700"></div>
+      <button class="btn btn-sm" onclick="nextM()">다음 →</button>
+    </div>
+    <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap">
       <span class="tag tF" style="cursor:default;font-size:10px">✈ 비행</span>
       <span class="tag tL" style="cursor:default;font-size:10px">🏨 레이오버</span>
       <span class="tag tO" style="cursor:default;font-size:10px">⌂ 오프</span>
       <span class="tag tR" style="cursor:default;font-size:10px">📋 리저브</span>
     </div>
-    <div class="card" style="padding:6px 14px"><div id="cal-list"></div></div>
+    <div class="card" style="padding:5px 13px"><div id="cal-list"></div></div>
   </div>
 
   <!-- SETTINGS -->
   <div id="p-set" class="scroll" style="display:none">
-
-    <!-- ① API KEY -->
+    <!-- API KEY -->
     <div class="card">
-      <div class="stitle">🔑 Claude API 키</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">
-        스케쥴 사진 자동 분석에 필요합니다.<br>
+      <div class="stitle">🔑 Claude API 키 (선택)</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.55">
+        스케쥴 사진 자동 분석 시 필요합니다.<br>없으면 직접 입력 탭을 사용하세요.<br>
         키는 이 기기에만 저장됩니다.
       </div>
       <div class="fld">
         <label>API Key</label>
-        <div class="pw-row">
-          <input type="password" id="api-input" placeholder="sk-ant-api03-..."/>
+        <div style="display:flex;gap:7px">
+          <input type="password" id="api-input" placeholder="sk-ant-api03-..." style="flex:1"/>
           <button class="btn btn-sm" onclick="togglePw()" id="pw-btn">보기</button>
         </div>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:8px">
+      <div style="display:flex;gap:7px;margin-bottom:7px">
         <button class="btn btn-primary" style="flex:1" onclick="saveKey()">저장</button>
         <button class="btn btn-sm" style="color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="clearKey()">삭제</button>
       </div>
-      <div id="key-msg" style="font-size:12px;display:none;padding:7px 10px;border-radius:8px;margin-bottom:8px"></div>
+      <div id="key-msg" style="font-size:12px;display:none;padding:6px 10px;border-radius:7px;margin-bottom:7px"></div>
       <div id="key-saved" style="font-size:12px;color:var(--text2);display:none"></div>
-      <!-- How to get key -->
-      <div style="margin-top:10px;padding:11px 12px;background:var(--bg3);border-radius:10px;border:.5px solid var(--border)">
-        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">📌 API 키 발급 방법</div>
+      <div style="margin-top:10px;padding:10px 12px;background:var(--bg3);border-radius:9px;border:.5px solid var(--border)">
         <div style="font-size:11px;color:var(--text3);line-height:1.7">
-          1. <span style="color:var(--blue)">console.anthropic.com</span> 접속<br>
-          2. 로그인 → 왼쪽 메뉴 API Keys<br>
-          3. Create Key → 이름 입력 후 생성<br>
-          4. 표시된 키 복사 → 위에 붙여넣기<br>
-          <span style="color:var(--yellow)">⚠ 키는 한 번만 표시되니 바로 저장하세요</span>
+          📌 <span style="color:var(--blue)">console.anthropic.com</span> → API Keys → Create Key<br>
+          <span style="color:var(--yellow)">⚠ 생성 직후에만 표시되니 바로 복사하세요</span>
         </div>
       </div>
     </div>
-
-    <!-- ② NOTIFICATION -->
+    <!-- NOTIFICATION -->
     <div class="card">
       <div class="stitle">🔔 알림 설정</div>
-      <div id="n-status" style="font-size:12px;padding:7px 10px;border-radius:8px;margin-bottom:10px;background:var(--bg3);color:var(--text2)"></div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.5">
+        비행 출발 전 자동 무음 구간:<br>
+        ICN 출발 → 5시간 전 / GMP 출발 → 4시간 전 / 기타 → 3시간 전<br>
+        비행 중(출발~도착)에는 모든 알림 자동 차단
+      </div>
+      <div id="n-status" style="font-size:12px;padding:6px 10px;border-radius:7px;margin-bottom:9px;background:var(--bg3);color:var(--text2)"></div>
       <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%;display:none">알림 허용하기</button>
-      <div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center">홈화면 추가 후 iOS 16.4+ 에서 알림 작동</div>
     </div>
-
-    <!-- ③ HABITS -->
+    <!-- HABITS -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <div class="stitle" style="margin:0">✏️ 루틴 항목 관리</div>
         <button class="btn btn-primary btn-sm" onclick="toggleAdd()">+ 추가</button>
       </div>
-      <div id="add-f" style="display:none;background:var(--bg3);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;border:.5px solid var(--border2)">
-        <div id="add-err" style="display:none;font-size:12px;color:var(--red);margin-bottom:8px;padding:6px 10px;background:var(--red-bg);border-radius:6px"></div>
+      <div id="add-f" style="display:none;background:var(--bg3);border-radius:var(--radius-sm);padding:13px;margin-bottom:11px;border:.5px solid var(--border2)">
+        <div id="add-err" style="display:none;font-size:12px;color:var(--red);margin-bottom:7px;padding:6px 10px;background:var(--red-bg);border-radius:6px"></div>
         <div class="fld"><label>루틴 이름</label><input id="fn" placeholder="예: 비타민 복용"/></div>
         <div style="display:flex;gap:8px">
-          <div class="fld" style="width:70px"><label>아이콘</label><input id="fe" value="⭐" maxlength="2" style="font-size:18px;text-align:center"/></div>
+          <div class="fld" style="width:68px"><label>아이콘</label><input id="fe" value="⭐" maxlength="2" style="font-size:17px;text-align:center"/></div>
           <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="ft" value="09:00"/></div>
         </div>
         <div class="fld"><label>적용일</label>
@@ -232,12 +280,10 @@
       </div>
       <div id="h-list"></div>
     </div>
-
-    <div style="text-align:center;padding:10px 0 4px;font-size:11px;color:var(--text3)">SY Discipline · JANG SIYOUNG</div>
+    <div style="text-align:center;padding:8px 0 2px;font-size:11px;color:var(--text3)">SY Discipline · JANG SIYOUNG</div>
     <div style="height:10px"></div>
   </div>
 
-  <!-- NAV -->
   <nav class="nav">
     <button class="nb on" id="nb-today" onclick="G('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>오늘
@@ -255,6 +301,7 @@
 </div>
 
 <script>
+// ── CONSTANTS ───────────────────────────────────────────────────
 const TODAY=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
 const WD=['일','월','화','수','목','금','토'];
 const DLBL={all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
@@ -264,19 +311,36 @@ const TYPES={
   off:{lbl:'오프',cls:'tO',badge:'⌂ 오프'},
   reserve:{lbl:'리저브',cls:'tR',badge:'📋 리저브'},
 };
+// Airport quiet hours before departure
+const QUIET_HOURS={ICN:5,GMP:4};
+const DEFAULT_QUIET=3;
+
+// Pre-loaded May 2026 schedule (type + first departure info)
 const MAY26={
-  '2026-05-01':'flight','2026-05-02':'flight','2026-05-03':'flight',
-  '2026-05-04':'off','2026-05-05':'reserve','2026-05-06':'flight',
-  '2026-05-07':'reserve','2026-05-08':'flight','2026-05-09':'layover',
-  '2026-05-10':'flight','2026-05-11':'off','2026-05-12':'off',
-  '2026-05-13':'off','2026-05-14':'off','2026-05-15':'reserve',
-  '2026-05-16':'reserve','2026-05-17':'reserve','2026-05-18':'reserve',
-  '2026-05-19':'off','2026-05-20':'flight','2026-05-21':'reserve',
-  '2026-05-22':'reserve','2026-05-23':'off','2026-05-24':'off',
-  '2026-05-25':'off','2026-05-26':'off','2026-05-27':'flight',
-  '2026-05-28':'flight','2026-05-29':'off','2026-05-30':'off',
-  '2026-05-31':'flight',
+  '2026-05-01':{type:'flight',flights:[{dep:'PUS',depTime:'22:20',arr:'PEK',arrTime:'00:05',fn:'KE2061'}]},
+  '2026-05-02':{type:'layover'},
+  '2026-05-03':{type:'flight',flights:[{dep:'PUS',depTime:'07:00',arr:'CJU',arrTime:'08:00',fn:'KE1505'},{dep:'CJU',depTime:'08:45',arr:'PUS',arrTime:'09:45',fn:'KE1512'},{dep:'PUS',depTime:'10:25',arr:'CJU',arrTime:'11:25',fn:'KE1517'},{dep:'CJU',depTime:'13:05',arr:'GMP',arrTime:'14:20',fn:'DH1214'}]},
+  '2026-05-04':{type:'off'},
+  '2026-05-05':{type:'reserve'},
+  '2026-05-06':{type:'flight',flights:[{dep:'ICN',depTime:'09:10',arr:'TSN',arrTime:'10:10',fn:'KE805'},{dep:'TSN',depTime:'11:30',arr:'ICN',arrTime:'14:20',fn:'KE806'}]},
+  '2026-05-07':{type:'reserve'},
+  '2026-05-08':{type:'flight',flights:[{dep:'ICN',depTime:'18:50',arr:'TAE',arrTime:'19:55',fn:'KE1431'}]},
+  '2026-05-09':{type:'layover'},
+  '2026-05-10':{type:'flight',flights:[{dep:'TAE',depTime:'07:55',arr:'ICN',arrTime:'09:00',fn:'KE1432'},{dep:'ICN',depTime:'10:40',arr:'PEK',arrTime:'12:05',fn:'KE855'},{dep:'PEK',depTime:'13:30',arr:'ICN',arrTime:'16:30',fn:'KE856'}]},
+  '2026-05-11':{type:'off'},'2026-05-12':{type:'off'},'2026-05-13':{type:'off'},'2026-05-14':{type:'off'},
+  '2026-05-15':{type:'reserve'},
+  '2026-05-16':{type:'reserve'},'2026-05-17':{type:'reserve'},'2026-05-18':{type:'reserve'},
+  '2026-05-19':{type:'off'},
+  '2026-05-20':{type:'flight',flights:[{dep:'ICN',depTime:'18:35',arr:'FUK',arrTime:'20:00',fn:'KE781'},{dep:'FUK',depTime:'21:05',arr:'ICN',arrTime:'22:35',fn:'KE782'}]},
+  '2026-05-21':{type:'reserve'},'2026-05-22':{type:'reserve'},
+  '2026-05-23':{type:'off'},'2026-05-24':{type:'off'},'2026-05-25':{type:'off'},
+  '2026-05-26':{type:'off'},
+  '2026-05-27':{type:'flight',flights:[{dep:'GMP',depTime:'07:05',arr:'CJU',arrTime:'08:20',fn:'KE1017'},{dep:'CJU',depTime:'09:00',arr:'GMP',arrTime:'10:15',fn:'KE1150'},{dep:'GMP',depTime:'12:45',arr:'CJU',arrTime:'14:00',fn:'DH1107'}]},
+  '2026-05-28':{type:'flight',flights:[{dep:'CJU',depTime:'07:00',arr:'GMP',arrTime:'08:15',fn:'KE1118'},{dep:'GMP',depTime:'10:10',arr:'CJU',arrTime:'11:25',fn:'KE1073'},{dep:'CJU',depTime:'12:05',arr:'GMP',arrTime:'13:20',fn:'KE1206'}]},
+  '2026-05-29':{type:'off'},'2026-05-30':{type:'off'},
+  '2026-05-31':{type:'flight',flights:[{dep:'GMP',depTime:'18:15',arr:'CJU',arrTime:'19:30',fn:'KE1195'},{dep:'CJU',depTime:'20:30',arr:'PUS',arrTime:'21:30',fn:'KE1558'}]},
 };
+
 const DEFS=[
   {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true},
   {id:'h2',name:'수분 2L 섭취',emoji:'💧',time:'08:00',days:'all',on:true},
@@ -287,7 +351,9 @@ const DEFS=[
   {id:'h7',name:'딸이랑 놀기',emoji:'👶',time:'18:00',days:'all',on:true},
 ];
 
-let H=[...DEFS],C={},SC={...MAY26},editId=null,addOpen=false;
+// ── STATE ────────────────────────────────────────────────────────
+let H=[...DEFS],C={},SC={};
+let editId=null,addOpen=false,schedMode='auto',manFlights=[];
 let calY=new Date().getFullYear(),calM=new Date().getMonth();
 let ntT=[],curTab='today',pwVisible=false;
 
@@ -300,10 +366,70 @@ const ls={
   del:k=>{try{localStorage.removeItem(k);}catch{}},
 };
 
+// ── SC HELPERS ───────────────────────────────────────────────────
+// SC entries are objects: {type, flights:[{dep,depTime,arr,arrTime,fn}]}
+// or legacy strings (type only)
+function getEntry(ds){
+  const e=SC[ds]||MAY26[ds]||null;
+  if(!e)return null;
+  if(typeof e==='string')return{type:e,flights:[]};
+  return{type:e.type||null,flights:e.flights||[]};
+}
+function getType(ds){const e=getEntry(ds);return e?e.type:null;}
+function getFlights(ds){const e=getEntry(ds);return e?e.flights:[];}
+function setEntry(ds,type,flights){
+  SC[ds]={type,flights:flights||[]};
+  // Save only non-MAY26 overrides to keep storage small
+  const toSave={};
+  Object.keys(SC).forEach(k=>{
+    const m=MAY26[k];
+    const s=SC[k];
+    if(!m||JSON.stringify(m)!==JSON.stringify(s))toSave[k]=s;
+  });
+  ls.set(KEY_S,toSave);
+}
+
+// ── QUIET TIME CHECK ─────────────────────────────────────────────
+// Returns true if notifTime (HH:MM string) should be silenced on TODAY
+function isQuietTime(timeStr){
+  const typ=getType(TODAY);
+  if(typ!=='flight')return false;
+  const flights=getFlights(TODAY);
+  if(!flights||!flights.length)return false;
+  const [nh,nm]=timeStr.split(':').map(Number);
+  const notifMins=nh*60+nm;
+  for(const fl of flights){
+    if(!fl.depTime)continue;
+    const [dh,dm]=fl.depTime.split(':').map(Number);
+    const depMins=dh*60+dm;
+    const quietHours=QUIET_HOURS[fl.dep]??DEFAULT_QUIET;
+    const quietStart=depMins-quietHours*60;
+    // Arrival time
+    let arrMins=null;
+    if(fl.arrTime){
+      const [ah,am]=fl.arrTime.split(':').map(Number);
+      arrMins=ah*60+am;
+      if(arrMins<depMins)arrMins+=24*60; // next day arrival
+    }
+    const flightEnd=arrMins??depMins+120; // fallback 2h after dep
+    // Quiet window: quietStart → flightEnd
+    if(notifMins>=quietStart&&notifMins<=flightEnd)return true;
+    // Handle wrap-around (quiet start before midnight)
+    if(quietStart<0&&notifMins<=(flightEnd))return true;
+  }
+  return false;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
 async function init(){
   const h=ls.get(KEY_H),c=ls.get(KEY_C),s=ls.get(KEY_S);
-  if(h)H=h;if(c)C=c;SC={...MAY26,...(s||{})};
+  if(h)H=h; if(c)C=c;
+  SC={};
+  // Merge saved overrides over MAY26
+  if(s)Object.assign(SC,s);
   document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+  // Set manual date default to today
+  document.getElementById('man-date').value=TODAY;
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='flex';
   rdToday();schedN();
@@ -324,16 +450,33 @@ function G(tab){
 const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 const dS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 
-// TODAY
-function thabs(){const t=SC[TODAY];return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
+// ── TODAY ────────────────────────────────────────────────────────
+function thabs(){
+  const t=getType(TODAY);
+  return H.filter(h=>h.on&&(h.days==='all'||h.days===t));
+}
 const tdn=()=>thabs().filter(h=>C[TODAY]?.[h.id]).length;
+
 function rdToday(){
   const ths=thabs(),dn=tdn(),tot=ths.length,pct=tot?Math.round(dn/tot*100):0;
-  const typ=SC[TODAY];
+  const typ=getType(TODAY);
   document.getElementById('td-badge').innerHTML=typ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
   document.getElementById('td-warn').style.display=typ?'none':'';
+  // Show today's flights
+  const flights=getFlights(TODAY);
+  const fEl=document.getElementById('td-flights');
+  if(flights&&flights.length){
+    fEl.innerHTML=flights.map(fl=>{
+      const qh=QUIET_HOURS[fl.dep]??DEFAULT_QUIET;
+      return `<div class="flight-chip">
+        <span style="font-size:11px;font-weight:700;color:var(--blue)">${fl.fn||''}</span>
+        <span style="font-size:11px;color:var(--text2)">${fl.dep} ${fl.depTime} → ${fl.arr} ${fl.arrTime||''}</span>
+        <span class="quiet-badge">${qh}h 전 무음</span>
+      </div>`;
+    }).join('');
+  } else fEl.innerHTML='';
   document.getElementById('td-info').textContent=pct===100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
-  const circ=2*Math.PI*36;
+  const circ=2*Math.PI*34;
   const ring=document.getElementById('ring');
   ring.style.strokeDashoffset=(circ-pct/100*circ).toFixed(1);
   ring.style.stroke=pct>=100?'var(--green)':'var(--blue)';
@@ -342,36 +485,38 @@ function rdToday(){
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
   const el=document.getElementById('habit-list');
   if(!ths.length){
-    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:24px"><div style="font-size:32px;margin-bottom:8px">✈️</div><div>오늘 루틴이 없습니다</div><div style="font-size:12px;margin-top:4px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
+    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:22px"><div style="font-size:30px;margin-bottom:8px">✈️</div><div>오늘 루틴이 없습니다</div><div style="font-size:11px;margin-top:4px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
     return;
   }
   el.innerHTML=ths.map(h=>{
     const d=!!C[TODAY]?.[h.id];
-    return `<div class="hi${d?' dn':''}" onclick="tog('${h.id}')">
+    const quiet=!d&&isQuietTime(h.time);
+    return `<div class="hi${d?' dn':''}${quiet?' skip':''}" onclick="${quiet||d?'':'tog(\''+h.id+'\')'}">
       <div class="ck${d?' dn':''}"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span style="font-size:20px;flex-shrink:0">${h.emoji}</span>
+      <span style="font-size:19px;flex-shrink:0">${h.emoji}</span>
       <div style="flex:1;min-width:0">
-        <div style="font-size:14px;font-weight:600;color:${d?'var(--green)':'var(--text)'};${d?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
-        <div style="font-size:11px;color:var(--text2);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}</div>
+        <div style="font-size:13px;font-weight:600;color:${d?'var(--green)':quiet?'var(--text3)':'var(--text)'};${d?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}${quiet?' · 🔕 비행 무음':''}</div>
       </div>
     </div>`;
   }).join('');
 }
+
 function tog(id){
   if(!C[TODAY])C[TODAY]={};
   C[TODAY][id]=!C[TODAY][id];
   ls.set(KEY_C,C);schedN();rdToday();
 }
 
-// STATS
+// ── STATS ────────────────────────────────────────────────────────
 function streak(id){
   let s=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
-  for(let i=0;i<365;i++){const ds=DS(-i),sc=SC[ds];if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;if(C[ds]?.[id])s++;else if(i>0)break;}
+  for(let i=0;i<365;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;if(C[ds]?.[id])s++;else if(i>0)break;}
   return s;
 }
 function rate30(id){
   let tot=0,dn=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
-  for(let i=1;i<=30;i++){const ds=DS(-i),sc=SC[ds];if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;tot++;if(C[ds]?.[id])dn++;}
+  for(let i=1;i<=30;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;tot++;if(C[ds]?.[id])dn++;}
   return tot?Math.round(dn/tot*100):0;
 }
 function rdStats(){
@@ -386,54 +531,127 @@ function rdStats(){
     const sk=streak(h.id),r=rate30(h.id);
     const fc=r>=80?'var(--green)':r>=50?'var(--yellow)':'var(--red)';
     return `<div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <span style="font-size:20px">${h.emoji}</span>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+        <span style="font-size:19px">${h.emoji}</span>
         <div style="flex:1;min-width:0">
-          <div style="font-size:14px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
-          <div style="font-size:11px;color:var(--text2)">${DLBL[h.days]||h.days}</div>
+          <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
+          <div style="font-size:10px;color:var(--text2)">${DLBL[h.days]||h.days}</div>
         </div>
         <div style="text-align:right;flex-shrink:0">
-          <div style="font-size:18px;font-weight:700;color:var(--yellow)">${sk}일</div>
+          <div style="font-size:17px;font-weight:700;color:var(--yellow)">${sk}일</div>
           <div style="font-size:10px;color:var(--text2)">연속</div>
         </div>
       </div>
       <div class="pb"><div class="pf" style="width:${r}%;background:${fc}"></div></div>
-      <div style="font-size:11px;color:var(--text2);text-align:right">30일 달성률 ${r}%</div>
+      <div style="font-size:10px;color:var(--text2);text-align:right">30일 달성률 ${r}%</div>
     </div>`;
   }).join('');
 }
 
-// SCHEDULE
+// ── SCHEDULE ─────────────────────────────────────────────────────
+function setSchedMode(mode){
+  schedMode=mode;
+  document.getElementById('sched-auto').style.display=mode==='auto'?'':'none';
+  document.getElementById('sched-manual').style.display=mode==='manual'?'':'none';
+  document.getElementById('st-auto').classList.toggle('on',mode==='auto');
+  document.getElementById('st-manual').classList.toggle('on',mode==='manual');
+}
+
 function rdSched(){
   document.getElementById('m-lbl').textContent=new Date(calY,calM,1).toLocaleDateString('ko-KR',{year:'numeric',month:'long'});
   const end=new Date(calY,calM+1,0).getDate();
   let rows='';
   for(let i=1;i<=end;i++){
-    const dt=new Date(calY,calM,i),ds=dS(dt),isT=ds===TODAY,t=SC[ds];
+    const dt=new Date(calY,calM,i),ds=dS(dt),isT=ds===TODAY;
+    const t=getType(ds);
+    const fls=getFlights(ds);
     const dc=dt.getDay()===0?'var(--red)':dt.getDay()===6?'var(--blue)':'var(--text2)';
     const btns=Object.entries(TYPES).map(([k,{lbl,cls}])=>
-      `<button class="dbt${t===k?' '+cls:''}" onclick="setDay('${ds}','${k}')">${lbl}</button>`
+      `<button class="dbt${t===k?' '+cls:''}" onclick="setDayType('${ds}','${k}')">${lbl}</button>`
     ).join('');
+    const flInfo=fls&&fls.length?`<div style="font-size:9px;color:var(--blue);margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${fls[0].dep} ${fls[0].depTime}${fls.length>1?` +${fls.length-1}`:''}</div>`:'';
     rows+=`<div class="drow">
-      <div style="width:34px;flex-shrink:0;text-align:center">
+      <div style="width:38px;flex-shrink:0;text-align:center">
         <div style="font-size:9px;color:${dc};font-weight:600">${WD[dt.getDay()]}</div>
-        <div style="font-size:14px;font-weight:${isT?'700':'400'};color:${isT?'var(--blue)':'var(--text)'}">${i}</div>
+        <div style="font-size:13px;font-weight:${isT?'700':'400'};color:${isT?'var(--blue)':'var(--text)'}">${i}</div>
+        ${flInfo}
       </div>
       <div class="dbg">${btns}</div>
     </div>`;
   }
   document.getElementById('cal-list').innerHTML=rows;
 }
-function setDay(ds,typ){
-  if(SC[ds]===typ)delete SC[ds];else SC[ds]=typ;
-  const saved={...SC};Object.keys(MAY26).forEach(k=>delete saved[k]);
-  ls.set(KEY_S,saved);rdSched();
+
+function setDayType(ds,typ){
+  const cur=getEntry(ds);
+  // Toggle: if same type, remove
+  if(cur&&cur.type===typ){
+    delete SC[ds]; ls.set(KEY_S,SC);
+  } else {
+    setEntry(ds,typ,cur?cur.flights:[]);
+  }
+  rdSched();
   if(ds===TODAY&&curTab==='today')rdToday();
 }
+
 function prevM(){if(calM===0){calY--;calM=11;}else calM--;rdSched();}
 function nextM(){if(calM===11){calY++;calM=0;}else calM++;rdSched();}
 
-// FILE UPLOAD
+// ── MANUAL ENTRY ─────────────────────────────────────────────────
+function onManTypeChange(){
+  const t=document.getElementById('man-type').value;
+  document.getElementById('man-flight-section').style.display=t==='flight'?'':'none';
+}
+function addFlightRow(){
+  manFlights.push({dep:'',depTime:'',arr:'',arrTime:'',fn:''});
+  renderFlightRows();
+}
+function removeFlightRow(i){
+  manFlights.splice(i,1);
+  renderFlightRows();
+}
+function renderFlightRows(){
+  document.getElementById('man-flight-list').innerHTML=manFlights.map((fl,i)=>`
+    <div style="background:var(--bg3);border:.5px solid var(--border);border-radius:8px;padding:9px;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+        <span style="font-size:11px;font-weight:600;color:var(--text2)">편 ${i+1}</span>
+        <button onclick="removeFlightRow(${i})" class="btn-danger" style="font-size:14px">×</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:6px">
+        <div class="fld" style="flex:1;margin:0"><label>편명</label><input placeholder="KE805" value="${fl.fn}" oninput="manFlights[${i}].fn=this.value"/></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:4px">
+        <div class="fld" style="flex:1;margin:0"><label>출발지</label><input placeholder="ICN" maxlength="3" style="text-transform:uppercase" value="${fl.dep}" oninput="manFlights[${i}].dep=this.value.toUpperCase()"/></div>
+        <div class="fld" style="flex:1;margin:0"><label>출발시간</label><input type="time" value="${fl.depTime}" onchange="manFlights[${i}].depTime=this.value"/></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div class="fld" style="flex:1;margin:0"><label>도착지</label><input placeholder="TSN" maxlength="3" style="text-transform:uppercase" value="${fl.arr}" oninput="manFlights[${i}].arr=this.value.toUpperCase()"/></div>
+        <div class="fld" style="flex:1;margin:0"><label>도착시간</label><input type="time" value="${fl.arrTime}" onchange="manFlights[${i}].arrTime=this.value"/></div>
+      </div>
+    </div>`).join('');
+}
+function saveManual(){
+  const ds=document.getElementById('man-date').value;
+  const typ=document.getElementById('man-type').value;
+  if(!ds||!typ){showManMsg('날짜와 유형을 선택해 주세요','var(--red)');return;}
+  setEntry(ds,typ,typ==='flight'?[...manFlights]:[]);
+  rdSched();
+  if(ds===TODAY&&curTab==='today')rdToday();
+  schedN();
+  showManMsg(`✅ ${ds} 저장 완료`,'var(--green)');
+  // Reset flights
+  manFlights=[];
+  document.getElementById('man-flight-list').innerHTML='';
+  document.getElementById('man-type').value='';
+  document.getElementById('man-flight-section').style.display='none';
+}
+function showManMsg(msg,color){
+  const el=document.getElementById('man-msg');
+  el.textContent=msg;el.style.color=color;el.style.display='';
+  setTimeout(()=>el.style.display='none',3000);
+}
+
+// ── FILE UPLOAD (AI) ──────────────────────────────────────────────
 async function handleFile(e){
   const f=e.target.files[0];if(!f)return;
   const pEl=document.getElementById('parse-st');
@@ -441,30 +659,32 @@ async function handleFile(e){
   document.getElementById('upl-area').style.pointerEvents='none';
   try{
     const apiKey=ls.raw(KEY_API);
-    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요 →');
+    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요 (없으면 직접 입력 탭 사용)');
     const b64=await new Promise((res,rej)=>{
-      const r=new FileReader();
-      r.onload=()=>res(r.result.split(',')[1]);
-      r.onerror=()=>rej(new Error('파일 읽기 실패'));
-      r.readAsDataURL(f);
+      const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('파일 읽기 실패'));r.readAsDataURL(f);
     });
     const parsed=await parseImg(b64,f.type,apiKey);
     const keys=Object.keys(parsed);
     if(!keys.length)throw new Error('스케쥴 데이터를 찾지 못했어요');
-    SC={...SC,...parsed};
-    const saved={...SC};Object.keys(MAY26).forEach(k=>delete saved[k]);
-    ls.set(KEY_S,saved);
+    // Merge parsed data
+    keys.forEach(ds=>{
+      const p=parsed[ds];
+      const existing=getEntry(ds);
+      SC[ds]={type:p.type,flights:p.flights||(existing?existing.flights:[])};
+    });
+    ls.set(KEY_S,SC);
     const first=new Date(keys.sort()[0]+'T12:00:00');
     calY=first.getFullYear();calM=first.getMonth();
     pEl.style.color='var(--green)';pEl.textContent=`✅ ${keys.length}일 스케쥴 입력 완료!`;
-    rdSched();
-    setTimeout(()=>{pEl.style.display='none';},3000);
+    rdSched();schedN();
+    setTimeout(()=>pEl.style.display='none',3000);
   }catch(err){
     pEl.style.color='var(--red)';pEl.textContent='❌ '+err.message;
   }
   document.getElementById('upl-area').style.pointerEvents='';
   e.target.value='';
 }
+
 async function parseImg(b64,mtype,apiKey){
   const resp=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
@@ -475,73 +695,74 @@ async function parseImg(b64,mtype,apiKey){
       'anthropic-dangerous-direct-browser-access':'true',
     },
     body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',max_tokens:1000,
+      model:'claude-sonnet-4-20250514',max_tokens:2000,
       messages:[{role:'user',content:[
         {type:'image',source:{type:'base64',media_type:mtype,data:b64}},
-        {type:'text',text:`항공사 파일럿 스케쥴 이미지입니다. 각 날짜를 분류해 JSON만 반환하세요.
-분류:
-- "flight": 항공 편명(KE/DH/HM/OZ 등) 있는 날 (LO+편명도 flight)
-- "layover": LO로만 표시된 날 (출발 편명 없음)
+        {type:'text',text:`항공사 파일럿 스케쥴 이미지입니다.
+각 날짜를 분석해 JSON으로 반환하세요.
+type 분류:
+- "flight": 항공 편명(KE/DH/HM/OZ 등)이 있는 날
+- "layover": LO(레이오버)로 표시된 날 (전날 비행 후 현지 숙박)
 - "off": RDO, DO, ATDO, MEDCHK
 - "reserve": RESERVE, SBY, AP_SBY, HM_SBY
-연도/월을 이미지에서 확인하세요. JSON만 반환 (설명 없이):
-{"YYYY-MM-DD":"flight|layover|off|reserve"}`}
+flights 배열에는 각 비행 편 정보를 넣으세요 (있으면).
+연도/월을 이미지에서 정확히 확인하세요.
+설명 없이 JSON만 반환:
+{
+  "YYYY-MM-DD": {
+    "type": "flight|layover|off|reserve",
+    "flights": [
+      {"fn":"KE805","dep":"ICN","depTime":"09:10","arr":"TSN","arrTime":"10:10"}
+    ]
+  }
+}`}
       ]}]
     })
   });
   if(!resp.ok){
     const err=await resp.json().catch(()=>({}));
-    const msg=err?.error?.message||`API 오류 (${resp.status})`;
-    if(resp.status===401)throw new Error('API 키가 잘못되었습니다. 설정 탭에서 확인해 주세요');
-    throw new Error(msg);
+    if(resp.status===401)throw new Error('API 키가 잘못되었습니다');
+    throw new Error(err?.error?.message||`API 오류 (${resp.status})`);
   }
   const data=await resp.json();
   const txt=data.content?.find(b=>b.type==='text')?.text||'';
   const m=txt.match(/\{[\s\S]*\}/);
-  if(!m)throw new Error('스케쥴 파싱 실패');
+  if(!m)throw new Error('파싱 실패');
   return JSON.parse(m[0]);
 }
 
-// SETTINGS
+// ── SETTINGS ─────────────────────────────────────────────────────
 function rdSet(){
   const savedKey=ls.raw(KEY_API);
   const inp=document.getElementById('api-input');
   const ks=document.getElementById('key-saved');
   inp.value='';
-  if(savedKey){
-    inp.placeholder='새 키를 입력하면 교체됩니다';
-    ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;
-    ks.style.display='';
-  }else{
-    inp.placeholder='sk-ant-api03-...';
-    ks.style.display='none';
-  }
-  // Notification
+  if(savedKey){inp.placeholder='새 키 입력 시 교체됩니다';ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;ks.style.display='';}
+  else{inp.placeholder='sk-ant-api03-...';ks.style.display='none';}
   const p='Notification' in window?Notification.permission:'unsupported';
   const ns=document.getElementById('n-status'),nb=document.getElementById('n-btn');
   if(p==='granted'){ns.textContent='✅ 알림 활성화됨';ns.style.background='var(--green-bg)';ns.style.color='var(--green)';nb.style.display='none';}
-  else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정 > Safari > 알림에서 허용해주세요';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
+  else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정 > Safari > 알림에서 허용';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
   else if(p==='unsupported'){ns.textContent='⚠️ 홈화면 추가 후 알림 사용 가능';ns.style.background='var(--yellow-bg)';ns.style.color='var(--yellow)';nb.style.display='none';}
   else{ns.textContent='허용하면 루틴 시간에 알람을 받을 수 있어요';ns.style.background='var(--bg3)';ns.style.color='var(--text2)';nb.style.display='';}
-  // Habit list
   document.getElementById('h-list').innerHTML=H.map(h=>`
     <div>
       <div class="hrow">
-        <span style="font-size:20px;margin-right:8px;flex-shrink:0">${h.emoji}</span>
-        <div style="flex:1;min-width:0;margin-right:8px">
+        <span style="font-size:19px;margin-right:8px;flex-shrink:0">${h.emoji}</span>
+        <div style="flex:1;min-width:0;margin-right:7px">
           <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:${h.on?'var(--text)':'var(--text3)'}">${h.name}</div>
           <div style="font-size:10px;color:var(--text2)">⏰ ${h.time} · ${DLBL[h.days]||h.days}</div>
         </div>
-        <div style="display:flex;gap:4px;flex-shrink:0;align-items:center">
+        <div style="display:flex;gap:3px;flex-shrink:0;align-items:center">
           <button onclick="editH('${h.id}')" class="btn btn-sm" style="color:${editId===h.id?'var(--blue)':'var(--text2)'};border-color:${editId===h.id?'var(--blue-border)':'var(--border)'}">${editId===h.id?'닫기':'편집'}</button>
           <button onclick="togOn('${h.id}')" class="btn btn-sm" style="color:${h.on?'var(--green)':'var(--text3)'};border-color:${h.on?'var(--green-border)':'var(--border)'}">${h.on?'ON':'OFF'}</button>
-          <button onclick="delH('${h.id}')" class="btn-danger" style="font-size:20px;padding:0 3px">×</button>
+          <button onclick="delH('${h.id}')" class="btn-danger">×</button>
         </div>
       </div>
       ${editId===h.id?`<div class="ef">
         <div class="fld"><label>루틴 이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}"/></div>
         <div style="display:flex;gap:8px">
-          <div class="fld" style="width:70px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:18px;text-align:center"/></div>
+          <div class="fld" style="width:68px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:17px;text-align:center"/></div>
           <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="et" value="${h.time}"/></div>
         </div>
         <div class="fld"><label>적용일</label>
@@ -560,7 +781,6 @@ function rdSet(){
     </div>`).join('');
 }
 
-// API key handlers
 function togglePw(){
   pwVisible=!pwVisible;
   document.getElementById('api-input').type=pwVisible?'text':'password';
@@ -569,10 +789,10 @@ function togglePw(){
 function saveKey(){
   const v=document.getElementById('api-input').value.trim();
   if(!v){showKeyMsg('입력된 키가 없습니다','var(--red)','var(--red-bg)');return;}
-  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다 (sk-ant- 로 시작해야 해요)','var(--red)','var(--red-bg)');return;}
+  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다 (sk-ant- 로 시작)','var(--red)','var(--red-bg)');return;}
   ls.setRaw(KEY_API,v);
   document.getElementById('api-input').value='';
-  document.getElementById('api-input').placeholder='새 키를 입력하면 교체됩니다';
+  document.getElementById('api-input').placeholder='새 키 입력 시 교체됩니다';
   document.getElementById('key-saved').textContent=`✅ 저장됨: ${v.slice(0,18)}...`;
   document.getElementById('key-saved').style.display='';
   showKeyMsg('API 키가 저장되었습니다','var(--green)','var(--green-bg)');
@@ -607,18 +827,22 @@ function addH(){
   document.getElementById('fn').value='';ls.set(KEY_H,H);toggleAdd();rdSet();
 }
 
-// NOTIFICATIONS
+// ── SMART NOTIFICATIONS ───────────────────────────────────────────
 function reqN(){if(!('Notification' in window))return;Notification.requestPermission().then(()=>{schedN();rdSet();});}
 function schedN(){
   ntT.forEach(clearTimeout);ntT=[];
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   const now=new Date();
   thabs().forEach(h=>{
+    if(isQuietTime(h.time))return; // skip quiet time
     const[hh,mm]=h.time.split(':').map(Number);
     const t=new Date();t.setHours(hh,mm,0,0);
     const d=t-now;
     if(d>0)ntT.push(setTimeout(()=>{
-      if(!C[TODAY]?.[h.id])try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
+      // Double-check at fire time
+      if(C[TODAY]?.[h.id])return;
+      if(isQuietTime(h.time))return;
+      try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
     },d));
   });
 }
