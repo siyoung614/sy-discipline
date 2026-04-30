@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <title>SY Discipline</title>
 <style>
-/* ── THEME ─────────────────────────────────────────────────────── */
 [data-theme="dark"]{
   --bg:#0a0e1a;--bg2:#111827;--bg3:#1f2937;
   --border:#374151;--border2:#4b5563;
@@ -21,7 +20,7 @@
   --red:#ef4444;--red-bg:#450a0a;--red-border:#dc2626;
   --purple:#a855f7;--purple-bg:#3b0764;--purple-border:#9333ea;
   --gray:#6b7280;--gray-bg:#1f2937;--gray-border:#374151;
-  --hm0:#111827;--hm1:#14532d;--hm2:#16a34a;--hm3:#22c55e;--hm4:#4ade80;
+  --hm0:#1f2937;--hm1:#14532d;--hm2:#16a34a;--hm3:#22c55e;--hm4:#4ade80;
 }
 [data-theme="light"]{
   --bg:#f9fafb;--bg2:#ffffff;--bg3:#f3f4f6;
@@ -35,130 +34,127 @@
   --gray:#6b7280;--gray-bg:#f3f4f6;--gray-border:#e5e7eb;
   --hm0:#f3f4f6;--hm1:#bbf7d0;--hm2:#4ade80;--hm3:#22c55e;--hm4:#16a34a;
 }
-/* ── ANIMATIONS ────────────────────────────────────────────────── */
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-/* ── BASE ──────────────────────────────────────────────────────── */
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100%;padding-top:env(safe-area-inset-top,0px)}
-/* ── HEADER ────────────────────────────────────────────────────── */
-.hdr{display:flex;align-items:center;gap:9px;padding:9px 15px 7px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
+/* HEADER */
+.hdr{display:flex;align-items:center;gap:8px;padding:9px 14px 7px;background:var(--bg);border-bottom:.5px solid var(--border);flex-shrink:0}
 .hdr img{width:32px;height:32px;border-radius:8px;object-fit:cover;flex-shrink:0}
 .hdr-title{font-size:16px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
-.hdr-mid{flex:1;display:flex;flex-direction:column;align-items:center}
+.hdr-mid{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
 .hdr-date{font-size:10px;color:var(--text2)}
-.hdr-dday{font-size:11px;font-weight:700;color:var(--blue)}
-/* ── NAV ───────────────────────────────────────────────────────── */
-.nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}
-.nb{flex:1;padding:9px 2px 7px;background:none;border:none;font-size:9px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
+.hdr-dday{font-size:11px;font-weight:700;color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+/* NAV */
+.nav{display:flex;background:var(--bg2);border-top:.5px solid var(--border);flex-shrink:0;padding-bottom:calc(env(safe-area-inset-bottom,0px)+2px)}
+.nb{flex:1;padding:9px 2px 7px;background:none;border:none;font-size:9px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .2s}
 .nb.on{color:var(--blue)}
 .nb svg{width:20px;height:20px}
-/* ── SCROLL ────────────────────────────────────────────────────── */
+/* SCROLL */
 .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px 16px}
 .scroll::-webkit-scrollbar{width:2px}
 .scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-/* ── CARDS ─────────────────────────────────────────────────────── */
+/* CARDS */
 .card{background:var(--bg2);border:.5px solid var(--border);border-radius:13px;padding:12px 14px;margin-bottom:9px}
 .stitle{font-size:12px;font-weight:700;color:var(--text);margin-bottom:9px}
-/* ── WEEK STRIP ────────────────────────────────────────────────── */
-.week-strip{display:flex;gap:2px;margin-bottom:12px}
-.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
-.ws-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:400;color:var(--text2)}
+/* WEEK STRIP */
+.week-strip{display:flex;gap:2px;margin-bottom:11px;background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:8px 6px}
+.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.ws-lbl{font-size:9px;color:var(--text3);font-weight:500}
+.ws-num{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--text2)}
 .ws-num.today{background:var(--blue);color:white;font-weight:700}
-.ws-dot{width:6px;height:6px;border-radius:50%;background:var(--bg3)}
-/* ── HABIT ITEM ────────────────────────────────────────────────── */
-.hi{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:.5px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
+.ws-dot{width:5px;height:5px;border-radius:50%;background:var(--bg3)}
+/* HABIT */
+.hi{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:.5px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
 .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
-.hi.quiet{opacity:.4;cursor:default}
+.hi.quiet{opacity:.4}
 .ck{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
 .ck.dn{background:var(--green);border-color:var(--green)}
 .ck svg{display:none}.ck.dn svg{display:block}
-/* ── MEMO ──────────────────────────────────────────────────────── */
-.memo-row{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:.5px solid var(--border)}
-.memo-input{flex:1;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--text);font-family:inherit;outline:none}
-.memo-input:focus{border-color:var(--blue)}
-/* ── TAGS ──────────────────────────────────────────────────────── */
+/* MEMO */
+.memo-box{margin-top:6px;padding-top:6px;border-top:.5px solid var(--border)}
+.memo-inp{width:100%;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--text);font-family:inherit;outline:none}
+/* TAGS */
 .tag{display:inline-flex;align-items:center;padding:2px 8px;font-size:10px;font-weight:600;border-radius:20px;border:.5px solid;font-family:inherit}
 .tF{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)}
 .tL{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border)}
 .tO{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
 .tR{background:var(--gray-bg);color:var(--gray);border-color:var(--gray-border)}
-/* ── RING ──────────────────────────────────────────────────────── */
+/* RING */
 .ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
 .ring-wrap svg{transform:rotate(-90deg)}
 .ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-/* ── METRICS ───────────────────────────────────────────────────── */
-.metrics{display:flex;gap:6px;margin-bottom:11px}
+/* METRICS */
+.metrics{display:flex;gap:6px;margin-bottom:10px}
 .met{flex:1;padding:10px 6px;background:var(--bg3);border-radius:9px;text-align:center}
 .mv{font-size:20px;font-weight:700;line-height:1}
 .ml{font-size:9px;color:var(--text2);margin-top:4px}
-/* ── PROGRESS BAR ──────────────────────────────────────────────── */
+/* PROGRESS BAR */
 .pb{background:var(--bg3);border-radius:3px;height:4px;overflow:hidden;margin:4px 0 2px}
 .pf{height:100%;border-radius:3px;transition:width .4s ease}
-/* ── HEATMAP ───────────────────────────────────────────────────── */
-.heatmap{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;margin-bottom:6px}
-.hm-cell{aspect-ratio:1;border-radius:2px}
-/* ── DAYBAR ────────────────────────────────────────────────────── */
+/* HEATMAP */
+.heatmap-grid{display:grid;gap:2px}
+/* DAYBAR */
 .daybar-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
-.daybar-label{font-size:10px;color:var(--text2);width:16px;text-align:right;flex-shrink:0}
+.daybar-lbl{font-size:10px;color:var(--text2);width:16px;text-align:right;flex-shrink:0}
 .daybar-track{flex:1;background:var(--bg3);border-radius:3px;height:14px;overflow:hidden;position:relative}
-.daybar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px}
-.daybar-pct{font-size:9px;color:white;font-weight:700}
-/* ── SCHEDULE CAL ──────────────────────────────────────────────── */
-.drow{display:flex;align-items:center;padding:6px 0;border-bottom:.5px solid var(--border)}
-.dbg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;flex:1;padding-left:6px}
-.dbt{padding:3px 2px;font-size:9px;font-weight:600;border-radius:5px;border:.5px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s}
-/* ── FORMS ─────────────────────────────────────────────────────── */
+.daybar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px;transition:width .4s ease}
+/* CALENDAR GRID */
+.cal-grid-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.cal-grid-hdr-cell{text-align:center;font-size:10px;font-weight:600;color:var(--text3);padding:3px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-cell{border-radius:8px;padding:4px 2px;text-align:center;cursor:pointer;border:.5px solid var(--border);background:var(--bg2);transition:all .15s;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cal-cell.today{border-color:var(--blue);border-width:1.5px}
+.cal-cell.empty{border:none;background:none;cursor:default}
+.cal-cell-num{font-size:12px;font-weight:500;color:var(--text);line-height:1}
+.cal-cell.today .cal-cell-num{color:var(--blue);font-weight:700}
+.cal-cell-type{font-size:8px;font-weight:600;border-radius:4px;padding:1px 4px;width:100%;text-align:center;white-space:nowrap;overflow:hidden}
+.cal-cell-fl{font-size:7px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center}
+/* FLIGHT CHIP */
+.flight-chip{display:flex;align-items:center;gap:5px;padding:5px 8px;background:var(--bg3);border-radius:7px;border:.5px solid var(--border);margin-bottom:4px;font-size:11px}
+.quiet-badge{font-size:9px;color:var(--yellow);background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:4px;padding:1px 4px;margin-left:auto;flex-shrink:0}
+/* FATIGUE */
+.fat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:5px}
+.fat-item{background:var(--bg3);border-radius:8px;padding:9px 6px;text-align:center}
+.fat-val{font-size:18px;font-weight:700}
+.fat-lbl{font-size:9px;color:var(--text2);margin-top:3px}
+/* FORMS */
 .fld{margin-bottom:9px}
 .fld label{font-size:11px;color:var(--text2);display:block;margin-bottom:3px;font-weight:500}
-.fld input,.fld select,.fld textarea{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;outline:none}
-.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue)}
+.fld input,.fld select{width:100%;background:var(--bg3);border:.5px solid var(--border2);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;outline:none}
+.fld input:focus,.fld select:focus{border-color:var(--blue)}
 .fld select option{background:var(--bg3)}
-/* ── BUTTONS ───────────────────────────────────────────────────── */
+/* BUTTONS */
 .btn{padding:9px 14px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:.5px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
 .btn-primary{background:var(--blue);border-color:var(--blue);color:white}
 .btn-sm{padding:4px 10px;font-size:11px;border-radius:7px}
 .btn-danger{color:var(--red);border:none;background:none;cursor:pointer;font-size:19px;padding:0 3px;font-family:inherit;line-height:1}
-/* ── UPLOAD ────────────────────────────────────────────────────── */
-.upl{border:1.5px dashed var(--border2);border-radius:12px;padding:14px;text-align:center;cursor:pointer;background:var(--bg2);margin-bottom:9px;transition:all .2s}
-.upl:active{background:var(--bg3)}
-/* ── HABIT EDIT ────────────────────────────────────────────────── */
-.ef{background:var(--bg3);border-radius:9px;padding:11px;margin:3px 0 5px;border:.5px solid var(--border2)}
-.hrow{display:flex;align-items:center;padding:9px 0;border-bottom:.5px solid var(--border)}
-/* ── TABS IN CARD ──────────────────────────────────────────────── */
-.tab-row{display:flex;border:.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px}
-.tab-btn{flex:1;padding:7px 4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
-.tab-btn.on{background:var(--blue);color:white}
-/* ── TEMPLATE CARD ─────────────────────────────────────────────── */
-.tpl-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:9px;border:.5px solid var(--border);margin-bottom:7px}
-/* ── GOAL ROW ──────────────────────────────────────────────────── */
+/* GOAL RING */
 .goal-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:.5px solid var(--border)}
 .goal-ring{position:relative;width:36px;height:36px;flex-shrink:0}
 .goal-ring svg{transform:rotate(-90deg)}
-.goal-ring-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text)}
-/* ── FLIGHT CHIP ───────────────────────────────────────────────── */
-.flight-chip{display:flex;align-items:center;gap:6px;padding:6px 9px;background:var(--bg3);border-radius:7px;border:.5px solid var(--border);margin-bottom:4px;font-size:11px}
-.quiet-badge{font-size:9px;color:var(--yellow);background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:4px;padding:1px 4px;margin-left:auto;flex-shrink:0}
-/* ── FATIGUE CARD ──────────────────────────────────────────────── */
-.fat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:2px}
-.fat-item{background:var(--bg3);border-radius:8px;padding:9px 6px;text-align:center}
-.fat-val{font-size:18px;font-weight:700}
-.fat-lbl{font-size:9px;color:var(--text2);margin-top:3px}
-/* ── WARN ──────────────────────────────────────────────────────── */
+.goal-ring-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+/* TEMPLATE */
+.tpl-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:9px;border:.5px solid var(--border);margin-bottom:7px}
+/* HROW */
+.hrow{display:flex;align-items:center;padding:9px 0;border-bottom:.5px solid var(--border)}
+.ef{background:var(--bg3);border-radius:9px;padding:11px;margin:3px 0 5px;border:.5px solid var(--border2)}
+/* WARN */
 .warn{font-size:11px;color:var(--yellow);padding:7px 10px;background:var(--yellow-bg);border-radius:8px;border:.5px solid var(--yellow-border);margin-bottom:8px}
-/* ── LOADING ───────────────────────────────────────────────────── */
+/* LOADING */
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
 #loading img{width:76px;height:76px;border-radius:19px;object-fit:cover}
 .spin{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
-/* ── CONFETTI ──────────────────────────────────────────────────── */
-.confetti-piece{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;animation:confetti-fall 1.8s ease-in forwards}
-/* ── THEME TOGGLE ──────────────────────────────────────────────── */
+/* CONFETTI */
+.confetti-piece{position:fixed;pointer-events:none;z-index:9999;animation:confetti-fall 1.8s ease-in forwards}
+/* THEME TOGGLE */
 .theme-toggle{display:flex;border:.5px solid var(--border);border-radius:8px;overflow:hidden}
-.theme-btn{flex:1;padding:7px 4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
+.theme-btn{flex:1;padding:8px 4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .2s}
 .theme-btn.on{background:var(--blue);color:white}
+/* INLINE MSG */
+.inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
 </style>
 </head>
 <body>
@@ -178,7 +174,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="hdr-date" id="hdr-date"></div>
       <div class="hdr-dday" id="hdr-dday"></div>
     </div>
-    <button class="btn btn-sm" id="theme-quick-btn" onclick="cycleTheme()" style="font-size:14px;padding:4px 8px">🌙</button>
+    <button class="btn btn-sm" id="theme-quick-btn" onclick="cycleTheme()" style="font-size:14px;padding:4px 8px;flex-shrink:0">🌙</button>
   </div>
 
   <!-- TODAY -->
@@ -199,7 +195,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
             style="transition:stroke-dashoffset .5s ease,stroke .3s"/>
         </svg>
         <div class="ring-inner">
-          <div id="ring-p" style="font-size:17px;font-weight:700;color:var(--text);line-height:1">0%</div>
+          <div id="ring-p" style="font-size:17px;font-weight:700;line-height:1">0%</div>
           <div id="ring-s" style="font-size:9px;color:var(--text2);margin-top:2px">0/0</div>
         </div>
       </div>
@@ -210,101 +206,91 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- STATS -->
   <div id="p-stats" class="scroll" style="display:none">
-    <div class="metrics" id="s-metrics">
+    <div class="metrics">
       <div class="met"><div class="mv" id="s-td" style="color:var(--blue)">-</div><div class="ml">오늘 달성</div></div>
       <div class="met"><div class="mv" id="s-rt" style="color:var(--green)">-</div><div class="ml">30일 평균</div></div>
       <div class="met"><div class="mv" id="s-sk" style="color:var(--yellow)">-</div><div class="ml">최장 연속</div></div>
     </div>
-    <!-- Heatmap -->
     <div class="card">
       <div class="stitle">📅 달성 히트맵 (최근 91일)</div>
-      <div style="display:flex;gap:2px;margin-bottom:4px" id="hm-labels"></div>
-      <div class="heatmap" id="heatmap"></div>
-      <div style="display:flex;gap:5px;align-items:center;margin-top:6px">
+      <div id="heatmap-wrap"></div>
+      <div style="display:flex;align-items:center;gap:4px;margin-top:7px">
         <span style="font-size:10px;color:var(--text3)">낮음</span>
-        <div style="display:flex;gap:2px">${[0,1,2,3,4].map(i=>`<div style="width:11px;height:11px;border-radius:2px"></div>`).join('')}</div>
+        <div id="hm-legend" style="display:flex;gap:3px"></div>
         <span style="font-size:10px;color:var(--text3)">높음</span>
       </div>
-      <div style="display:flex;gap:5px;align-items:center;margin-top:4px" id="hm-legend"></div>
     </div>
-    <!-- Day pattern -->
     <div class="card">
       <div class="stitle">📊 요일별 달성률 패턴</div>
       <div id="day-pattern"></div>
     </div>
-    <!-- Fatigue -->
     <div class="card">
       <div class="stitle">⚡ 비행 피로도 (이번 달)</div>
       <div class="fat-grid" id="fatigue-grid"></div>
-      <div id="wocl-list" style="margin-top:7px"></div>
+      <div id="wocl-list" style="margin-top:6px"></div>
     </div>
-    <!-- Per habit -->
     <div id="stat-list"></div>
   </div>
 
   <!-- SCHEDULE -->
   <div id="p-sched" class="scroll" style="display:none">
-    <div class="tab-row">
-      <button class="tab-btn on" id="st-auto" onclick="setSchedMode('auto')">📎 사진 자동분석</button>
-      <button class="tab-btn" id="st-manual" onclick="setSchedMode('manual')">✏️ 직접 입력</button>
-    </div>
-    <!-- AUTO -->
-    <div id="sched-auto">
-      <div class="upl" id="upl-area" onclick="document.getElementById('fi').click()">
-        <div style="font-size:20px;margin-bottom:4px">📎</div>
-        <div style="font-size:13px;font-weight:600;margin-bottom:2px">스케쥴 사진 업로드</div>
-        <div style="font-size:11px;color:var(--text2)">JPG/PNG → AI 자동 분석 (API키 필요)</div>
+    <!-- Manual entry -->
+    <div class="card" id="manual-form-card">
+      <div class="stitle">✏️ 스케쥴 입력</div>
+      <div class="fld"><label>날짜</label><input type="date" id="man-date"/></div>
+      <div class="fld"><label>스케쥴 유형</label>
+        <select id="man-type" onchange="onManTypeChange()">
+          <option value="">-- 선택 --</option>
+          <option value="flight">✈ 비행</option>
+          <option value="layover">🏨 레이오버</option>
+          <option value="off">⌂ 오프 / RDO</option>
+          <option value="reserve">📋 리저브 / SBY</option>
+        </select>
       </div>
-      <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(event)"/>
-      <div id="parse-st" style="display:none;text-align:center;padding:10px;border-radius:9px;background:var(--bg2);margin-bottom:9px;font-size:12px"></div>
-    </div>
-    <!-- MANUAL (fixed) -->
-    <div id="sched-manual" style="display:none">
-      <div class="card" style="margin-bottom:10px">
-        <div class="stitle">날짜/유형 선택 후 저장</div>
-        <div class="fld"><label>날짜</label><input type="date" id="man-date"/></div>
-        <div class="fld"><label>스케쥴 유형</label>
-          <select id="man-type" onchange="onManTypeChange()">
-            <option value="">-- 선택 --</option>
-            <option value="flight">✈ 비행</option>
-            <option value="layover">🏨 레이오버</option>
-            <option value="off">⌂ 오프 / RDO</option>
-            <option value="reserve">📋 리저브 / SBY</option>
-          </select>
-        </div>
-        <div id="man-flight-sec" style="display:none">
-          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">비행 편 정보 (알림 자동 차단용)</div>
-          <div id="man-flight-list"></div>
-          <button class="btn btn-sm" onclick="addFlightRow()" style="width:100%;margin-top:3px">+ 비행 편 추가</button>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
-        <div id="man-msg" style="font-size:12px;text-align:center;margin-top:6px;display:none"></div>
+      <div id="man-flight-sec" style="display:none">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">비행 편 정보 (알림 자동 차단용)</div>
+        <div id="man-flight-list"></div>
+        <button class="btn btn-sm" onclick="addFlightRow()" style="width:100%;margin-top:4px">+ 비행 편 추가</button>
       </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
+      <div id="man-msg" style="display:none" class="inline-msg"></div>
     </div>
     <!-- Calendar nav -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <button class="btn btn-sm" onclick="prevM()">← 이전</button>
-      <div id="m-lbl" style="font-size:13px;font-weight:700"></div>
+      <div id="m-lbl" style="font-size:14px;font-weight:700"></div>
       <button class="btn btn-sm" onclick="nextM()">다음 →</button>
     </div>
-    <div style="display:flex;gap:4px;margin-bottom:7px;flex-wrap:wrap">
+    <!-- Legend -->
+    <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap">
       <span class="tag tF" style="cursor:default">✈ 비행</span>
       <span class="tag tL" style="cursor:default">🏨 레이오버</span>
       <span class="tag tO" style="cursor:default">⌂ 오프</span>
       <span class="tag tR" style="cursor:default">📋 리저브</span>
+      <span style="font-size:10px;color:var(--text3);align-self:center;margin-left:4px">탭=선택/해제</span>
     </div>
-    <div class="card" style="padding:4px 12px"><div id="cal-list"></div></div>
+    <!-- Calendar GRID -->
+    <div class="card" style="padding:10px">
+      <div class="cal-grid-hdr">
+        <div class="cal-grid-hdr-cell" style="color:var(--red)">일</div>
+        <div class="cal-grid-hdr-cell">월</div>
+        <div class="cal-grid-hdr-cell">화</div>
+        <div class="cal-grid-hdr-cell">수</div>
+        <div class="cal-grid-hdr-cell">목</div>
+        <div class="cal-grid-hdr-cell">금</div>
+        <div class="cal-grid-hdr-cell" style="color:var(--blue)">토</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
   </div>
 
   <!-- GOALS -->
   <div id="p-goal" class="scroll" style="display:none">
-    <!-- Weekly Goals -->
     <div class="card">
       <div class="stitle">🎯 주간 목표</div>
       <div style="font-size:11px;color:var(--text2);margin-bottom:10px">이번 주 달성 현황 (월~일)</div>
       <div id="goal-list"></div>
     </div>
-    <!-- Templates -->
     <div class="card">
       <div class="stitle">📦 루틴 템플릿</div>
       <div style="font-size:11px;color:var(--text2);margin-bottom:10px">탭 한 번으로 루틴 세트 전환</div>
@@ -314,43 +300,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- SETTINGS -->
   <div id="p-set" class="scroll" style="display:none">
-    <!-- Theme -->
-    <div class="card">
-      <div class="stitle">🎨 화면 모드</div>
-      <div class="theme-toggle">
-        <button class="theme-btn" id="th-auto" onclick="setTheme('auto')">자동</button>
-        <button class="theme-btn" id="th-dark" onclick="setTheme('dark')">다크</button>
-        <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
-      </div>
-    </div>
-    <!-- API Key -->
-    <div class="card">
-      <div class="stitle">🔑 Claude API 키 (선택)</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:9px;line-height:1.5">스케쥴 사진 자동분석에 필요합니다.<br>없으면 직접 입력 탭을 사용하세요.</div>
-      <div class="fld"><label>API Key</label>
-        <div style="display:flex;gap:6px">
-          <input type="password" id="api-input" placeholder="sk-ant-api03-..." style="flex:1"/>
-          <button class="btn btn-sm" onclick="togglePw()" id="pw-btn">보기</button>
-        </div>
-      </div>
-      <div style="display:flex;gap:6px;margin-bottom:7px">
-        <button class="btn btn-primary" style="flex:1" onclick="saveKey()">저장</button>
-        <button class="btn btn-sm" style="color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="clearKey()">삭제</button>
-      </div>
-      <div id="key-msg" style="font-size:11px;display:none;padding:6px 9px;border-radius:7px;margin-bottom:6px"></div>
-      <div id="key-saved" style="font-size:11px;color:var(--text2);display:none"></div>
-      <div style="margin-top:9px;padding:9px 11px;background:var(--bg3);border-radius:8px">
-        <div style="font-size:11px;color:var(--text3);line-height:1.7">📌 <span style="color:var(--blue)">console.anthropic.com</span> → API Keys → Create Key<br><span style="color:var(--yellow)">⚠ 생성 직후에만 표시 — 바로 복사하세요</span></div>
-      </div>
-    </div>
-    <!-- Notifications -->
-    <div class="card">
-      <div class="stitle">🔔 알림 설정</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.5">ICN출발 5h전 / GMP출발 4h전 / 기타 3h전 자동 무음<br>비행 전날 취침 권장 알림 포함</div>
-      <div id="n-status" style="font-size:11px;padding:6px 9px;border-radius:7px;margin-bottom:8px;background:var(--bg3);color:var(--text2)"></div>
-      <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%;display:none">알림 허용하기</button>
-    </div>
-    <!-- Habit management -->
+    <!-- ① 루틴 항목 관리 (최상단) -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
         <div class="stitle" style="margin:0">✏️ 루틴 항목 관리</div>
@@ -365,11 +315,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         </div>
         <div class="fld"><label>적용일</label>
           <select id="fd">
-            <option value="all">매일</option><option value="flight">비행일만</option>
-            <option value="layover">레이오버만</option><option value="off">오프만</option>
+            <option value="all">매일</option>
+            <option value="flight">비행일만</option>
+            <option value="layover">레이오버만</option>
+            <option value="off">오프만</option>
           </select>
         </div>
-        <div class="fld"><label>주간 목표 (0 = 없음)</label><input type="number" id="fg" value="0" min="0" max="7" style="width:80px"/></div>
+        <div class="fld"><label>주간 목표 횟수 (0=없음)</label>
+          <input type="number" id="fg" value="0" min="0" max="7" style="width:80px"/>
+        </div>
         <div style="display:flex;gap:7px">
           <button class="btn" style="flex:1" onclick="toggleAdd()">취소</button>
           <button class="btn btn-primary" style="flex:2" onclick="addH()">추가하기</button>
@@ -377,11 +331,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       </div>
       <div id="h-list"></div>
     </div>
-    <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v3 · JANG SIYOUNG</div>
+    <!-- ② 알림 설정 -->
+    <div class="card">
+      <div class="stitle">🔔 알림 설정</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.55">ICN출발 5h전 / GMP출발 4h전 / 기타 3h전 자동 무음<br>비행 전날 21:00 취침 권장 알림 발송</div>
+      <div id="n-status" style="font-size:11px;padding:6px 9px;border-radius:7px;margin-bottom:8px;background:var(--bg3);color:var(--text2)"></div>
+      <button id="n-btn" class="btn btn-primary" onclick="reqN()" style="width:100%;display:none">알림 허용하기</button>
+    </div>
+    <!-- ③ 화면 모드 (최하단) -->
+    <div class="card">
+      <div class="stitle">🎨 화면 모드</div>
+      <div class="theme-toggle">
+        <button class="theme-btn" id="th-auto" onclick="setTheme('auto')">자동</button>
+        <button class="theme-btn" id="th-dark" onclick="setTheme('dark')">다크</button>
+        <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
+      </div>
+    </div>
+    <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v4 · JANG SIYOUNG</div>
     <div style="height:8px"></div>
   </div>
 
-  <!-- BOTTOM NAV -->
+  <!-- NAV -->
   <nav class="nav">
     <button class="nb on" id="nb-today" onclick="G('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>오늘
@@ -404,23 +374,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 <script>
 // ── CONSTANTS ────────────────────────────────────────────────────
 const TODAY = (()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
-const WD_KO = ['일','월','화','수','목','금','토'];
-const WD_WEEK = ['월','화','수','목','금','토','일'];
-const DLBL = {all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
+const WD7   = ['일','월','화','수','목','금','토'];
+const WD5   = ['월','화','수','목','금','토','일'];
+const DLBL  = {all:'매일',flight:'비행일',layover:'레이오버',off:'오프',reserve:'리저브'};
 const TYPES = {
-  flight:{lbl:'비행',cls:'tF',badge:'✈ 비행일',dot:'#3b82f6'},
-  layover:{lbl:'레이오버',cls:'tL',badge:'🏨 레이오버',dot:'#f59e0b'},
-  off:{lbl:'오프',cls:'tO',badge:'⌂ 오프',dot:'#22c55e'},
-  reserve:{lbl:'리저브',cls:'tR',badge:'📋 리저브',dot:'#6b7280'},
+  flight:  {lbl:'비행',    cls:'tF',badge:'✈ 비행일',  dot:'#3b82f6',bg:'#1e3a5f',color:'#3b82f6'},
+  layover: {lbl:'레이오버',cls:'tL',badge:'🏨 레이오버',dot:'#f59e0b',bg:'#451a03',color:'#f59e0b'},
+  off:     {lbl:'오프',    cls:'tO',badge:'⌂ 오프',    dot:'#22c55e',bg:'#14532d',color:'#22c55e'},
+  reserve: {lbl:'리저브',  cls:'tR',badge:'📋 리저브',  dot:'#6b7280',bg:'#1f2937',color:'#6b7280'},
 };
 const QUIET_HOURS = {ICN:5,GMP:4};
 const DEF_QUIET = 3;
+
+// 5월 사전 입력 스케쥴
 const MAY26 = {
   '2026-05-01':{type:'flight',flights:[{fn:'KE2061',dep:'PUS',depTime:'22:20',arr:'PEK',arrTime:'00:05'}]},
   '2026-05-02':{type:'layover',flights:[]},
   '2026-05-03':{type:'flight',flights:[{fn:'KE1505',dep:'PUS',depTime:'07:00',arr:'CJU',arrTime:'08:00'},{fn:'KE1512',dep:'CJU',depTime:'08:45',arr:'PUS',arrTime:'09:45'},{fn:'KE1517',dep:'PUS',depTime:'10:25',arr:'CJU',arrTime:'11:25'},{fn:'DH1214',dep:'CJU',depTime:'13:05',arr:'GMP',arrTime:'14:20'}]},
-  '2026-05-04':{type:'off',flights:[]},
-  '2026-05-05':{type:'reserve',flights:[]},
+  '2026-05-04':{type:'off',flights:[]},'2026-05-05':{type:'reserve',flights:[]},
   '2026-05-06':{type:'flight',flights:[{fn:'KE805',dep:'ICN',depTime:'09:10',arr:'TSN',arrTime:'10:10'},{fn:'KE806',dep:'TSN',depTime:'11:30',arr:'ICN',arrTime:'14:20'}]},
   '2026-05-07':{type:'reserve',flights:[]},
   '2026-05-08':{type:'flight',flights:[{fn:'KE1431',dep:'ICN',depTime:'18:50',arr:'TAE',arrTime:'19:55'}]},
@@ -437,47 +408,46 @@ const MAY26 = {
   '2026-05-29':{type:'off',flights:[]},'2026-05-30':{type:'off',flights:[]},
   '2026-05-31':{type:'flight',flights:[{fn:'KE1195',dep:'GMP',depTime:'18:15',arr:'CJU',arrTime:'19:30'},{fn:'KE1558',dep:'CJU',depTime:'20:30',arr:'PUS',arrTime:'21:30'}]},
 };
+
 const DEFS = [
   {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true,goal:5},
-  {id:'h2',name:'수분 2L 섭취',emoji:'💧',time:'08:00',days:'all',on:true,goal:7},
-  {id:'h3',name:'영어 학습 30분',emoji:'📖',time:'09:30',days:'all',on:true,goal:5},
-  {id:'h4',name:'비행 전 브리핑',emoji:'✈️',time:'05:30',days:'flight',on:true,goal:0},
-  {id:'h5',name:'재테크 공부',emoji:'📈',time:'20:00',days:'off',on:true,goal:0},
-  {id:'h6',name:'명상',emoji:'🧘',time:'21:30',days:'all',on:true,goal:5},
-  {id:'h7',name:'딸이랑 놀기',emoji:'👶',time:'18:00',days:'all',on:true,goal:7},
-  {id:'h8',name:'시차 적응 루틴',emoji:'🕐',time:'22:00',days:'layover',on:true,goal:0},
-  {id:'h9',name:'현지 운동',emoji:'🏃',time:'09:00',days:'layover',on:true,goal:0},
+  {id:'h2',name:'수분 2L 섭취',   emoji:'💧',time:'08:00',days:'all',on:true,goal:7},
+  {id:'h3',name:'영어 학습 30분', emoji:'📖',time:'09:30',days:'all',on:true,goal:5},
+  {id:'h4',name:'비행 전 브리핑', emoji:'✈️',time:'05:30',days:'flight',on:true,goal:0},
+  {id:'h5',name:'재테크 공부',    emoji:'📈',time:'20:00',days:'off',on:true,goal:0},
+  {id:'h6',name:'명상',           emoji:'🧘',time:'21:30',days:'all',on:true,goal:5},
+  {id:'h7',name:'딸이랑 놀기',    emoji:'👶',time:'18:00',days:'all',on:true,goal:7},
+  {id:'h8',name:'시차 적응 루틴', emoji:'🕐',time:'22:00',days:'layover',on:true,goal:0},
+  {id:'h9',name:'현지 운동',      emoji:'🏃',time:'09:00',days:'layover',on:true,goal:0},
 ];
+
 const TEMPLATES = [
-  {name:'비행일 팩',emoji:'✈️',desc:'브리핑+수분+명상',ids:['h4','h2','h6'],days:'flight'},
-  {name:'오프일 팩',emoji:'⌂',desc:'운동+영어+재테크+명상+딸',ids:['h1','h3','h5','h6','h7'],days:'off'},
-  {name:'레이오버 팩',emoji:'🏨',desc:'수분+시차적응+명상',ids:['h2','h8','h6'],days:'layover'},
-  {name:'전체 ON',emoji:'⭐',desc:'모든 루틴 활성화',ids:'all',days:null},
+  {id:'t1',name:'비행일 팩', emoji:'✈️',desc:'브리핑+수분+명상',    ids:['h4','h2','h6']},
+  {id:'t2',name:'오프일 팩', emoji:'⌂', desc:'운동+영어+재테크+명상+딸',ids:['h1','h3','h5','h6','h7']},
+  {id:'t3',name:'레이오버 팩',emoji:'🏨',desc:'수분+시차적응+현지운동',ids:['h2','h8','h9']},
+  {id:'t4',name:'전체 ON',   emoji:'⭐',desc:'모든 루틴 활성화',    ids:'all'},
 ];
 
 // ── STATE ────────────────────────────────────────────────────────
 let H=[...DEFS.map(d=>({...d}))], C={}, CT={}, M={}, SC={};
-let editId=null, addOpen=false, schedMode='auto', manFlights=[];
+let editId=null, addOpen=false, manFlights=[];
 let calY=new Date().getFullYear(), calM=new Date().getMonth();
-let ntT=[], curTab='today', pwVisible=false, curTheme='dark';
-let celebrated=false;
+let ntT=[], curTab='today', pwVisible=false, curTheme='dark', celebrated=false;
 
-// ── STORAGE ──────────────────────────────────────────────────────
-const KH='syv2-h',KC='syv2-c',KCT='syv3-ct',KM='syv3-m',KS='syv2-s',KAPI='syv2-apikey',KTH='syv3-theme';
-const ls = {
+const KH='syv4-h', KC='syv4-c', KCT='syv4-ct', KM='syv4-m', KS='syv4-s', KTH='syv4-theme';
+const ls={
   get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
   raw:k=>{try{return localStorage.getItem(k)||'';}catch{return '';}},
   setRaw:(k,v)=>{try{localStorage.setItem(k,v);}catch{}},
-  del:k=>{try{localStorage.removeItem(k);}catch{}},
 };
 
 // ── SC HELPERS ───────────────────────────────────────────────────
 function getEntry(ds){
-  const e=SC[ds]||MAY26[ds]||null;
-  if(!e)return null;
-  if(typeof e==='string')return{type:e,flights:[]};
-  return{type:e.type||null,flights:e.flights||[]};
+  const e=SC[ds]??MAY26[ds]??null;
+  if(!e) return null;
+  if(typeof e==='string') return {type:e,flights:[]};
+  return {type:e.type||null, flights:e.flights||[]};
 }
 const getType=ds=>{const e=getEntry(ds);return e?e.type:null;};
 const getFlights=ds=>{const e=getEntry(ds);return e?e.flights:[];};
@@ -485,31 +455,41 @@ function setEntry(ds,type,flights){
   SC[ds]={type,flights:flights||[]};
   const toSave={};
   Object.keys(SC).forEach(k=>{
-    const m=MAY26[k]; const s=SC[k];
-    if(!m||JSON.stringify(m)!==JSON.stringify(s))toSave[k]=s;
+    const m=MAY26[k], s=SC[k];
+    if(!m||JSON.stringify(m)!==JSON.stringify(s)) toSave[k]=s;
+  });
+  ls.set(KS,toSave);
+}
+function removeEntry(ds){
+  delete SC[ds];
+  const toSave={};
+  Object.keys(SC).forEach(k=>{
+    const m=MAY26[k], s=SC[k];
+    if(!m||JSON.stringify(m)!==JSON.stringify(s)) toSave[k]=s;
   });
   ls.set(KS,toSave);
 }
 
-// ── DS HELPERS ───────────────────────────────────────────────────
-const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
-const dS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+// ── DATE HELPERS ─────────────────────────────────────────────────
+const DS=n=>{const d=new Date();d.setDate(d.getDate()+(n||0));return fmt(d);};
+const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const toMins=t=>{if(!t)return null;const[h,m]=t.split(':').map(Number);return h*60+m;};
 
 // ── QUIET TIME ───────────────────────────────────────────────────
 function isQuietTime(timeStr){
-  const typ=getType(TODAY); if(typ!=='flight')return false;
-  const flights=getFlights(TODAY); if(!flights||!flights.length)return false;
-  const nm=toMins(timeStr); if(nm===null)return false;
+  if(getType(TODAY)!=='flight') return false;
+  const flights=getFlights(TODAY);
+  if(!flights||!flights.length) return false;
+  const nm=toMins(timeStr); if(nm===null) return false;
   for(const fl of flights){
-    if(!fl.depTime)continue;
+    if(!fl.depTime) continue;
     const dep=toMins(fl.depTime);
     const qh=(QUIET_HOURS[fl.dep]??DEF_QUIET)*60;
     const qs=dep-qh;
     const arr=fl.arrTime?toMins(fl.arrTime):dep+120;
     const arrAdj=arr<dep?arr+1440:arr;
-    if(nm>=qs&&nm<=arrAdj)return true;
-    if(qs<0&&nm<=(arrAdj))return true;
+    if(nm>=qs&&nm<=arrAdj) return true;
+    if(qs<0&&nm<=arrAdj) return true;
   }
   return false;
 }
@@ -517,44 +497,40 @@ function isQuietTime(timeStr){
 // ── THEME ────────────────────────────────────────────────────────
 function applyTheme(mode){
   curTheme=mode;
-  const prefersDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
-  const actual=mode==='auto'?(prefersDark?'dark':'light'):mode;
+  const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const actual=mode==='auto'?(dark?'dark':'light'):mode;
   document.documentElement.setAttribute('data-theme',actual);
   document.getElementById('theme-quick-btn').textContent=actual==='dark'?'☀️':'🌙';
-  ['auto','dark','light'].forEach(t=>document.getElementById('th-'+t)?.classList.toggle('on',t===mode));
+  ['auto','dark','light'].forEach(t=>{
+    const el=document.getElementById('th-'+t);
+    if(el) el.classList.toggle('on',t===mode);
+  });
   ls.setRaw(KTH,mode);
 }
-function setTheme(mode){applyTheme(mode);}
-function cycleTheme(){
-  const modes=['dark','light','auto'];
-  const next=modes[(modes.indexOf(curTheme)+1)%3];
-  applyTheme(next);
-}
+function setTheme(m){applyTheme(m);}
+function cycleTheme(){const a=['dark','light','auto'];applyTheme(a[(a.indexOf(curTheme)+1)%3]);}
 
 // ── D-DAY ────────────────────────────────────────────────────────
-function nextFlightDate(){
-  for(let i=0;i<60;i++){
-    const ds=DS(i);
-    if(getType(ds)==='flight')return{ds,days:i};
-  }
-  return null;
-}
 function rdHeader(){
   document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-  const nf=nextFlightDate();
-  const el=document.getElementById('hdr-dday');
-  if(nf){
-    const fl=getFlights(nf.ds);
-    const info=fl&&fl.length?` ${fl[0].dep}→${fl[0].arr}`:'';
-    el.textContent=nf.days===0?`✈ 오늘 비행${info}`:nf.days===1?`✈ 내일 비행${info}`:`✈ D-${nf.days}${info}`;
-  } else el.textContent='';
+  for(let i=0;i<60;i++){
+    const ds=DS(i);
+    if(getType(ds)==='flight'){
+      const fl=getFlights(ds);
+      const info=fl&&fl.length?` ${fl[0].dep}→${fl[0].arr}`:'';
+      const el=document.getElementById('hdr-dday');
+      el.textContent=i===0?`✈ 오늘 비행${info}`:i===1?`✈ 내일 비행${info}`:`✈ D-${i}${info}`;
+      return;
+    }
+  }
+  document.getElementById('hdr-dday').textContent='';
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
 async function init(){
   const[h,c,ct,m,s,th]=[ls.get(KH),ls.get(KC),ls.get(KCT),ls.get(KM),ls.get(KS),ls.raw(KTH)];
-  if(h)H=h; if(c)C=c; if(ct)CT=ct; if(m)M=m;
-  SC={}; if(s)Object.assign(SC,s);
+  if(h) H=h; if(c) C=c; if(ct) CT=ct; if(m) M=m;
+  SC={}; if(s) Object.assign(SC,s);
   applyTheme(th||'dark');
   document.getElementById('man-date').value=TODAY;
   document.getElementById('loading').style.display='none';
@@ -570,30 +546,24 @@ function G(tab){
     document.getElementById('nb-'+t).classList.toggle('on',t===tab);
   });
   if(tab==='today'){rdWeekStrip();rdToday();}
-  else if(tab==='stats')rdStats();
-  else if(tab==='sched')rdSched();
-  else if(tab==='goal')rdGoal();
+  else if(tab==='stats') rdStats();
+  else if(tab==='sched') rdSched();
+  else if(tab==='goal')  rdGoal();
   else rdSet();
 }
 
 // ── WEEK STRIP ───────────────────────────────────────────────────
 function rdWeekStrip(){
-  const d=new Date();
-  const dow=d.getDay(); // 0=Sun
-  const monday=new Date(d);
-  monday.setDate(d.getDate()-(dow===0?6:dow-1));
-  const strip=document.getElementById('week-strip');
-  strip.innerHTML=WD_WEEK.map((wd,i)=>{
-    const dt=new Date(monday);
-    dt.setDate(monday.getDate()+i);
-    const ds=dS(dt);
-    const isT=ds===TODAY;
-    const t=getType(ds);
+  const d=new Date(), dow=d.getDay();
+  const mon=new Date(d); mon.setDate(d.getDate()-(dow===0?6:dow-1));
+  document.getElementById('week-strip').innerHTML=WD5.map((wd,i)=>{
+    const dt=new Date(mon); dt.setDate(mon.getDate()+i);
+    const ds=fmt(dt), isT=ds===TODAY, t=getType(ds);
     const dotColor=t?TYPES[t].dot:'var(--bg3)';
-    const sunSat=dt.getDay()===0||dt.getDay()===6;
+    const sun=dt.getDay()===0, sat=dt.getDay()===6;
     return `<div class="ws-day">
-      <div style="font-size:9px;color:${sunSat?'var(--red)':'var(--text3)'};margin-bottom:2px">${wd}</div>
-      <div class="ws-num${isT?' today':''}" style="${!isT&&sunSat?'color:var(--red)':''}">${dt.getDate()}</div>
+      <div class="ws-lbl" style="color:${sun?'var(--red)':sat?'var(--blue)':'var(--text3)'}">${wd}</div>
+      <div class="ws-num${isT?' today':''}">${dt.getDate()}</div>
       <div class="ws-dot" style="background:${dotColor}"></div>
     </div>`;
   }).join('');
@@ -601,10 +571,10 @@ function rdWeekStrip(){
 
 // ── TODAY ────────────────────────────────────────────────────────
 function thabs(){const t=getType(TODAY);return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
-const tdn=()=>thabs().filter(h=>C[TODAY]?.[h.id]).length;
+const tdn=()=>thabs().filter(h=>!!C[TODAY]?.[h.id]).length;
 
 function rdToday(){
-  const ths=thabs(),dn=tdn(),tot=ths.length,pct=tot?Math.round(dn/tot*100):0;
+  const ths=thabs(), dn=tdn(), tot=ths.length, pct=tot?Math.round(dn/tot*100):0;
   const typ=getType(TODAY);
   document.getElementById('td-badge').innerHTML=typ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
   document.getElementById('td-warn').style.display=typ?'none':'';
@@ -613,10 +583,10 @@ function rdToday(){
   if(flights&&flights.length){
     fEl.innerHTML=flights.map(fl=>{
       const qh=QUIET_HOURS[fl.dep]??DEF_QUIET;
-      return `<div class="flight-chip"><span style="font-size:10px;font-weight:700;color:var(--blue)">${fl.fn||''}</span><span style="color:var(--text2)">${fl.dep} ${fl.depTime}→${fl.arr} ${fl.arrTime||''}</span><span class="quiet-badge">${qh}h전무음</span></div>`;
+      return `<div class="flight-chip"><span style="font-size:10px;font-weight:700;color:var(--blue)">${fl.fn||''}</span><span style="color:var(--text2)">${fl.dep} ${fl.depTime||''}→${fl.arr} ${fl.arrTime||''}</span><span class="quiet-badge">${qh}h전무음</span></div>`;
     }).join('');
   } else fEl.innerHTML='';
-  document.getElementById('td-info').textContent=pct===100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
+  document.getElementById('td-info').textContent=pct>=100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
   const circ=2*Math.PI*32;
   const ring=document.getElementById('ring');
   ring.style.strokeDashoffset=(circ-pct/100*circ).toFixed(1);
@@ -624,22 +594,23 @@ function rdToday(){
   const rp=document.getElementById('ring-p');
   rp.textContent=pct+'%'; rp.style.color=pct>=100?'var(--green)':'var(--text)';
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
-  // Confetti
   if(pct>=100&&tot>0&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
-  if(pct<100)celebrated=false;
+  if(pct<100) celebrated=false;
+
   const el=document.getElementById('habit-list');
   if(!ths.length){
     el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:20px"><div style="font-size:28px;margin-bottom:7px">✈️</div><div style="font-size:13px">오늘 루틴이 없습니다</div><div style="font-size:11px;margin-top:3px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
     return;
   }
-  // Weekly count for each habit
+
   function weekCount(hid){
     let cnt=0;
-    const d=new Date();const dow=d.getDay();
-    const monday=new Date(d);monday.setDate(d.getDate()-(dow===0?6:dow-1));
-    for(let i=0;i<7;i++){const dt=new Date(monday);dt.setDate(monday.getDate()+i);if(C[dS(dt)]?.[hid])cnt++;}
+    const now=new Date(), dow=now.getDay();
+    const mon=new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
+    for(let i=0;i<7;i++){const dt=new Date(mon);dt.setDate(mon.getDate()+i);if(C[fmt(dt)]?.[hid])cnt++;}
     return cnt;
   }
+
   el.innerHTML=ths.map(h=>{
     const done=!!C[TODAY]?.[h.id];
     const quiet=!done&&isQuietTime(h.time);
@@ -647,70 +618,68 @@ function rdToday(){
     const memo=M[TODAY]?.[h.id]||'';
     const wc=weekCount(h.id);
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
-    const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:4px">${ctTime} 완료</span>`:'';
-    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':done?`openMemo('${h.id}')`:`tog('${h.id}')`}" style="animation:fadeIn .2s ease">
-      <div class="ck${done?' dn':''}">
+    const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
+    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':''}" style="cursor:${quiet?'default':'pointer'};animation:fadeIn .2s ease">
+      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${quiet?'':``tog('${h.id}')``}">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;flex-wrap:wrap">
-          <span style="font-size:18px;margin-right:7px">${h.emoji}</span>
-          <span style="font-size:13px;font-weight:600;color:${done?'var(--green)':quiet?'var(--text3)':'var(--text)'};${done?'text-decoration:line-through':''};overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:160px">${h.name}</span>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">
+          <span style="font-size:18px">${h.emoji}</span>
+          <span style="font-size:13px;font-weight:600;color:${done?'var(--green)':quiet?'var(--text3)':'var(--text)'};${done?'text-decoration:line-through':''}">${h.name}</span>
           ${goalBadge}${timeLabel}
         </div>
         <div style="font-size:9px;color:var(--text3);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}${quiet?' · 🔕 비행 무음':''}</div>
         ${memo?`<div style="font-size:10px;color:var(--text2);margin-top:3px;padding:3px 6px;background:var(--bg3);border-radius:5px">📝 ${memo}</div>`:''}
-        ${done?`<div class="memo-row" id="memo-row-${h.id}" style="display:none">
-          <input class="memo-input" id="memo-inp-${h.id}" placeholder="메모 입력..." value="${memo}" oninput="saveMemo('${h.id}',this.value)" onclick="event.stopPropagation()"/>
-          <button class="btn btn-sm" onclick="event.stopPropagation();closeMemo('${h.id}')" style="flex-shrink:0;font-size:10px">저장</button>
+        ${done?`<div class="memo-box" id="memo-box-${h.id}" style="display:none">
+          <input class="memo-inp" placeholder="메모 입력..." value="${memo.replace(/"/g,'&quot;')}"
+            oninput="saveMemo('${h.id}',this.value)" onclick="event.stopPropagation()"/>
         </div>`:''}
+        ${done?`<button onclick="event.stopPropagation();toggleMemo('${h.id}')" style="font-size:10px;color:var(--text3);background:none;border:none;cursor:pointer;padding:3px 0;font-family:inherit">📝 메모 ${memo?'수정':'추가'}</button>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
+// ── FIXED: tog – deselect works correctly ─────────────────────────
 function tog(id){
-  if(!C[TODAY])C[TODAY]={};
-  if(!CT[TODAY])CT[TODAY]={};
-  const nowDone=!C[TODAY][id];
-  C[TODAY][id]=nowDone;
-  if(nowDone){
-    const now=new Date();
-    const h=String(now.getHours()).padStart(2,'0'),m=String(now.getMinutes()).padStart(2,'0');
-    CT[TODAY][id]=`${h}:${m}`;
-    // Haptic
-    if(navigator.vibrate)navigator.vibrate(50);
-  } else {
+  if(!C[TODAY]) C[TODAY]={};
+  if(!CT[TODAY]) CT[TODAY]={};
+  const wasDone=!!C[TODAY][id];
+  if(wasDone){
+    // DESELECT
+    delete C[TODAY][id];
     delete CT[TODAY][id];
-    if(M[TODAY])delete M[TODAY][id];
+    if(M[TODAY]) delete M[TODAY][id];
+  } else {
+    // SELECT
+    C[TODAY][id]=true;
+    const now=new Date();
+    CT[TODAY][id]=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    if(navigator.vibrate) navigator.vibrate(50);
   }
   ls.set(KC,C); ls.set(KCT,CT); ls.set(KM,M);
   schedN(); rdToday();
 }
 
-function openMemo(id){
-  const row=document.getElementById('memo-row-'+id);
-  if(row)row.style.display=row.style.display==='none'?'flex':'none';
-}
-function closeMemo(id){
-  const row=document.getElementById('memo-row-'+id);
-  if(row)row.style.display='none';
-  rdToday();
+function toggleMemo(id){
+  const el=document.getElementById('memo-box-'+id);
+  if(el) el.style.display=el.style.display==='none'?'block':'none';
 }
 function saveMemo(id,val){
-  if(!M[TODAY])M[TODAY]={};
+  if(!M[TODAY]) M[TODAY]={};
   M[TODAY][id]=val;
   ls.set(KM,M);
 }
 
 // ── CONFETTI ─────────────────────────────────────────────────────
 function celebrate(){
-  const cols=['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#ec4899','#14b8a6'];
-  for(let i=0;i<55;i++){
+  const cols=['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#ec4899'];
+  for(let i=0;i<50;i++){
     const el=document.createElement('div');
     const sz=Math.random()*8+4;
     el.className='confetti-piece';
-    el.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};left:${Math.random()*100}vw;top:-12px;animation-duration:${Math.random()*1.2+1}s;animation-delay:${Math.random()*.6}s`;
+    el.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};left:${Math.random()*100}vw;top:-12px;animation-duration:${Math.random()*1.2+1.2}s;animation-delay:${Math.random()*.5}s`;
     document.body.appendChild(el);
     setTimeout(()=>el.remove(),2500);
   }
@@ -718,19 +687,20 @@ function celebrate(){
 
 // ── STATS ────────────────────────────────────────────────────────
 function streak(id){
-  let s=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
+  let s=0; const hb=H.find(x=>x.id===id); if(!hb) return 0;
   for(let i=0;i<365;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;if(C[ds]?.[id])s++;else if(i>0)break;}
   return s;
 }
 function rate30(id){
-  let tot=0,dn=0;const hb=H.find(x=>x.id===id);if(!hb)return 0;
+  let tot=0,dn=0; const hb=H.find(x=>x.id===id); if(!hb) return 0;
   for(let i=1;i<=30;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;tot++;if(C[ds]?.[id])dn++;}
   return tot?Math.round(dn/tot*100):0;
 }
 function dayRate(ds){
-  const ths=H.filter(h=>{const t=getType(ds);return h.on&&(h.days==='all'||h.days===t);});
-  if(!ths.length)return null;
-  const dn=ths.filter(h=>C[ds]?.[h.id]).length;
+  const t=getType(ds);
+  const ths=H.filter(h=>h.on&&(h.days==='all'||h.days===t));
+  if(!ths.length) return null;
+  const dn=ths.filter(h=>!!C[ds]?.[h.id]).length;
   return Math.round(dn/ths.length*100);
 }
 
@@ -744,14 +714,14 @@ function rdStats(){
   document.getElementById('s-sk').textContent=ms+'일';
   rdHeatmap(); rdDayPattern(); rdFatigue();
   document.getElementById('stat-list').innerHTML=act.map(h=>{
-    const sk=streak(h.id),r=rate30(h.id);
+    const sk=streak(h.id), r=rate30(h.id);
     const fc=r>=80?'var(--green)':r>=50?'var(--yellow)':'var(--red)';
-    return `<div class="card" style="animation:fadeIn .25s ease">
+    return `<div class="card">
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
         <span style="font-size:18px">${h.emoji}</span>
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.name}</div>
-          <div style="font-size:10px;color:var(--text2)">${DLBL[h.days]||h.days}${h.goal>0?` · 주 ${h.goal}회 목표`:''}</div>
+          <div style="font-size:10px;color:var(--text2)">${DLBL[h.days]||h.days}${h.goal>0?` · 주${h.goal}회 목표`:''}</div>
         </div>
         <div style="text-align:right;flex-shrink:0">
           <div style="font-size:16px;font-weight:700;color:var(--yellow)">${sk}일</div>
@@ -764,56 +734,70 @@ function rdStats(){
   }).join('');
 }
 
+// ── FIXED: heatmap – no template literal leak ─────────────────────
 function rdHeatmap(){
-  // 91 days = 13 weeks x 7, start from Monday 13 weeks ago
-  const today=new Date();
-  const dow=today.getDay();
+  const today=new Date(), dow=today.getDay();
   const monday=new Date(today);
   monday.setDate(today.getDate()-(dow===0?6:dow-1)-(12*7));
+  // Build 91 cells in column-major order (7 rows x 13 cols)
   const cells=[];
   for(let i=0;i<91;i++){
-    const d=new Date(monday);d.setDate(monday.getDate()+i);
-    const ds=dS(d);
-    const r=dayRate(ds);
+    const d=new Date(monday); d.setDate(monday.getDate()+i);
+    const ds=fmt(d), r=dayRate(ds), isT=ds===TODAY;
     let bg;
-    if(r===null)bg='var(--hm0)';
-    else if(r===0)bg='var(--hm0)';
-    else if(r<50)bg='var(--hm1)';
-    else if(r<80)bg='var(--hm2)';
-    else if(r<100)bg='var(--hm3)';
-    else bg='var(--hm4)';
-    const isT=ds===TODAY;
-    cells.push(`<div class="hm-cell" style="background:${bg};${isT?'outline:1.5px solid var(--blue);outline-offset:1px':''}" title="${ds}: ${r===null?'데이터없음':r+'%'}"></div>`);
+    if(r===null||r===0) bg='var(--hm0)';
+    else if(r<50)  bg='var(--hm1)';
+    else if(r<80)  bg='var(--hm2)';
+    else if(r<100) bg='var(--hm3)';
+    else           bg='var(--hm4)';
+    cells.push({bg, isT, ds, r});
   }
-  // Build 7 rows x 13 cols grid (transpose)
-  const grid=[];
-  for(let col=0;col<13;col++)for(let row=0;row<7;row++)grid.push(cells[col*7+row]);
-  document.getElementById('heatmap').innerHTML=grid.join('');
-  document.getElementById('hm-legend').innerHTML=`<div style="display:flex;gap:3px;align-items:center">
-    ${['var(--hm0)','var(--hm1)','var(--hm2)','var(--hm3)','var(--hm4)'].map(c=>`<div style="width:12px;height:12px;border-radius:2px;background:${c}"></div>`).join('')}
-  </div><span style="font-size:10px;color:var(--text3)">0% → 100%</span>`;
+  // Grid: 13 weeks x 7 days → reorder for grid-template-columns:7
+  const grid=new Array(91);
+  for(let col=0;col<13;col++){
+    for(let row=0;row<7;row++){
+      grid[row*13+col]=cells[col*7+row];
+    }
+  }
+  const hmEl=document.getElementById('heatmap-wrap');
+  hmEl.innerHTML='';
+  const gridEl=document.createElement('div');
+  gridEl.style.cssText='display:grid;grid-template-columns:repeat(13,1fr);gap:2px;';
+  grid.forEach(c=>{
+    const el=document.createElement('div');
+    el.style.cssText=`aspect-ratio:1;border-radius:2px;background:${c.bg};${c.isT?'outline:1.5px solid var(--blue);outline-offset:1px':''}`;
+    el.title=`${c.ds}: ${c.r===null?'데이터없음':c.r+'%'}`;
+    gridEl.appendChild(el);
+  });
+  hmEl.appendChild(gridEl);
+  // Legend
+  const legendEl=document.getElementById('hm-legend');
+  legendEl.innerHTML='';
+  ['var(--hm0)','var(--hm1)','var(--hm2)','var(--hm3)','var(--hm4)'].forEach(bg=>{
+    const el=document.createElement('div');
+    el.style.cssText=`width:12px;height:12px;border-radius:2px;background:${bg}`;
+    legendEl.appendChild(el);
+  });
 }
 
 function rdDayPattern(){
-  const counts=[0,0,0,0,0,0,0];
-  const totals=[0,0,0,0,0,0,0];
+  const sums=[0,0,0,0,0,0,0], tots=[0,0,0,0,0,0,0];
   for(let i=1;i<=90;i++){
-    const d=new Date();d.setDate(d.getDate()-i);
-    const ds=dS(d);
-    const dow=d.getDay();
-    const idx=dow===0?6:dow-1; // Mon=0
-    const r=dayRate(ds);
-    if(r!==null){counts[idx]+=r;totals[idx]++;}
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const ds=fmt(d), r=dayRate(ds);
+    if(r!==null){
+      const idx=d.getDay()===0?6:d.getDay()-1;
+      sums[idx]+=r; tots[idx]++;
+    }
   }
-  const avgs=counts.map((c,i)=>totals[i]?Math.round(c/totals[i]):0);
-  document.getElementById('day-pattern').innerHTML=WD_WEEK.map((wd,i)=>{
-    const pct=avgs[i];
+  document.getElementById('day-pattern').innerHTML=WD5.map((wd,i)=>{
+    const pct=tots[i]?Math.round(sums[i]/tots[i]):0;
     const fc=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--blue)';
     return `<div class="daybar-row">
-      <div class="daybar-label">${wd}</div>
+      <div class="daybar-lbl">${wd}</div>
       <div class="daybar-track">
-        <div class="daybar-fill" style="width:${pct}%;background:${fc};min-width:${pct>0?24:0}px">
-          ${pct>15?`<span class="daybar-pct">${pct}%</span>`:''}
+        <div class="daybar-fill" style="width:${pct}%;background:${fc};min-width:${pct>0?20:0}px">
+          ${pct>15?`<span style="font-size:9px;color:white;font-weight:700">${pct}%</span>`:''}
         </div>
       </div>
       ${pct<=15?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${pct}%</span>`:''}
@@ -822,86 +806,89 @@ function rdDayPattern(){
 }
 
 function rdFatigue(){
-  const now=new Date();
-  const y=now.getFullYear(),m=now.getMonth();
-  const end=new Date(y,m+1,0).getDate();
-  let flightHours=0,layoverNights=0;
-  const woclFlights=[];
+  const now=new Date(), y=now.getFullYear(), mo=now.getMonth();
+  const end=new Date(y,mo+1,0).getDate();
+  let flHrs=0, layNights=0;
+  const wocl=[];
   for(let i=1;i<=end;i++){
-    const dt=new Date(y,m,i);const ds=dS(dt);
-    const t=getType(ds);
-    if(t==='layover')layoverNights++;
+    const dt=new Date(y,mo,i), ds=fmt(dt), t=getType(ds);
+    if(t==='layover') layNights++;
     if(t==='flight'){
-      const fls=getFlights(ds);
-      fls.forEach(fl=>{
-        if(!fl.depTime||!fl.arrTime)return;
-        let dep=toMins(fl.depTime),arr=toMins(fl.arrTime);
-        if(arr<dep)arr+=1440;
-        flightHours+=(arr-dep)/60;
-        // WOCL: 02:00-05:59
-        const woclStart=120,woclEnd=359;
-        if(dep<=woclEnd&&arr>=woclStart)woclFlights.push({ds,fn:fl.fn,dep:fl.depTime,arr:fl.arrTime});
+      getFlights(ds).forEach(fl=>{
+        if(!fl.depTime||!fl.arrTime) return;
+        let dep=toMins(fl.depTime), arr=toMins(fl.arrTime);
+        if(arr<dep) arr+=1440;
+        flHrs+=(arr-dep)/60;
+        if(dep<=359&&arr>=120) wocl.push({ds,fn:fl.fn,dep:fl.depTime,arr:fl.arrTime});
       });
     }
   }
-  const mName=now.toLocaleDateString('ko-KR',{month:'long'});
   document.getElementById('fatigue-grid').innerHTML=`
-    <div class="fat-item"><div class="fat-val" style="color:var(--blue)">${Math.round(flightHours)}h</div><div class="fat-lbl">비행시간</div></div>
-    <div class="fat-item"><div class="fat-val" style="color:var(--yellow)">${layoverNights}박</div><div class="fat-lbl">레이오버</div></div>
-    <div class="fat-item"><div class="fat-val" style="color:${woclFlights.length?'var(--red)':'var(--green)'}">x${woclFlights.length}</div><div class="fat-lbl">WOCL비행</div></div>`;
-  document.getElementById('wocl-list').innerHTML=woclFlights.length?`
-    <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:5px">⚠ WOCL 구간 비행 (02:00-05:59)</div>
-    ${woclFlights.map(f=>`<div style="font-size:10px;color:var(--text2);padding:3px 0">${f.ds.slice(5)} ${f.fn} ${f.dep}→${f.arr}</div>`).join('')}`:'<div style="font-size:11px;color:var(--green)">✅ WOCL 구간 비행 없음</div>';
+    <div class="fat-item"><div class="fat-val" style="color:var(--blue)">${Math.round(flHrs)}h</div><div class="fat-lbl">비행시간</div></div>
+    <div class="fat-item"><div class="fat-val" style="color:var(--yellow)">${layNights}박</div><div class="fat-lbl">레이오버</div></div>
+    <div class="fat-item"><div class="fat-val" style="color:${wocl.length?'var(--red)':'var(--green)'}">x${wocl.length}</div><div class="fat-lbl">WOCL비행</div></div>`;
+  document.getElementById('wocl-list').innerHTML=wocl.length?
+    `<div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:4px">⚠ WOCL 구간 (02:00-05:59)</div>${wocl.map(f=>`<div style="font-size:10px;color:var(--text2);padding:2px 0">${f.ds.slice(5)} ${f.fn||''} ${f.dep}→${f.arr}</div>`).join('')}`:
+    `<div style="font-size:11px;color:var(--green)">✅ WOCL 구간 비행 없음</div>`;
 }
 
-// ── SCHEDULE ─────────────────────────────────────────────────────
-function setSchedMode(mode){
-  schedMode=mode;
-  document.getElementById('sched-auto').style.display=mode==='auto'?'':'none';
-  document.getElementById('sched-manual').style.display=mode==='manual'?'':'none';
-  document.getElementById('st-auto').classList.toggle('on',mode==='auto');
-  document.getElementById('st-manual').classList.toggle('on',mode==='manual');
-}
-
+// ── SCHEDULE (calendar grid) ──────────────────────────────────────
 function rdSched(){
-  document.getElementById('m-lbl').textContent=new Date(calY,calM,1).toLocaleDateString('ko-KR',{year:'numeric',month:'long'});
-  const end=new Date(calY,calM+1,0).getDate();
-  let rows='';
-  for(let i=1;i<=end;i++){
-    const dt=new Date(calY,calM,i),ds=dS(dt),isT=ds===TODAY;
-    const t=getType(ds),fls=getFlights(ds);
-    const dc=dt.getDay()===0?'var(--red)':dt.getDay()===6?'var(--blue)':'var(--text2)';
-    const btns=Object.entries(TYPES).map(([k,{lbl,cls}])=>
-      `<button class="dbt${t===k?' '+cls:''}" onclick="setDayType('${ds}','${k}')">${lbl}</button>`
-    ).join('');
-    const flInfo=fls&&fls.length?`<div style="font-size:8px;color:var(--blue);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:36px">${fls[0].dep}${fls[0].depTime?fls[0].depTime.slice(0,5):''}</div>`:'';
-    rows+=`<div class="drow">
-      <div style="width:38px;flex-shrink:0;text-align:center">
-        <div style="font-size:8px;color:${dc};font-weight:600">${WD_KO[dt.getDay()]}</div>
-        <div style="font-size:13px;font-weight:${isT?'700':'400'};color:${isT?'var(--blue)':'var(--text)'}">${i}</div>
-        ${flInfo}
-      </div>
-      <div class="dbg">${btns}</div>
-    </div>`;
+  const y=calY, m=calM;
+  const first=new Date(y,m,1), end=new Date(y,m+1,0).getDate();
+  const startDow=first.getDay(); // 0=Sun
+  document.getElementById('m-lbl').textContent=new Date(y,m,1).toLocaleDateString('ko-KR',{year:'numeric',month:'long'});
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  // Empty cells before 1st
+  for(let i=0;i<startDow;i++){
+    const el=document.createElement('div');
+    el.className='cal-cell empty';
+    grid.appendChild(el);
   }
-  document.getElementById('cal-list').innerHTML=rows;
+  for(let d=1;d<=end;d++){
+    const dt=new Date(y,m,d), ds=fmt(dt);
+    const t=getType(ds), fls=getFlights(ds);
+    const isT=ds===TODAY;
+    const sun=dt.getDay()===0, sat=dt.getDay()===6;
+    const T=t?TYPES[t]:null;
+    const firstDep=fls&&fls.length?fls[0].dep+' '+fls[0].depTime:'';
+    const el=document.createElement('div');
+    el.className='cal-cell'+(isT?' today':'');
+    if(T) el.style.background=T.bg;
+    el.innerHTML=`
+      <div class="cal-cell-num" style="color:${isT?'var(--blue)':sun?'var(--red)':sat?'var(--blue)':'var(--text)'}">${d}</div>
+      ${T?`<div class="cal-cell-type" style="background:${T.bg};color:${T.color}">${T.lbl}</div>`:''}
+      ${firstDep?`<div class="cal-cell-fl">${firstDep}</div>`:''}
+    `;
+    el.onclick=()=>tapCalCell(ds,d);
+    grid.appendChild(el);
+  }
 }
 
-function setDayType(ds,typ){
-  const cur=getEntry(ds);
-  if(cur&&cur.type===typ){delete SC[ds];ls.set(KS,SC);}
-  else setEntry(ds,typ,cur?cur.flights:[]);
+// Tap a calendar cell to quick-set type or clear
+function tapCalCell(ds,d){
+  const cur=getType(ds);
+  const types=Object.keys(TYPES);
+  const nextIdx=cur?types.indexOf(cur)+1:0;
+  if(nextIdx>=types.length){
+    // Clear
+    removeEntry(ds);
+  } else {
+    setEntry(ds,types[nextIdx],cur?getFlights(ds):[]);
+  }
   rdSched();
-  if(ds===TODAY){rdToday();rdWeekStrip();}
+  if(ds===TODAY){rdToday();rdWeekStrip();rdHeader();}
 }
+
 function prevM(){if(calM===0){calY--;calM=11;}else calM--;rdSched();}
 function nextM(){if(calM===11){calY++;calM=0;}else calM++;rdSched();}
 
-// ── MANUAL ENTRY (FIXED) ─────────────────────────────────────────
+// ── MANUAL ENTRY (fixed + instant update) ────────────────────────
 function onManTypeChange(){
   const t=document.getElementById('man-type').value;
   document.getElementById('man-flight-sec').style.display=t==='flight'?'':'none';
-  if(t==='flight'&&manFlights.length===0){addFlightRow();}
+  if(t==='flight'&&manFlights.length===0) addFlightRow();
 }
 function addFlightRow(){
   manFlights.push({fn:'',dep:'',depTime:'',arr:'',arrTime:''});
@@ -911,13 +898,11 @@ function removeFlightRow(i){manFlights.splice(i,1);renderFlightRows();}
 function renderFlightRows(){
   document.getElementById('man-flight-list').innerHTML=manFlights.map((fl,i)=>`
     <div style="background:var(--bg3);border:.5px solid var(--border);border-radius:7px;padding:8px;margin-bottom:5px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
         <span style="font-size:10px;font-weight:600;color:var(--text2)">편 ${i+1}</span>
         <button onclick="removeFlightRow(${i})" class="btn-danger" style="font-size:16px">×</button>
       </div>
-      <div style="display:flex;gap:5px;margin-bottom:5px">
-        <div class="fld" style="flex:1;margin:0"><label>편명</label><input placeholder="KE805" value="${fl.fn}" oninput="manFlights[${i}].fn=this.value"/></div>
-      </div>
+      <div class="fld" style="margin-bottom:5px"><label>편명</label><input placeholder="KE805" value="${fl.fn}" oninput="manFlights[${i}].fn=this.value"/></div>
       <div style="display:flex;gap:5px;margin-bottom:5px">
         <div class="fld" style="flex:1;margin:0"><label>출발지</label><input placeholder="ICN" maxlength="3" value="${fl.dep}" oninput="manFlights[${i}].dep=this.value.toUpperCase()"/></div>
         <div class="fld" style="flex:1;margin:0"><label>출발시각</label><input type="time" value="${fl.depTime}" onchange="manFlights[${i}].depTime=this.value"/></div>
@@ -932,78 +917,45 @@ function renderFlightRows(){
 function saveManual(){
   const ds=document.getElementById('man-date').value;
   const typ=document.getElementById('man-type').value;
-  if(!ds){showManMsg('날짜를 선택해 주세요','var(--red)');return;}
-  if(!typ){showManMsg('스케쥴 유형을 선택해 주세요','var(--red)');return;}
-  const flights=typ==='flight'?manFlights.filter(f=>f.depTime||f.dep):[];
+  if(!ds){showManMsg('날짜를 선택해 주세요','var(--red)','var(--red-bg)');return;}
+  if(!typ){showManMsg('스케쥴 유형을 선택해 주세요','var(--red)','var(--red-bg)');return;}
+  const flights=typ==='flight'?manFlights.map(f=>({...f})).filter(f=>f.dep||f.depTime):[];
   setEntry(ds,typ,flights);
-  // ✅ KEY FIX: navigate calendar to saved month
+  // Navigate calendar to saved month
   const dt=new Date(ds+'T12:00:00');
   calY=dt.getFullYear(); calM=dt.getMonth();
+  // Immediately update all visible UI
   rdSched();
-  if(ds===TODAY){rdToday();rdWeekStrip();}
-  schedN(); rdHeader();
-  showManMsg(`✅ ${ds.slice(5).replace('-','/')} 저장 완료! 아래 달력에서 확인하세요`,'var(--green)');
+  rdWeekStrip();
+  rdHeader();
+  if(ds===TODAY) rdToday();
+  schedN();
+  // Reset form
+  manFlights=[];
+  document.getElementById('man-type').value='';
+  document.getElementById('man-flight-sec').style.display='none';
+  document.getElementById('man-flight-list').innerHTML='';
+  const T=TYPES[typ];
+  showManMsg(`✅ ${ds.slice(5).replace('-','/')} ${T?T.badge:typ} 저장! 아래 달력에서 확인하세요`,'var(--green)','var(--green-bg)');
 }
-function showManMsg(msg,color){
+function showManMsg(msg,color,bg){
   const el=document.getElementById('man-msg');
-  el.textContent=msg;el.style.color=color;el.style.display='';
-  if(color==='var(--green)')setTimeout(()=>el.style.display='none',4000);
+  el.textContent=msg; el.style.color=color; el.style.background=bg; el.style.display='block';
+  if(color==='var(--green)') setTimeout(()=>el.style.display='none',5000);
 }
 
-// ── FILE UPLOAD ──────────────────────────────────────────────────
-async function handleFile(e){
-  const f=e.target.files[0];if(!f)return;
-  const pEl=document.getElementById('parse-st');
-  pEl.style.display='';pEl.style.color='var(--text2)';pEl.textContent='🔍 AI 분석 중...';
-  document.getElementById('upl-area').style.pointerEvents='none';
-  try{
-    const apiKey=ls.raw(KAPI);
-    if(!apiKey)throw new Error('설정 탭에서 API 키를 먼저 입력해 주세요');
-    const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('파일 읽기 실패'));r.readAsDataURL(f);});
-    const parsed=await parseImg(b64,f.type,apiKey);
-    const keys=Object.keys(parsed);
-    if(!keys.length)throw new Error('스케쥴 데이터를 찾지 못했어요');
-    keys.forEach(ds=>{const p=parsed[ds];const ex=getEntry(ds);SC[ds]={type:p.type,flights:p.flights||(ex?ex.flights:[])};});
-    ls.set(KS,SC);
-    const first=new Date(keys.sort()[0]+'T12:00:00');
-    calY=first.getFullYear();calM=first.getMonth();
-    pEl.style.color='var(--green)';pEl.textContent=`✅ ${keys.length}일 스케쥴 입력 완료!`;
-    rdSched();rdHeader();rdWeekStrip();schedN();
-    setTimeout(()=>pEl.style.display='none',3000);
-  }catch(err){pEl.style.color='var(--red)';pEl.textContent='❌ '+err.message;}
-  document.getElementById('upl-area').style.pointerEvents='';
-  e.target.value='';
-}
-async function parseImg(b64,mtype,apiKey){
-  const resp=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,
-      messages:[{role:'user',content:[
-        {type:'image',source:{type:'base64',media_type:mtype,data:b64}},
-        {type:'text',text:`파일럿 스케쥴 이미지. 각 날짜를 JSON으로 반환하세요.\ntype: flight(편명있는날)/layover(LO표시)/off(RDO,DO,ATDO,MEDCHK)/reserve(RESERVE,SBY)\nflights 배열에 편 정보 포함.\n연도/월 이미지에서 확인.\nJSON만 반환(설명없이):\n{"YYYY-MM-DD":{"type":"flight","flights":[{"fn":"KE805","dep":"ICN","depTime":"09:10","arr":"TSN","arrTime":"10:10"}]}}`}
-      ]}]})
-  });
-  if(!resp.ok){const e=await resp.json().catch(()=>({}));if(resp.status===401)throw new Error('API 키가 잘못되었습니다');throw new Error(e?.error?.message||`오류 ${resp.status}`);}
-  const data=await resp.json();
-  const txt=data.content?.find(b=>b.type==='text')?.text||'';
-  const m=txt.match(/\{[\s\S]*\}/);if(!m)throw new Error('파싱 실패');
-  return JSON.parse(m[0]);
-}
-
-// ── GOALS TAB ────────────────────────────────────────────────────
+// ── GOALS ────────────────────────────────────────────────────────
 function rdGoal(){
-  // Weekly counts
-  const d=new Date();const dow=d.getDay();
-  const monday=new Date(d);monday.setDate(d.getDate()-(dow===0?6:dow-1));
+  const now=new Date(), dow=now.getDay();
+  const mon=new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
   function weekCount(hid){
     let cnt=0;
-    for(let i=0;i<7;i++){const dt=new Date(monday);dt.setDate(monday.getDate()+i);if(C[dS(dt)]?.[hid])cnt++;}
+    for(let i=0;i<7;i++){const dt=new Date(mon);dt.setDate(mon.getDate()+i);if(C[fmt(dt)]?.[hid])cnt++;}
     return cnt;
   }
   const act=H.filter(h=>h.on&&h.goal>0);
   document.getElementById('goal-list').innerHTML=act.length?act.map(h=>{
-    const wc=weekCount(h.id),g=h.goal,pct=Math.min(100,Math.round(wc/g*100));
+    const wc=weekCount(h.id), g=h.goal, pct=Math.min(100,Math.round(wc/g*100));
     const circ=2*Math.PI*16;
     const fc=pct>=100?'var(--green)':pct>=50?'var(--yellow)':'var(--blue)';
     return `<div class="goal-row">
@@ -1011,68 +963,52 @@ function rdGoal(){
         <svg width="36" height="36" viewBox="0 0 36 36">
           <circle cx="18" cy="18" r="16" fill="none" stroke="var(--bg3)" stroke-width="4"/>
           <circle cx="18" cy="18" r="16" fill="none" stroke="${fc}" stroke-width="4" stroke-linecap="round"
-            stroke-dasharray="${circ}" stroke-dashoffset="${(circ-pct/100*circ).toFixed(1)}" transform="rotate(-90 18 18)"/>
+            stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${(circ-pct/100*circ).toFixed(1)}" transform="rotate(-90 18 18)"/>
         </svg>
         <div class="goal-ring-inner" style="color:${fc}">${wc}</div>
       </div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${h.emoji} ${h.name}</div>
+        <div style="font-size:13px;font-weight:600">${h.emoji} ${h.name}</div>
         <div style="font-size:10px;color:var(--text2)">주 ${g}회 목표 · ${wc}/${g}회 달성</div>
       </div>
-      <div style="font-size:13px;font-weight:700;color:${fc};flex-shrink:0">${pct}%</div>
+      <div style="font-size:13px;font-weight:700;color:${fc}">${pct}%</div>
     </div>`;
-  }).join(''):'<div style="color:var(--text2);font-size:12px;text-align:center;padding:16px">설정 탭에서 루틴 항목을 편집하고<br>주간 목표 횟수를 설정해 주세요</div>';
+  }).join(''):'<div style="color:var(--text2);font-size:12px;text-align:center;padding:16px">설정 탭 → 루틴 편집 → 주간 목표 횟수를 설정해 주세요</div>';
 
-  // Templates
-  document.getElementById('tpl-list').innerHTML=TEMPLATES.map(tpl=>{
-    const desc=tpl.ids==='all'?'모든 루틴':H.filter(h=>tpl.ids.includes(h.id)).map(h=>h.emoji).join('');
-    return `<div class="tpl-card">
+  document.getElementById('tpl-list').innerHTML=TEMPLATES.map(tpl=>`
+    <div class="tpl-card">
       <span style="font-size:22px">${tpl.emoji}</span>
-      <div style="flex:1">
-        <div style="font-size:13px;font-weight:600">${tpl.name}</div>
-        <div style="font-size:10px;color:var(--text2)">${tpl.desc}</div>
-      </div>
-      <button class="btn btn-sm btn-primary" onclick="applyTemplate('${JSON.stringify(tpl).replace(/'/g,'&apos;')}')">적용</button>
-    </div>`;
-  }).join('');
+      <div style="flex:1"><div style="font-size:13px;font-weight:600">${tpl.name}</div><div style="font-size:10px;color:var(--text2)">${tpl.desc}</div></div>
+      <button class="btn btn-sm btn-primary" onclick="applyTemplate('${tpl.id}')">적용</button>
+    </div>`).join('');
 }
 
-function applyTemplate(tplJson){
-  const tpl=JSON.parse(tplJson.replace(/&apos;/g,"'"));
-  if(tpl.ids==='all'){H=H.map(h=>({...h,on:true}));}
-  else{H=H.map(h=>({...h,on:tpl.ids.includes(h.id)}));}
+function applyTemplate(tid){
+  const tpl=TEMPLATES.find(t=>t.id===tid); if(!tpl) return;
+  if(tpl.ids==='all') H=H.map(h=>({...h,on:true}));
+  else H=H.map(h=>({...h,on:tpl.ids.includes(h.id)}));
   ls.set(KH,H);
-  rdGoal();rdToday();
+  rdGoal(); rdToday();
   alert(`✅ "${tpl.name}" 적용 완료!`);
 }
 
-// ── SETTINGS ─────────────────────────────────────────────────────
+// ── SETTINGS ────────────────────────────────────────────────────
 function rdSet(){
-  // API key
-  const savedKey=ls.raw(KAPI);
-  const inp=document.getElementById('api-input');
-  const ks=document.getElementById('key-saved');
-  inp.value='';
-  if(savedKey){inp.placeholder='새 키 입력 시 교체';ks.textContent=`✅ 저장됨: ${savedKey.slice(0,18)}...`;ks.style.display='';}
-  else{inp.placeholder='sk-ant-api03-...';ks.style.display='none';}
-  // Notifications
   const p='Notification' in window?Notification.permission:'unsupported';
-  const ns=document.getElementById('n-status'),nb=document.getElementById('n-btn');
+  const ns=document.getElementById('n-status'), nb=document.getElementById('n-btn');
   if(p==='granted'){ns.textContent='✅ 알림 활성화됨';ns.style.background='var(--green-bg)';ns.style.color='var(--green)';nb.style.display='none';}
-  else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정 > Safari > 알림에서 허용';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
+  else if(p==='denied'){ns.textContent='❌ 차단됨 — 설정>Safari>알림 에서 허용';ns.style.background='var(--red-bg)';ns.style.color='var(--red)';nb.style.display='none';}
   else if(p==='unsupported'){ns.textContent='⚠️ 홈화면 추가 후 알림 사용 가능';ns.style.background='var(--yellow-bg)';ns.style.color='var(--yellow)';nb.style.display='none';}
   else{ns.textContent='허용하면 루틴 시간에 알람을 받을 수 있어요';ns.style.background='var(--bg3)';ns.style.color='var(--text2)';nb.style.display='';}
-  // Theme buttons
-  ['auto','dark','light'].forEach(t=>document.getElementById('th-'+t)?.classList.toggle('on',t===curTheme));
-  // Habit list
+  ['auto','dark','light'].forEach(t=>{const el=document.getElementById('th-'+t);if(el)el.classList.toggle('on',t===curTheme);});
   document.getElementById('h-list').innerHTML=H.map((h,idx)=>`
     <div>
       <div class="hrow">
         <div style="display:flex;flex-direction:column;gap:2px;margin-right:5px;flex-shrink:0">
-          <button onclick="moveH(${idx},-1)" class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1" ${idx===0?'disabled':''}>▲</button>
-          <button onclick="moveH(${idx},1)" class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1" ${idx===H.length-1?'disabled':''}>▼</button>
+          <button onclick="moveH(${idx},-1)" class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1"${idx===0?' disabled':''}>▲</button>
+          <button onclick="moveH(${idx},1)"  class="btn btn-sm" style="padding:1px 6px;font-size:10px;line-height:1"${idx===H.length-1?' disabled':''}>▼</button>
         </div>
-        <span style="font-size:18px;margin-right:7px;flex-shrink:0">${h.emoji}</span>
+        <span style="font-size:17px;margin-right:7px;flex-shrink:0">${h.emoji}</span>
         <div style="flex:1;min-width:0;margin-right:6px">
           <div style="font-size:12px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:${h.on?'var(--text)':'var(--text3)'}">${h.name}</div>
           <div style="font-size:9px;color:var(--text2)">⏰ ${h.time} · ${DLBL[h.days]||h.days}${h.goal>0?` · 주${h.goal}회`:''}</div>
@@ -1087,7 +1023,7 @@ function rdSet(){
         <div class="fld"><label>이름</label><input id="en" value="${h.name.replace(/"/g,'&quot;')}"/></div>
         <div style="display:flex;gap:7px">
           <div class="fld" style="width:65px"><label>아이콘</label><input id="ee" value="${h.emoji}" maxlength="2" style="font-size:16px;text-align:center"/></div>
-          <div class="fld" style="flex:1"><label>알림 시간</label><input type="time" id="et" value="${h.time}"/></div>
+          <div class="fld" style="flex:1"><label>알림시간</label><input type="time" id="et" value="${h.time}"/></div>
         </div>
         <div class="fld"><label>적용일</label>
           <select id="ed">
@@ -1097,19 +1033,16 @@ function rdSet(){
             <option value="off"${h.days==='off'?' selected':''}>오프만</option>
           </select>
         </div>
-        <div class="fld"><label>주간 목표 (0=없음)</label><input type="number" id="eg" value="${h.goal||0}" min="0" max="7" style="width:80px"/></div>
+        <div class="fld"><label>주간목표(0=없음)</label><input type="number" id="eg" value="${h.goal||0}" min="0" max="7" style="width:80px"/></div>
         <div style="display:flex;gap:7px">
           <button class="btn" style="flex:1" onclick="editId=null;rdSet()">취소</button>
-          <button class="btn btn-primary" style="flex:2" onclick="saveH('${h.id}')">저장하기</button>
+          <button class="btn btn-primary" style="flex:2" onclick="saveH('${h.id}')">저장</button>
         </div>
       </div>`:''}
     </div>`).join('');
 }
 
-function moveH(idx,dir){
-  const ni=idx+dir;if(ni<0||ni>=H.length)return;
-  [H[idx],H[ni]]=[H[ni],H[idx]];ls.set(KH,H);rdSet();
-}
+function moveH(idx,dir){const ni=idx+dir;if(ni<0||ni>=H.length)return;[H[idx],H[ni]]=[H[ni],H[idx]];ls.set(KH,H);rdSet();}
 function saveH(id){
   const n=document.getElementById('en').value.trim();if(!n)return;
   H=H.map(h=>h.id===id?{...h,name:n,emoji:document.getElementById('ee').value||h.emoji,time:document.getElementById('et').value,days:document.getElementById('ed').value,goal:parseInt(document.getElementById('eg').value)||0}:h);
@@ -1126,30 +1059,12 @@ function addH(){
   document.getElementById('fn').value='';ls.set(KH,H);toggleAdd();rdSet();
 }
 
-// API key
-function togglePw(){pwVisible=!pwVisible;document.getElementById('api-input').type=pwVisible?'text':'password';document.getElementById('pw-btn').textContent=pwVisible?'숨기기':'보기';}
-function saveKey(){
-  const v=document.getElementById('api-input').value.trim();
-  if(!v){showKeyMsg('입력된 키가 없습니다','var(--red)','var(--red-bg)');return;}
-  if(!v.startsWith('sk-ant-')){showKeyMsg('올바른 형식이 아닙니다','var(--red)','var(--red-bg)');return;}
-  ls.setRaw(KAPI,v);
-  document.getElementById('api-input').value='';
-  document.getElementById('api-input').placeholder='새 키 입력 시 교체';
-  document.getElementById('key-saved').textContent=`✅ 저장됨: ${v.slice(0,18)}...`;
-  document.getElementById('key-saved').style.display='';
-  showKeyMsg('저장 완료','var(--green)','var(--green-bg)');
-}
-function clearKey(){if(!confirm('삭제할까요?'))return;ls.del(KAPI);document.getElementById('api-input').placeholder='sk-ant-api03-...';document.getElementById('key-saved').style.display='none';showKeyMsg('삭제됨','var(--text2)','var(--bg3)');}
-function showKeyMsg(msg,c,bg){const el=document.getElementById('key-msg');el.textContent=msg;el.style.color=c;el.style.background=bg;el.style.display='';setTimeout(()=>el.style.display='none',3000);}
-
-// ── SMART NOTIFICATIONS ───────────────────────────────────────────
+// ── NOTIFICATIONS ────────────────────────────────────────────────
 function reqN(){if(!('Notification' in window))return;Notification.requestPermission().then(()=>{schedN();rdSet();});}
 function schedN(){
   ntT.forEach(clearTimeout);ntT=[];
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   const now=new Date();
-
-  // 1. Habit notifications with quiet time check
   thabs().forEach(h=>{
     if(isQuietTime(h.time))return;
     const[hh,mm]=h.time.split(':').map(Number);
@@ -1160,30 +1075,27 @@ function schedN(){
       try{new Notification('SY Discipline',{body:`${h.emoji} ${h.name}을 아직 안 하셨어요`,icon:'icon-192.png'});}catch{}
     },d));
   });
-
-  // 2. Pre-flight sleep recommendation (send at 21:00 if tomorrow has a flight)
+  // Pre-flight sleep alert at 21:00
   const tmrw=DS(1);
   if(getType(tmrw)==='flight'){
     const fls=getFlights(tmrw);
     if(fls&&fls.length){
-      const alertTime=new Date();alertTime.setHours(21,0,0,0);
-      const firstFl=fls.sort((a,b)=>(a.depTime||'99:99').localeCompare(b.depTime||'99:99'))[0];
-      if(firstFl&&firstFl.depTime){
-        const depMins=toMins(firstFl.depTime);
-        const bedtimeMins=((depMins-600)+1440)%1440;
-        const bh=String(Math.floor(bedtimeMins/60)).padStart(2,'0');
-        const bm=String(bedtimeMins%60).padStart(2,'0');
-        const d=alertTime-now;
+      const alertT=new Date();alertT.setHours(21,0,0,0);
+      const first=[...fls].sort((a,b)=>(a.depTime||'').localeCompare(b.depTime||''))[0];
+      if(first&&first.depTime){
+        const dep=toMins(first.depTime);
+        const bed=((dep-600)+1440)%1440;
+        const bh=String(Math.floor(bed/60)).padStart(2,'0'), bm=String(bed%60).padStart(2,'0');
+        const d=alertT-now;
         if(d>0)ntT.push(setTimeout(()=>{
-          try{new Notification('✈ 비행 전날 알림',{body:`내일 ${firstFl.fn||''} ${firstFl.dep} ${firstFl.depTime} 출발 → 오늘 ${bh}:${bm} 취침 권장`,icon:'icon-192.png'});}catch{}
+          try{new Notification('✈ 비행 전날 알림',{body:`내일 ${first.fn||''} ${first.dep} ${first.depTime} 출발 → 오늘 ${bh}:${bm} 취침 권장`,icon:'icon-192.png'});}catch{}
         },d));
       }
     }
   }
 }
 
-// ── SERVICE WORKER ───────────────────────────────────────────────
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(curTheme==='auto')applyTheme('auto');});
 window.addEventListener('load',init);
 </script>
