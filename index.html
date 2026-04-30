@@ -156,51 +156,52 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 /* INLINE MSG */
 .inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
 /* LOCK SCREEN */
-#lockscreen{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;background:linear-gradient(160deg,#0a0e1a 0%,#0d1f3c 50%,#0a1628 100%)}
-#lockscreen.hidden{display:none}
-.lock-logo{width:90px;height:90px;border-radius:22px;object-fit:cover;margin-bottom:18px;box-shadow:0 8px 32px rgba(59,130,246,.35)}
-.lock-title{font-size:22px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-.lock-sub{font-size:13px;color:#6b7280;margin-bottom:48px}
-.lock-btn{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;-webkit-user-select:none;user-select:none}
-.lock-icon-ring{width:72px;height:72px;border-radius:50%;border:2px solid rgba(59,130,246,.5);display:flex;align-items:center;justify-content:center;background:rgba(59,130,246,.1);transition:all .25s}
-.lock-icon-ring:active{background:rgba(59,130,246,.25);transform:scale(.94)}
-.lock-icon-ring.pulse{animation:lockPulse .6s ease}
-@keyframes lockPulse{0%{box-shadow:0 0 0 0 rgba(59,130,246,.6)}70%{box-shadow:0 0 0 18px rgba(59,130,246,0)}100%{box-shadow:0 0 0 0 rgba(59,130,246,0)}}
-.lock-label{font-size:13px;color:#9ca3af;font-weight:500}
-.lock-err{font-size:12px;color:#ef4444;margin-top:16px;text-align:center;min-height:18px}
-.lock-skip{font-size:11px;color:#374151;margin-top:32px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#lockscreen{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#060a14 0%,#0b1a35 55%,#060e1e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;-webkit-user-select:none;user-select:none}
+#lockscreen.ls-hidden{display:none!important}
+.lk-logo{width:84px;height:84px;border-radius:20px;object-fit:cover;margin-bottom:14px;box-shadow:0 8px 28px rgba(59,130,246,.4)}
+.lk-title{font-size:21px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lk-sub{font-size:13px;color:#64748b;margin-top:4px;margin-bottom:32px}
+.lk-dots{display:flex;gap:14px;margin-bottom:8px}
+.lk-dot{width:13px;height:13px;border-radius:50%;background:#1e3a5f;border:1.5px solid #2563eb;transition:all .15s}
+.lk-dot.filled{background:#3b82f6;border-color:#3b82f6}
+.lk-msg{font-size:12px;min-height:18px;text-align:center;margin-bottom:16px;font-weight:500}
+.lk-pad{display:grid;grid-template-columns:repeat(3,70px);grid-template-rows:repeat(4,54px);gap:10px}
+.lk-key{width:70px;height:54px;border-radius:13px;background:rgba(30,58,95,.6);border:1px solid rgba(59,130,246,.2);color:#e2e8f0;font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:inherit;-webkit-tap-highlight-color:rgba(59,130,246,.3);cursor:pointer;transition:all .12s}
+.lk-key:active{background:rgba(59,130,246,.5);transform:scale(.91)}
+.lk-hint{font-size:11px;color:#475569;margin-top:20px;text-align:center;line-height:1.6}
+@keyframes lkShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.lk-shake{animation:lkShake .35s ease}
 </style>
 </head>
 <body>
 
 <!-- LOCK SCREEN -->
 <div id="lockscreen">
-  <img class="lock-logo" src="icon-192.png" alt="SY Discipline"/>
-  <div class="lock-title">SY Discipline</div>
-  <div class="lock-sub">파일럿 데일리 루틴 트래커</div>
-  <div class="lock-btn" onclick="doFaceID()">
-    <div class="lock-icon-ring" id="lock-ring">
-      <!-- Face ID icon -->
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Corner brackets -->
-        <path d="M4 10V5a1 1 0 0 1 1-1h5" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
-        <path d="M32 10V5a1 1 0 0 0-1-1h-5" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
-        <path d="M4 26v5a1 1 0 0 0 1 1h5" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
-        <path d="M32 26v5a1 1 0 0 1-1 1h-5" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
-        <!-- Eyes -->
-        <circle cx="13" cy="15" r="1.4" fill="#3b82f6"/>
-        <circle cx="23" cy="15" r="1.4" fill="#3b82f6"/>
-        <!-- Nose -->
-        <path d="M18 15v3.5" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round"/>
-        <path d="M15.5 19h5" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round"/>
-        <!-- Mouth -->
-        <path d="M13 23c1.2 2 8.8 2 10 0" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="lock-label">Face ID로 잠금 해제</div>
+  <img class="lk-logo" src="icon-192.png" alt="SY"/>
+  <div class="lk-title">SY Discipline</div>
+  <div class="lk-sub">파일럿 데일리 루틴 트래커</div>
+  <div class="lk-dots" id="lk-dots">
+    <div class="lk-dot" id="lkd0"></div>
+    <div class="lk-dot" id="lkd1"></div>
+    <div class="lk-dot" id="lkd2"></div>
+    <div class="lk-dot" id="lkd3"></div>
   </div>
-  <div class="lock-err" id="lock-err"></div>
-  <div class="lock-skip" onclick="skipLock()">PIN 없이 계속하기</div>
+  <div class="lk-msg" id="lk-msg" style="color:#64748b">PIN 입력</div>
+  <div class="lk-pad" id="lk-pad">
+    <div class="lk-key" ontouchend="lkTap(1)" onclick="lkTap(1)">1</div>
+    <div class="lk-key" ontouchend="lkTap(2)" onclick="lkTap(2)">2</div>
+    <div class="lk-key" ontouchend="lkTap(3)" onclick="lkTap(3)">3</div>
+    <div class="lk-key" ontouchend="lkTap(4)" onclick="lkTap(4)">4</div>
+    <div class="lk-key" ontouchend="lkTap(5)" onclick="lkTap(5)">5</div>
+    <div class="lk-key" ontouchend="lkTap(6)" onclick="lkTap(6)">6</div>
+    <div class="lk-key" ontouchend="lkTap(7)" onclick="lkTap(7)">7</div>
+    <div class="lk-key" ontouchend="lkTap(8)" onclick="lkTap(8)">8</div>
+    <div class="lk-key" ontouchend="lkTap(9)" onclick="lkTap(9)">9</div>
+    <div class="lk-key" id="lk-bio-btn" ontouchend="lkBio()" onclick="lkBio()" style="font-size:22px">🔐</div>
+    <div class="lk-key" ontouchend="lkTap(0)" onclick="lkTap(0)">0</div>
+    <div class="lk-key" ontouchend="lkDel()" onclick="lkDel()" style="font-size:18px">⌫</div>
+  </div>
+  <div class="lk-hint" id="lk-hint"></div>
 </div>
 
 <div id="loading">
@@ -391,14 +392,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
       </div>
     </div>
-    <!-- ④ Face ID -->
+    <!-- ④ PIN / Face ID -->
     <div class="card">
-      <div class="stitle">🔐 Face ID 설정</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.55">
-        앱 시작 시 Face ID로 잠금 해제합니다.<br>
-        등록 초기화 후 다음 실행 시 재등록됩니다.
+      <div class="stitle">🔐 PIN / Face ID 설정</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.6">
+        앱 시작 시 4자리 PIN으로 잠금 해제합니다.<br>
+        Face ID 등록 시 자동으로 Face ID 먼저 시도합니다.<br>
+        초기화하면 다음 실행 시 PIN을 새로 설정합니다.
       </div>
-      <button class="btn" style="width:100%;color:var(--red);border-color:var(--red-border)" onclick="resetFaceID()">🔐 Face ID 등록 초기화</button>
+      <button class="btn" style="width:100%;color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="resetFaceID()">🔐 PIN / Face ID 초기화</button>
     </div>
     <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v4 · JANG SIYOUNG</div>
     <div style="height:8px"></div>
@@ -580,88 +582,136 @@ function rdHeader(){
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
-// ── FACE ID / BIOMETRIC AUTH ──────────────────────────────────────
-const KAUTH='syv4-auth-registered';
+// ── LOCK SCREEN (PIN + Face ID) ──────────────────────────────────
+const KPIN='syv4-pin', KAUTH='syv4-auth';
+let lkInput='', lkSetup=false, lkSetup1='';
 
-async function doFaceID(){
-  const ring=document.getElementById('lock-ring');
-  const errEl=document.getElementById('lock-err');
-  errEl.textContent='';
-  ring.classList.add('pulse');
-  setTimeout(()=>ring.classList.remove('pulse'),700);
-
-  // Check WebAuthn support
-  if(!window.PublicKeyCredential){
-    errEl.textContent='이 기기에서 Face ID를 지원하지 않습니다';
-    setTimeout(skipLock,1800);
-    return;
+function lkInit(){
+  const savedPin=ls.raw(KPIN);
+  const el=document.getElementById('lk-msg');
+  const hint=document.getElementById('lk-hint');
+  if(!savedPin){
+    lkSetup=true; lkSetup1='';
+    el.textContent='새 PIN 4자리 설정';
+    el.style.color='#3b82f6';
+    hint.textContent='앱 잠금용 PIN을 새로 설정해 주세요';
+  } else {
+    lkSetup=false;
+    el.textContent='PIN 입력';
+    el.style.color='#64748b';
+    hint.textContent='';
+    // Try Face ID automatically on load
+    setTimeout(lkBio, 400);
   }
-  try {
-    const registered=ls.raw(KAUTH);
-    if(!registered){
-      // First time: REGISTER
-      errEl.textContent='🔐 Face ID 등록 중...';
-      const regCred=await navigator.credentials.create({
-        publicKey:{
-          challenge:crypto.getRandomValues(new Uint8Array(32)),
-          rp:{name:'SY Discipline',id:location.hostname},
-          user:{id:crypto.getRandomValues(new Uint8Array(16)),name:'jang',displayName:'Jang Siyoung'},
-          pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
-          authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
-          timeout:60000,
-        }
-      });
-      // Save credential ID
-      const credId=btoa(String.fromCharCode(...new Uint8Array(regCred.rawId)));
-      ls.setRaw(KAUTH,credId);
-      errEl.style.color='#22c55e';
-      errEl.textContent='✅ Face ID 등록 완료!';
-      setTimeout(unlockApp,900);
+}
+
+function lkTap(n){
+  if(lkInput.length>=4) return;
+  lkInput += String(n);
+  lkUpdateDots();
+  if(lkInput.length===4) setTimeout(lkCheck, 120);
+}
+
+function lkDel(){
+  lkInput=lkInput.slice(0,-1);
+  lkUpdateDots();
+}
+
+function lkUpdateDots(){
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('lkd'+i);
+    if(d) d.classList.toggle('filled', i<lkInput.length);
+  }
+}
+
+function lkCheck(){
+  if(lkSetup){
+    if(!lkSetup1){
+      lkSetup1=lkInput; lkInput='';
+      lkUpdateDots();
+      const el=document.getElementById('lk-msg');
+      el.textContent='PIN 한 번 더 입력';
+      el.style.color='#3b82f6';
     } else {
-      // Subsequent: AUTHENTICATE
-      errEl.textContent='';
-      const rawId=Uint8Array.from(atob(registered),c=>c.charCodeAt(0));
-      await navigator.credentials.get({
-        publicKey:{
-          challenge:crypto.getRandomValues(new Uint8Array(32)),
-          allowCredentials:[{type:'public-key',id:rawId}],
-          userVerification:'required',
-          timeout:60000,
-        }
-      });
-      unlockApp();
+      if(lkInput===lkSetup1){
+        ls.setRaw(KPIN,lkInput);
+        document.getElementById('lk-msg').textContent='✅ PIN 설정 완료!';
+        document.getElementById('lk-msg').style.color='#22c55e';
+        setTimeout(lkUnlock,600);
+      } else {
+        lkInput=''; lkSetup1=''; lkUpdateDots();
+        lkShake(); 
+        const el=document.getElementById('lk-msg');
+        el.textContent='❌ 불일치 — 다시 설정';
+        el.style.color='#ef4444';
+        setTimeout(()=>{el.textContent='새 PIN 4자리 설정';el.style.color='#3b82f6';},1200);
+      }
+    }
+  } else {
+    const saved=ls.raw(KPIN);
+    if(lkInput===saved){
+      document.getElementById('lk-msg').style.color='#22c55e';
+      document.getElementById('lk-msg').textContent='✅ 잠금 해제';
+      setTimeout(lkUnlock,400);
+    } else {
+      lkInput=''; lkUpdateDots(); lkShake();
+      const el=document.getElementById('lk-msg');
+      el.textContent='❌ PIN이 틀렸습니다';
+      el.style.color='#ef4444';
+      setTimeout(()=>{el.textContent='PIN 입력';el.style.color='#64748b';},1200);
+    }
+  }
+}
+
+function lkShake(){
+  const dots=document.getElementById('lk-dots');
+  dots.classList.remove('lk-shake');
+  void dots.offsetWidth;
+  dots.classList.add('lk-shake');
+  setTimeout(()=>dots.classList.remove('lk-shake'),400);
+}
+
+async function lkBio(){
+  if(!window.PublicKeyCredential){return;}
+  const btn=document.getElementById('lk-bio-btn');
+  if(btn) btn.textContent='⏳';
+  try{
+    const saved=ls.raw(KAUTH);
+    if(!saved){
+      const reg=await navigator.credentials.create({publicKey:{
+        challenge:crypto.getRandomValues(new Uint8Array(32)),
+        rp:{name:'SY Discipline',id:location.hostname},
+        user:{id:new Uint8Array([1,2,3]),name:'siyoung',displayName:'Jang Siyoung'},
+        pubKeyCredParams:[{type:'public-key',alg:-7}],
+        authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
+        timeout:30000,
+      }});
+      ls.setRaw(KAUTH,btoa(String.fromCharCode(...new Uint8Array(reg.rawId))));
+      lkUnlock();
+    } else {
+      const rawId=Uint8Array.from(atob(saved),c=>c.charCodeAt(0));
+      await navigator.credentials.get({publicKey:{
+        challenge:crypto.getRandomValues(new Uint8Array(32)),
+        allowCredentials:[{type:'public-key',id:rawId}],
+        userVerification:'required',timeout:30000,
+      }});
+      lkUnlock();
     }
   } catch(e){
-    if(e.name==='NotAllowedError'){
-      errEl.style.color='#ef4444';
-      errEl.textContent='Face ID 인증 취소됨';
-    } else if(e.name==='InvalidStateError'){
-      // Credential not found on this device - re-register
-      ls.del(KAUTH);
-      errEl.style.color='#f59e0b';
-      errEl.textContent='다시 등록이 필요합니다. 한 번 더 탭해주세요';
-    } else {
-      errEl.style.color='#ef4444';
-      errEl.textContent=`오류: ${e.message||e.name}`;
-      setTimeout(skipLock,2500);
-    }
+    if(btn) btn.textContent='🔐';
   }
 }
 
-function unlockApp(){
-  const ls2=document.getElementById('lockscreen');
-  ls2.style.transition='opacity .4s ease';
-  ls2.style.opacity='0';
-  setTimeout(()=>{ls2.classList.add('hidden');},400);
-}
-
-function skipLock(){
-  unlockApp();
+function lkUnlock(){
+  const el=document.getElementById('lockscreen');
+  el.style.transition='opacity .35s ease';
+  el.style.opacity='0';
+  setTimeout(()=>{el.classList.add('ls-hidden');el.style.opacity='';},360);
 }
 
 function resetFaceID(){
-  ls.del(KAUTH);
-  alert('Face ID 등록이 초기화되었습니다. 다음 앱 실행 시 재등록됩니다.');
+  ls.del(KAUTH); ls.del(KPIN);
+  alert('PIN 및 Face ID가 초기화되었습니다. 앱을 새로고침하면 재설정됩니다.');
 }
 
 async function init(){
@@ -673,6 +723,8 @@ async function init(){
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='flex';
   rdHeader(); rdWeekStrip(); rdToday(); schedN();
+  // Init lock screen after app is ready
+  lkInit();
 }
 
 // ── NAV ──────────────────────────────────────────────────────────
@@ -1234,10 +1286,7 @@ function schedN(){
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(curTheme==='auto')applyTheme('auto');});
-window.addEventListener('load',()=>{
-  // Init app data first, then show lock screen
-  init();
-});
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
