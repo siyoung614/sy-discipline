@@ -186,22 +186,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .lk-shake{animation:lkShake .3s ease}
 /* INLINE MSG */
 .inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
-/* LOCK SCREEN */
-#lockscreen{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#060a14 0%,#0b1a35 55%,#060e1e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;-webkit-user-select:none;user-select:none}
-#lockscreen.ls-hidden{display:none!important}
-.lk-logo{width:84px;height:84px;border-radius:20px;object-fit:cover;margin-bottom:14px;box-shadow:0 8px 28px rgba(59,130,246,.4)}
-.lk-title{font-size:21px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.lk-sub{font-size:13px;color:#64748b;margin-top:4px;margin-bottom:32px}
-.lk-dots{display:flex;gap:14px;margin-bottom:8px}
-.lk-dot{width:13px;height:13px;border-radius:50%;background:#1e3a5f;border:1.5px solid #2563eb;transition:all .15s}
-.lk-dot.filled{background:#3b82f6;border-color:#3b82f6}
-.lk-msg{font-size:12px;min-height:18px;text-align:center;margin-bottom:16px;font-weight:500}
-.lk-pad{display:grid;grid-template-columns:repeat(3,70px);grid-template-rows:repeat(4,54px);gap:10px}
-.lk-key{width:70px;height:54px;border-radius:13px;background:rgba(30,58,95,.6);border:1px solid rgba(59,130,246,.2);color:#e2e8f0;font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:inherit;-webkit-tap-highlight-color:rgba(59,130,246,.3);cursor:pointer;transition:all .12s}
-.lk-key:active{background:rgba(59,130,246,.5);transform:scale(.91)}
-.lk-hint{font-size:11px;color:#475569;margin-top:20px;text-align:center;line-height:1.6}
-@keyframes lkShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.lk-shake{animation:lkShake .35s ease}
 </style>
 </head>
 <body>
@@ -228,8 +212,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <button class="lk-key" onclick="lkTap(7)">7</button>
     <button class="lk-key" onclick="lkTap(8)">8</button>
     <button class="lk-key" onclick="lkTap(9)">9</button>
-    <button class="lk-key" onclick="lkTap(0)" style="grid-column:2">0</button>
-    <button class="lk-key" onclick="lkDel()" style="grid-column:3;font-size:18px">⌫</button>
+    <div></div>
+    <button class="lk-key" onclick="lkTap(0)">0</button>
+    <button class="lk-key" onclick="lkDel()" style="font-size:18px">⌫</button>
   </div>
 </div>
 
