@@ -188,18 +188,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
   <div class="lk-msg" id="lk-msg" style="color:#64748b">PIN 입력</div>
   <div class="lk-pad" id="lk-pad">
-    <div class="lk-key" ontouchend="lkTap(1)" onclick="lkTap(1)">1</div>
-    <div class="lk-key" ontouchend="lkTap(2)" onclick="lkTap(2)">2</div>
-    <div class="lk-key" ontouchend="lkTap(3)" onclick="lkTap(3)">3</div>
-    <div class="lk-key" ontouchend="lkTap(4)" onclick="lkTap(4)">4</div>
-    <div class="lk-key" ontouchend="lkTap(5)" onclick="lkTap(5)">5</div>
-    <div class="lk-key" ontouchend="lkTap(6)" onclick="lkTap(6)">6</div>
-    <div class="lk-key" ontouchend="lkTap(7)" onclick="lkTap(7)">7</div>
-    <div class="lk-key" ontouchend="lkTap(8)" onclick="lkTap(8)">8</div>
-    <div class="lk-key" ontouchend="lkTap(9)" onclick="lkTap(9)">9</div>
-    <div class="lk-key" id="lk-bio-btn" ontouchend="lkBio()" onclick="lkBio()" style="font-size:22px">🔐</div>
-    <div class="lk-key" ontouchend="lkTap(0)" onclick="lkTap(0)">0</div>
-    <div class="lk-key" ontouchend="lkDel()" onclick="lkDel()" style="font-size:18px">⌫</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(1)">1</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(2)">2</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(3)">3</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(4)">4</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(5)">5</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(6)">6</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(7)">7</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(8)">8</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(9)">9</div>
+    <div class="lk-key" id="lk-bio-btn" ontouchstart="event.preventDefault();lkBio()" style="font-size:22px">🔐</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkTap(0)">0</div>
+    <div class="lk-key" ontouchstart="event.preventDefault();lkDel()" style="font-size:18px">⌫</div>
   </div>
   <div class="lk-hint" id="lk-hint"></div>
 </div>
@@ -605,11 +605,15 @@ function lkInit(){
   }
 }
 
+let _lkLast=0;
 function lkTap(n){
+  const now=Date.now();
+  if(now-_lkLast<80) return; // debounce 80ms
+  _lkLast=now;
   if(lkInput.length>=4) return;
   lkInput += String(n);
   lkUpdateDots();
-  if(lkInput.length===4) setTimeout(lkCheck, 120);
+  if(lkInput.length===4) setTimeout(lkCheck, 150);
 }
 
 function lkDel(){
