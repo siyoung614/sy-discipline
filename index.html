@@ -106,7 +106,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .cal-grid-hdr-cell{text-align:center;font-size:10px;font-weight:600;color:var(--text3);padding:3px 0}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-cell{border-radius:8px;padding:4px 2px;text-align:center;cursor:pointer;border:.5px solid var(--border);background:var(--bg2);transition:all .15s;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:2px}
-.cal-cell.today{border-color:var(--blue);border-width:1.5px}
+.cal-cell.today{border-color:var(--blue);border-width:1.5px}.cal-cell.selected{border-color:var(--yellow);border-width:1.5px;box-shadow:0 0 0 1px var(--yellow)}
 .cal-cell.empty{border:none;background:none;cursor:default}
 .cal-cell-num{font-size:12px;font-weight:500;color:var(--text);line-height:1}
 .cal-cell.today .cal-cell-num{color:var(--blue);font-weight:700}
@@ -222,6 +222,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="met"><div class="mv" id="s-rt" style="color:var(--green)">-</div><div class="ml">30일 평균</div></div>
       <div class="met"><div class="mv" id="s-sk" style="color:var(--yellow)">-</div><div class="ml">최장 연속</div></div>
     </div>
+    <div id="stat-list"></div>
     <div class="card">
       <div class="stitle">📅 달성 히트맵 (최근 91일)</div>
       <div id="heatmap-wrap"></div>
@@ -240,7 +241,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="fat-grid" id="fatigue-grid"></div>
       <div id="wocl-list" style="margin-top:6px"></div>
     </div>
-    <div id="stat-list"></div>
   </div>
 
   <!-- SCHEDULE -->
@@ -634,7 +634,7 @@ function rdToday(){
     const wc=weekCount(h.id);
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
     const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
-    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':''}" style="cursor:${quiet?'default':'pointer'};animation:fadeIn .2s ease">
+    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':('tog('+JSON.stringify(h.id)+')')}" style="cursor:${quiet?'default':'pointer'};animation:fadeIn .2s ease">
       <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${quiet?'':('tog('+JSON.stringify(h.id)+')')}">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
@@ -701,6 +701,20 @@ function celebrate(){
 }
 
 // ── STATS ────────────────────────────────────────────────────────
+function rateByType(hid){
+  // 최근 90일간 스케쥴 유형별 달성률 {flight, layover, off}
+  const res={flight:{tot:0,dn:0},layover:{tot:0,dn:0},off:{tot:0,dn:0}};
+  const hb=H.find(x=>x.id===hid); if(!hb) return res;
+  for(let i=1;i<=90;i++){
+    const ds=DS(-i), t=getType(ds);
+    if(!t||!res[t]) continue;
+    if(hb.days!=='all'&&hb.days!==t) continue;
+    res[t].tot++;
+    if(C[ds]?.[hid]) res[t].dn++;
+  }
+  return res;
+}
+
 function streak(id){
   let s=0; const hb=H.find(x=>x.id===id); if(!hb) return 0;
   for(let i=0;i<365;i++){const ds=DS(-i),sc=getType(ds);if(hb.days!=='all'&&(!sc||hb.days!==sc))continue;if(C[ds]?.[id])s++;else if(i>0)break;}
@@ -731,6 +745,22 @@ function rdStats(){
   document.getElementById('stat-list').innerHTML=act.map(h=>{
     const sk=streak(h.id), r=rate30(h.id);
     const fc=r>=80?'var(--green)':r>=50?'var(--yellow)':'var(--red)';
+    const rbt=rateByType(h.id);
+    const typeBars=['flight','layover','off'].map(tp=>{
+      const d=rbt[tp]; if(!d||d.tot===0) return '';
+      const pct=Math.round(d.dn/d.tot*100);
+      const fc2=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
+      const icon=tp==='flight'?'✈️':tp==='layover'?'🏨':'⌂';
+      return `<div style="display:flex;align-items:center;gap:5px;margin-top:4px">
+        <span style="font-size:10px;min-width:18px">${icon}</span>
+        <div style="flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${fc2};border-radius:3px;transition:width .4s ease"></div>
+        </div>
+        <span style="font-size:9px;color:var(--text2);min-width:26px;text-align:right">${pct}%</span>
+        <span style="font-size:9px;color:var(--text3)">${d.dn}/${d.tot}</span>
+      </div>`;
+    }).join('');
+    const hasTypeBars=typeBars.replace(/\s/g,'').length>0;
     return `<div class="card">
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
         <span style="font-size:18px">${h.emoji}</span>
@@ -744,7 +774,8 @@ function rdStats(){
         </div>
       </div>
       <div class="pb"><div class="pf" style="width:${r}%;background:${fc}"></div></div>
-      <div style="font-size:10px;color:var(--text2);text-align:right">30일 달성률 ${r}%</div>
+      <div style="font-size:10px;color:var(--text2);text-align:right;margin-bottom:${hasTypeBars?6:0}px">30일 달성률 ${r}%</div>
+      ${hasTypeBars?`<div style="border-top:.5px solid var(--border);padding-top:6px">${typeBars}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -881,19 +912,27 @@ function rdSched(){
   }
 }
 
-// Tap a calendar cell to quick-set type or clear
+// Tap a calendar cell → populate the manual entry form above (no immediate save)
 function tapCalCell(ds,d){
+  // 날짜 세팅
+  document.getElementById('man-date').value=ds;
+  // 현재 저장된 스케쥴 유형 불러오기
   const cur=getType(ds);
-  const types=Object.keys(TYPES);
-  const nextIdx=cur?types.indexOf(cur)+1:0;
-  if(nextIdx>=types.length){
-    // Clear
-    removeEntry(ds);
-  } else {
-    setEntry(ds,types[nextIdx],cur?getFlights(ds):[]);
-  }
-  rdSched();
-  if(ds===TODAY){rdToday();rdWeekStrip();rdHeader();}
+  const typeEl=document.getElementById('man-type');
+  typeEl.value=cur||'';
+  // 비행 편 정보 복원
+  manFlights=cur==='flight'?(getFlights(ds)||[]).map(f=>({...f})):[];
+  const flSec=document.getElementById('man-flight-sec');
+  flSec.style.display=cur==='flight'?'':'none';
+  renderFlightRows();
+  if(cur==='flight'&&manFlights.length===0) addFlightRow();
+  // 폼 카드로 스크롤
+  const formCard=document.getElementById('manual-form-card');
+  if(formCard) formCard.scrollIntoView({behavior:'smooth',block:'start'});
+  // 선택된 셀 하이라이트
+  document.querySelectorAll('.cal-cell.selected').forEach(el=>el.classList.remove('selected'));
+  const cells=document.querySelectorAll('.cal-cell');
+  cells.forEach(el=>{ if(el.querySelector('.cal-cell-num')&&el.querySelector('.cal-cell-num').textContent==String(d)) el.classList.add('selected'); });
 }
 
 function prevM(){if(calM===0){calY--;calM=11;}else calM--;rdSched();}
