@@ -368,14 +368,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <button class="nb on" id="nb-today" onclick="G('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>오늘
     </button>
-    <button class="nb" id="nb-stats" onclick="G('stats')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>통계
+    <button class="nb" id="nb-goal" onclick="G('goal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>목표
     </button>
     <button class="nb" id="nb-sched" onclick="G('sched')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>스케쥴
     </button>
-    <button class="nb" id="nb-goal" onclick="G('goal')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>목표
+    <button class="nb" id="nb-stats" onclick="G('stats')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>통계
     </button>
     <button class="nb" id="nb-set" onclick="G('set')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>설정
@@ -446,7 +446,7 @@ let editId=null, addOpen=false, manFlights=[];
 let calY=new Date().getFullYear(), calM=new Date().getMonth();
 let ntT=[], curTab='today', pwVisible=false, curTheme='dark', celebrated=false;
 
-const KH='syv4-h', KC='syv4-c', KCT='syv4-ct', KM='syv4-m', KS='syv4-s', KTH='syv4-theme';
+const KH='syv4-h', KC='syv4-c', KCT='syv4-ct', KM='syv4-m', KS='syv4-s', KTH='syv4-theme', KTP='syv4-tpl';
 const ls={
   get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
@@ -542,8 +542,9 @@ function rdHeader(){
 
 
 async function init(){
-  const[h,c,ct,m,s,th]=[ls.get(KH),ls.get(KC),ls.get(KCT),ls.get(KM),ls.get(KS),ls.raw(KTH)];
+  const[h,c,ct,m,s,th,tp]=[ls.get(KH),ls.get(KC),ls.get(KCT),ls.get(KM),ls.get(KS),ls.raw(KTH),ls.get(KTP)];
   if(h) H=h; if(c) C=c; if(ct) CT=ct; if(m) M=m;
+  if(tp) TEMPLATES=tp;
   SC={}; if(s) Object.assign(SC,s);
   applyTheme(th||'dark');
   document.getElementById('man-date').value=TODAY;
@@ -989,11 +990,43 @@ function rdGoal(){
     </div>`;
   }).join(''):'<div style="color:var(--text2);font-size:12px;text-align:center;padding:16px">설정 탭 → 루틴 편집 → 주간 목표 횟수를 설정해 주세요</div>';
 
-  document.getElementById('tpl-list').innerHTML=TEMPLATES.map(tpl=>`
-    <div class="tpl-card">
+  document.getElementById('tpl-list').innerHTML=`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="btn btn-sm btn-primary" onclick="openTplEdit(null)">+ 새 템플릿</button>
+    </div>
+  `+TEMPLATES.map(tpl=>`
+    <div class="tpl-card" id="tpl-card-${tpl.id}">
       <span style="font-size:22px">${tpl.emoji}</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:600">${tpl.name}</div><div style="font-size:10px;color:var(--text2)">${tpl.desc}</div></div>
-      <button class="btn btn-sm btn-primary" onclick="applyTemplate('${tpl.id}')">적용</button>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600">${tpl.name}</div>
+        <div style="font-size:10px;color:var(--text2)">${tpl.desc}</div>
+      </div>
+      <div style="display:flex;gap:5px;flex-shrink:0">
+        <button class="btn btn-sm btn-primary" onclick="applyTemplate('${tpl.id}')">적용</button>
+        <button class="btn btn-sm" onclick="openTplEdit('${tpl.id}')" style="font-size:11px">✏️</button>
+        <button class="btn btn-sm" onclick="deleteTpl('${tpl.id}')" style="font-size:11px;color:var(--red)">🗑</button>
+      </div>
+    </div>
+    <div class="tpl-edit-box" id="tpl-edit-${tpl.id}" style="display:none;background:var(--bg2);border:.5px solid var(--border);border-radius:9px;padding:11px;margin-bottom:7px">
+      <div style="display:flex;gap:6px;margin-bottom:7px">
+        <input id="te-emoji-${tpl.id}" value="${tpl.emoji}" style="width:48px;text-align:center;font-size:18px;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px"/>
+        <input id="te-name-${tpl.id}" value="${tpl.name}" placeholder="이름" style="flex:1;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px 8px;font-size:13px"/>
+      </div>
+      <input id="te-desc-${tpl.id}" value="${tpl.desc}" placeholder="설명" style="width:100%;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px 8px;font-size:12px;margin-bottom:7px;box-sizing:border-box"/>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:5px">포함할 루틴 선택</div>
+      <div id="te-habits-${tpl.id}" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px">${H.map(h=>`
+        <label style="display:flex;align-items:center;gap:3px;font-size:11px;background:var(--bg3);border:.5px solid var(--border);border-radius:6px;padding:3px 7px;cursor:pointer">
+          <input type="checkbox" value="${h.id}" ${tpl.ids==='all'||tpl.ids.includes(h.id)?'checked':''} style="accent-color:var(--blue)"/>
+          ${h.emoji} ${h.name}
+        </label>`).join('')}
+        <label style="display:flex;align-items:center;gap:3px;font-size:11px;background:var(--bg3);border:.5px solid var(--border);border-radius:6px;padding:3px 7px;cursor:pointer">
+          <input type="checkbox" id="te-all-${tpl.id}" ${tpl.ids==='all'?'checked':''} style="accent-color:var(--purple)"/> ⭐ 전체
+        </label>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-primary" style="flex:1" onclick="saveTpl('${tpl.id}')">저장</button>
+        <button class="btn btn-sm" style="flex:1" onclick="closeTplEdit('${tpl.id}')">취소</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1004,6 +1037,89 @@ function applyTemplate(tid){
   ls.set(KH,H);
   rdGoal(); rdToday();
   alert(`✅ "${tpl.name}" 적용 완료!`);
+}
+
+// ── TEMPLATE EDIT ────────────────────────────────────────────────
+let _tplNewOpen=false;
+function openTplEdit(tid){
+  if(!tid){ _openNewTplForm(); return; }
+  // 다른 열린 편집창 닫기
+  TEMPLATES.forEach(t=>{ if(t.id!==tid) closeTplEdit(t.id); });
+  const card=document.getElementById('tpl-card-'+tid);
+  const box=document.getElementById('tpl-edit-'+tid);
+  if(card) card.style.display='none';
+  if(box) box.style.display='block';
+}
+function closeTplEdit(tid){
+  const card=document.getElementById('tpl-card-'+tid);
+  const box=document.getElementById('tpl-edit-'+tid);
+  if(card) card.style.display='flex';
+  if(box) box.style.display='none';
+}
+function _getCheckedIds(tid){
+  const allCb=document.getElementById('te-all-'+tid);
+  if(allCb&&allCb.checked) return 'all';
+  const boxes=document.querySelectorAll('#te-habits-'+tid+' input[type=checkbox]:not(#te-all-'+tid+')');
+  const ids=[];
+  boxes.forEach(cb=>{ if(cb.checked) ids.push(cb.value); });
+  return ids;
+}
+function saveTpl(tid){
+  const emoji=document.getElementById('te-emoji-'+tid).value.trim()||'⭐';
+  const name=document.getElementById('te-name-'+tid).value.trim();
+  const desc=document.getElementById('te-desc-'+tid).value.trim();
+  if(!name){ alert('이름을 입력해 주세요'); return; }
+  const ids=_getCheckedIds(tid);
+  const idx=TEMPLATES.findIndex(t=>t.id===tid);
+  if(idx>=0) TEMPLATES[idx]={id:tid,name,emoji,desc,ids};
+  ls.set(KTP,TEMPLATES);
+  rdGoal();
+}
+function deleteTpl(tid){
+  if(!confirm('이 템플릿을 삭제할까요?')) return;
+  TEMPLATES=TEMPLATES.filter(t=>t.id!==tid);
+  ls.set(KTP,TEMPLATES);
+  rdGoal();
+}
+function _openNewTplForm(){
+  // 기존 새 템플릿 폼 제거
+  const old=document.getElementById('tpl-new-form');
+  if(old){ old.remove(); _tplNewOpen=false; return; }
+  _tplNewOpen=true;
+  const habitsHtml=H.map(h=>`
+    <label style="display:flex;align-items:center;gap:3px;font-size:11px;background:var(--bg3);border:.5px solid var(--border);border-radius:6px;padding:3px 7px;cursor:pointer">
+      <input type="checkbox" value="${h.id}" style="accent-color:var(--blue)"/> ${h.emoji} ${h.name}
+    </label>`).join('');
+  const form=document.createElement('div');
+  form.id='tpl-new-form';
+  form.style.cssText='background:var(--bg2);border:.5px solid var(--blue-border);border-radius:9px;padding:11px;margin-bottom:7px';
+  form.innerHTML=`
+    <div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:8px">새 템플릿 추가</div>
+    <div style="display:flex;gap:6px;margin-bottom:7px">
+      <input id="tn-emoji" placeholder="🎯" style="width:48px;text-align:center;font-size:18px;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px"/>
+      <input id="tn-name" placeholder="템플릿 이름" style="flex:1;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px 8px;font-size:13px"/>
+    </div>
+    <input id="tn-desc" placeholder="설명" style="width:100%;background:var(--bg3);border:.5px solid var(--border);border-radius:7px;color:var(--text);padding:4px 8px;font-size:12px;margin-bottom:7px;box-sizing:border-box"/>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:5px">포함할 루틴 선택</div>
+    <div id="tn-habits" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px">${habitsHtml}</div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-sm btn-primary" style="flex:1" onclick="addNewTpl()">추가</button>
+      <button class="btn btn-sm" style="flex:1" onclick="_openNewTplForm()">취소</button>
+    </div>`;
+  const list=document.getElementById('tpl-list');
+  list.insertBefore(form, list.children[1]||null);
+}
+function addNewTpl(){
+  const emoji=document.getElementById('tn-emoji').value.trim()||'🎯';
+  const name=document.getElementById('tn-name').value.trim();
+  const desc=document.getElementById('tn-desc').value.trim();
+  if(!name){ alert('이름을 입력해 주세요'); return; }
+  const boxes=document.querySelectorAll('#tn-habits input[type=checkbox]');
+  const ids=[]; boxes.forEach(cb=>{ if(cb.checked) ids.push(cb.value); });
+  TEMPLATES.push({id:'t'+Date.now(),name,emoji,desc,ids});
+  ls.set(KTP,TEMPLATES);
+  _tplNewOpen=false;
+  rdGoal();
 }
 
 // ── SETTINGS ────────────────────────────────────────────────────
