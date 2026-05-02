@@ -539,7 +539,6 @@ function rdHeader(){
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
-// ── LOCK PIN FUNCTIONS DEFINED IN <head> ──────────────────────────
 
 
 async function init(){
@@ -635,7 +634,7 @@ function rdToday(){
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
     const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
     return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':''}" style="cursor:${quiet?'default':'pointer'};animation:fadeIn .2s ease">
-      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${quiet?'':``tog('${h.id}')``}">
+      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${quiet?'':('tog('+JSON.stringify(h.id)+')')}">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div style="flex:1;min-width:0">
