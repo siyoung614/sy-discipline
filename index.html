@@ -155,32 +155,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .theme-btn.on{background:var(--blue);color:white}
 /* INLINE MSG */
 .inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
+/* INLINE MSG */
+.inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
 /* LOCK SCREEN */
-#lockscreen{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  z-index:9999;
-  background:linear-gradient(170deg,#060c1a 0%,#0c1f40 60%,#07111f 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-#lockscreen .lk-logo{width:80px;height:80px;border-radius:20px;object-fit:cover;margin-bottom:14px;box-shadow:0 6px 24px rgba(59,130,246,.4)}
-#lockscreen .lk-title{font-size:22px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#lockscreen .lk-sub{font-size:13px;color:#4b6080;margin-top:4px;margin-bottom:30px}
-#lockscreen .lk-dots{display:flex;gap:16px;margin-bottom:10px;transition:transform .08s}
-#lockscreen .lk-dot{width:14px;height:14px;border-radius:50%;background:#0f2040;border:2px solid #1d4ed8;transition:background .15s}
-#lockscreen .lk-msg{height:22px;font-size:13px;font-weight:600;text-align:center;margin-bottom:22px;color:#6b7280}
-#lockscreen .lk-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
-#lockscreen .lk-key{
-  width:72px;height:58px;
-  border-radius:14px;
-  background:rgba(255,255,255,.07);
-  border:1.5px solid rgba(59,130,246,.25);
-  color:#e2e8f0;
-  font-size:24px;font-weight:600;
-  cursor:pointer;
-  font-family:-apple-system,sans-serif;
-  -webkit-tap-highlight-color:rgba(59,130,246,.4);
-}
-#lockscreen .lk-key:active{background:rgba(59,130,246,.45);}
 /* INLINE MSG */
 .inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
 /* LOCK SCREEN */
@@ -189,151 +166,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:0;padding-bottom:30px;
 }
-#lockscreen.ls-hidden{display:none!important}
-.lk-logo{width:80px;height:80px;border-radius:20px;object-fit:cover;margin-bottom:14px;box-shadow:0 6px 24px rgba(59,130,246,.4)}
-.lk-title{font-size:22px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.lk-sub{font-size:13px;color:#4b6080;margin-top:4px;margin-bottom:36px}
-.lk-dots{display:flex;gap:16px;margin-bottom:10px}
-.lk-dot{width:14px;height:14px;border-radius:50%;background:#0f2040;border:2px solid #1d4ed8;transition:background .15s,transform .1s}
-.lk-dot.filled{background:#3b82f6;transform:scale(1.1)}
-.lk-msg{height:22px;font-size:12px;font-weight:600;text-align:center;margin-bottom:24px;color:#4b6080}
-.lk-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:240px}
-.lk-key{
-  height:58px;border-radius:14px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(59,130,246,.18);
-  color:#e2e8f0;font-size:22px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;
-  font-family:inherit;cursor:pointer;
-  -webkit-tap-highlight-color:rgba(59,130,246,.35);
-  transition:background .1s;
-}
-.lk-key:active{background:rgba(59,130,246,.4)}
-@keyframes lkShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.lk-shake{animation:lkShake .3s ease}
 /* INLINE MSG */
 .inline-msg{font-size:12px;padding:8px 11px;border-radius:8px;margin-top:8px;text-align:center}
 </style>
 
-<script>
-// ── PIN LOCK (runs immediately in head) ──────────────────────────
-var PIN_KEY = 'syv5-pin';
-var lkBuf = '', lkPhase = 'enter', lkFirst = '';
-
-function lkGetPin(){ try{ return localStorage.getItem(PIN_KEY)||''; }catch(e){ return ''; } }
-function lkSetPin(v){ try{ localStorage.setItem(PIN_KEY,v); }catch(e){} }
-function lkDelPin(){ try{ localStorage.removeItem(PIN_KEY); }catch(e){} }
-
-function lkTap(n){
-  if(lkBuf.length >= 4) return;
-  lkBuf += String(n);
-  lkRefresh();
-  if(lkBuf.length === 4) setTimeout(lkCheck, 150);
-}
-function lkDel(){
-  lkBuf = lkBuf.slice(0,-1);
-  lkRefresh();
-}
-function lkRefresh(){
-  for(var i=0;i<4;i++){
-    var d=document.getElementById('lkd'+i);
-    if(d) d.style.background = i < lkBuf.length ? '#3b82f6' : '#0f2040';
-  }
-}
-function lkSetMsg(txt, color){
-  var el=document.getElementById('lk-msg');
-  if(el){ el.textContent=txt; el.style.color=color||'#6b7280'; }
-}
-function lkShake(){
-  var wrap=document.getElementById('lk-dots');
-  if(!wrap) return;
-  wrap.style.transform='translateX(-7px)';
-  setTimeout(function(){ wrap.style.transform='translateX(7px)'; }, 80);
-  setTimeout(function(){ wrap.style.transform='translateX(-5px)'; }, 160);
-  setTimeout(function(){ wrap.style.transform='translateX(0)'; }, 240);
-}
-function lkCheck(){
-  var saved = lkGetPin();
-  if(!saved){
-    // Setup phase 1
-    if(lkPhase === 'enter'){
-      lkPhase = 'setup1';
-      lkSetMsg('4자리 PIN을 설정하세요','#3b82f6');
-    }
-    if(lkPhase === 'setup1'){
-      lkFirst = lkBuf; lkBuf=''; lkRefresh();
-      lkPhase = 'setup2';
-      lkSetMsg('한 번 더 입력하세요','#3b82f6');
-    } else if(lkPhase === 'setup2'){
-      if(lkBuf === lkFirst){
-        lkSetPin(lkBuf);
-        lkSetMsg('✅ PIN 설정 완료!','#22c55e');
-        setTimeout(lkUnlock, 600);
-      } else {
-        lkBuf=''; lkFirst=''; lkPhase='setup1'; lkRefresh(); lkShake();
-        lkSetMsg('불일치! 다시 설정','#ef4444');
-        setTimeout(function(){ lkSetMsg('4자리 PIN을 설정하세요','#3b82f6'); }, 1200);
-      }
-    }
-  } else {
-    if(lkBuf === saved){
-      lkSetMsg('✅ 잠금 해제','#22c55e');
-      setTimeout(lkUnlock, 350);
-    } else {
-      lkBuf=''; lkRefresh(); lkShake();
-      lkSetMsg('PIN이 틀렸습니다','#ef4444');
-      setTimeout(function(){ lkSetMsg('PIN 입력','#6b7280'); }, 1200);
-    }
-  }
-}
-function lkUnlock(){
-  var el=document.getElementById('lockscreen');
-  if(!el) return;
-  el.style.opacity='0';
-  el.style.transition='opacity 0.3s';
-  setTimeout(function(){ el.style.display='none'; }, 320);
-}
-function lkInit(){
-  var saved=lkGetPin();
-  lkPhase = saved ? 'enter' : 'setup1';
-  lkSetMsg(saved ? 'PIN 입력' : '4자리 PIN을 설정하세요', saved ? '#6b7280' : '#3b82f6');
-}
-function resetPin(){
-  if(!confirm('PIN을 초기화할까요?')) return;
-  lkDelPin();
-  alert('초기화됨. 앱을 새로고침하세요.');
-}
-</script>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
-<div id="lockscreen">
-  <img class="lk-logo" src="icon-192.png" alt="SY"/>
-  <div class="lk-title">SY Discipline</div>
-  <div class="lk-sub">파일럿 데일리 루틴 트래커</div>
-  <div class="lk-dots" id="lk-dots">
-    <div class="lk-dot" id="lkd0"></div>
-    <div class="lk-dot" id="lkd1"></div>
-    <div class="lk-dot" id="lkd2"></div>
-    <div class="lk-dot" id="lkd3"></div>
-  </div>
-  <div class="lk-msg" id="lk-msg">PIN 입력</div>
-  <div class="lk-pad">
-    <button class="lk-key" onclick="lkTap(1)">1</button>
-    <button class="lk-key" onclick="lkTap(2)">2</button>
-    <button class="lk-key" onclick="lkTap(3)">3</button>
-    <button class="lk-key" onclick="lkTap(4)">4</button>
-    <button class="lk-key" onclick="lkTap(5)">5</button>
-    <button class="lk-key" onclick="lkTap(6)">6</button>
-    <button class="lk-key" onclick="lkTap(7)">7</button>
-    <button class="lk-key" onclick="lkTap(8)">8</button>
-    <button class="lk-key" onclick="lkTap(9)">9</button>
-    <div></div>
-    <button class="lk-key" onclick="lkTap(0)">0</button>
-    <button class="lk-key" onclick="lkDel()" style="font-size:18px">⌫</button>
-  </div>
-</div>
+
 
 <div id="loading">
   <img src="icon-192.png" alt="SY"/>
@@ -523,16 +363,7 @@ function resetPin(){
         <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
       </div>
     </div>
-    <!-- ④ PIN / Face ID -->
-    <div class="card">
-      <div class="stitle">🔐 PIN / Face ID 설정</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.6">
-        앱 시작 시 4자리 PIN으로 잠금 해제합니다.<br>
-        Face ID 등록 시 자동으로 Face ID 먼저 시도합니다.<br>
-        초기화하면 다음 실행 시 PIN을 새로 설정합니다.
-      </div>
-      <button class="btn" style="width:100%;color:var(--red);border-color:var(--red-border);background:var(--red-bg)" onclick="resetPin()">🔐 PIN / Face ID 초기화</button>
-    </div>
+    
     <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v4 · JANG SIYOUNG</div>
     <div style="height:8px"></div>
   </div>
@@ -724,7 +555,7 @@ async function init(){
   document.getElementById('man-date').value=TODAY;
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='flex';
-  rdHeader(); rdWeekStrip(); rdToday(); schedN(); lkInit();
+  rdHeader(); rdWeekStrip(); rdToday(); schedN();
 }
 
 // ── NAV ──────────────────────────────────────────────────────────
