@@ -144,6 +144,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 /* WARN */
 .warn{font-size:11px;color:var(--yellow);padding:7px 10px;background:var(--yellow-bg);border-radius:8px;border:.5px solid var(--yellow-border);margin-bottom:8px}
 /* LOADING */
+#save-toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px)+70px);left:50%;transform:translateX(-50%);background:var(--green);color:white;font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;z-index:998;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
+#save-toast.show{opacity:1}
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
 #loading img{width:76px;height:76px;border-radius:19px;object-fit:cover}
 .spin{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
@@ -170,6 +172,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
 
 
+<div id="save-toast">✓ 저장됨</div>
 <div id="loading">
   <img src="icon-192.png" alt="SY"/>
   <div class="spin"></div>
@@ -358,6 +361,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <button class="theme-btn" id="th-light" onclick="setTheme('light')">라이트</button>
       </div>
     </div>
+    <div class="card">
+      <div class="stitle">💾 데이터 백업 / 복원</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">브라우저 캐시 삭제 전 반드시 백업하세요</div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-primary" style="flex:1" onclick="exportData()">📤 백업 다운로드</button>
+        <label class="btn" style="flex:1;text-align:center;cursor:pointer">📥 복원
+          <input type="file" accept=".json" onchange="importData(event)" style="display:none"/>
+        </label>
+      </div>
+      <div style="font-size:10px;color:var(--text3)">백업 파일: sy-discipline-backup.json</div>
+    </div>
     
     <div style="text-align:center;padding:8px 0 2px;font-size:10px;color:var(--text3)">SY Discipline v4 · JANG SIYOUNG</div>
     <div style="height:8px"></div>
@@ -447,11 +461,21 @@ let calY=new Date().getFullYear(), calM=new Date().getMonth();
 let ntT=[], curTab='today', pwVisible=false, curTheme='dark', celebrated=false;
 
 const KH='syv4-h', KC='syv4-c', KCT='syv4-ct', KM='syv4-m', KS='syv4-s', KTH='syv4-theme', KTP='syv4-tpl';
+let _toastT=null;
+function showSaveToast(ok){
+  const el=document.getElementById('save-toast');
+  if(!el) return;
+  el.textContent=ok?'✓ 저장됨':'⚠️ 저장 실패 — 브라우저 저장공간 확인 필요';
+  el.style.background=ok?'var(--green)':'var(--red)';
+  el.classList.add('show');
+  clearTimeout(_toastT);
+  _toastT=setTimeout(()=>el.classList.remove('show'), ok?1800:4000);
+}
 const ls={
-  get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
-  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+  get:k=>{try{const v=localStorage.getItem(k);if(!v) return null;const p=JSON.parse(v);return p;}catch{return null;}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));showSaveToast(true);}catch(e){showSaveToast(false);console.error('save fail',k,e);}},
   raw:k=>{try{return localStorage.getItem(k)||'';}catch{return '';}},
-  setRaw:(k,v)=>{try{localStorage.setItem(k,v);}catch{}},
+  setRaw:(k,v)=>{try{localStorage.setItem(k,v);showSaveToast(true);}catch(e){showSaveToast(false);}},
 };
 
 // ── SC HELPERS ───────────────────────────────────────────────────
@@ -541,11 +565,24 @@ function rdHeader(){
 // ── INIT ─────────────────────────────────────────────────────────
 
 
+function validateH(arr){
+  // 루틴 배열 무결성: 각 항목이 필수 필드를 가져야 함
+  if(!Array.isArray(arr)||arr.length===0) return false;
+  return arr.every(h=>h&&typeof h.id==='string'&&typeof h.name==='string'&&typeof h.emoji==='string');
+}
+function validateObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
+
 async function init(){
   const[h,c,ct,m,s,th,tp]=[ls.get(KH),ls.get(KC),ls.get(KCT),ls.get(KM),ls.get(KS),ls.raw(KTH),ls.get(KTP)];
-  if(h) H=h; if(c) C=c; if(ct) CT=ct; if(m) M=m;
-  if(tp) TEMPLATES=tp;
-  SC={}; if(s) Object.assign(SC,s);
+  // 무결성 검증 후 로드
+  if(h&&validateH(h)) H=h; else if(h) console.warn('KH 손상, 기본값 사용');
+  if(c&&validateObj(c)) C=c;
+  if(ct&&validateObj(ct)) CT=ct;
+  if(m&&validateObj(m)) M=m;
+  if(tp&&Array.isArray(tp)&&tp.length>0) TEMPLATES=tp;
+  SC={}; if(s&&validateObj(s)) Object.assign(SC,s);
+  // 루틴 id 누락 시 보정 (마이그레이션)
+  H=H.map((h,i)=>({...h,id:h.id||('h_'+(Date.now()+i)),on:h.on!==false}));
   applyTheme(th||'dark');
   document.getElementById('man-date').value=TODAY;
   document.getElementById('loading').style.display='none';
@@ -745,22 +782,6 @@ function rdStats(){
   document.getElementById('stat-list').innerHTML=act.map(h=>{
     const sk=streak(h.id), r=rate30(h.id);
     const fc=r>=80?'var(--green)':r>=50?'var(--yellow)':'var(--red)';
-    const rbt=rateByType(h.id);
-    const typeBars=['flight','layover','off'].map(tp=>{
-      const d=rbt[tp]; if(!d||d.tot===0) return '';
-      const pct=Math.round(d.dn/d.tot*100);
-      const fc2=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
-      const icon=tp==='flight'?'✈️':tp==='layover'?'🏨':'⌂';
-      return `<div style="display:flex;align-items:center;gap:5px;margin-top:4px">
-        <span style="font-size:10px;min-width:18px">${icon}</span>
-        <div style="flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden">
-          <div style="height:100%;width:${pct}%;background:${fc2};border-radius:3px;transition:width .4s ease"></div>
-        </div>
-        <span style="font-size:9px;color:var(--text2);min-width:26px;text-align:right">${pct}%</span>
-        <span style="font-size:9px;color:var(--text3)">${d.dn}/${d.tot}</span>
-      </div>`;
-    }).join('');
-    const hasTypeBars=typeBars.replace(/\s/g,'').length>0;
     return `<div class="card">
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
         <span style="font-size:18px">${h.emoji}</span>
@@ -774,8 +795,7 @@ function rdStats(){
         </div>
       </div>
       <div class="pb"><div class="pf" style="width:${r}%;background:${fc}"></div></div>
-      <div style="font-size:10px;color:var(--text2);text-align:right;margin-bottom:${hasTypeBars?6:0}px">30일 달성률 ${r}%</div>
-      ${hasTypeBars?`<div style="border-top:.5px solid var(--border);padding-top:6px">${typeBars}</div>`:''}
+      <div style="font-size:10px;color:var(--text2);text-align:right">30일 달성률 ${r}%</div>
     </div>`;
   }).join('');
 }
@@ -1159,6 +1179,42 @@ function addNewTpl(){
   ls.set(KTP,TEMPLATES);
   _tplNewOpen=false;
   rdGoal();
+}
+
+// ── BACKUP / RESTORE ─────────────────────────────────────────────
+function exportData(){
+  const data={
+    version:4,
+    exportedAt:new Date().toISOString(),
+    H:H, C:C, CT:CT, M:M, SC:SC, TEMPLATES:TEMPLATES, theme:ls.raw(KTH)
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='sy-discipline-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+function importData(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(!d||!d.H||!Array.isArray(d.H)) throw new Error('올바른 백업 파일이 아닙니다');
+      if(!confirm('현재 데이터를 백업 파일로 교체할까요?\n(현재 데이터는 사라집니다)')) return;
+      if(d.H) {H=d.H; ls.set(KH,H);}
+      if(d.C) {C=d.C; ls.set(KC,C);}
+      if(d.CT) {CT=d.CT; ls.set(KCT,CT);}
+      if(d.M) {M=d.M; ls.set(KM,M);}
+      if(d.SC) {SC={}; Object.assign(SC,d.SC); ls.set(KS,SC);}
+      if(d.TEMPLATES&&d.TEMPLATES.length) {TEMPLATES=d.TEMPLATES; ls.set(KTP,TEMPLATES);}
+      if(d.theme) applyTheme(d.theme);
+      rdHeader(); rdWeekStrip(); rdToday(); rdStats(); rdSched(); rdGoal(); rdSet(); schedN();
+      alert('✅ 복원 완료!');
+    } catch(err){ alert('❌ 복원 실패: '+err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
 }
 
 // ── SETTINGS ────────────────────────────────────────────────────
