@@ -69,7 +69,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 /* HABIT */
 .hi{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:.5px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
 .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
-.hi.quiet{opacity:.4}
+
 .ck{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
 .ck.dn{background:var(--green);border-color:var(--green)}
 .ck svg{display:none}.ck.dn svg{display:block}
@@ -671,14 +671,14 @@ function rdToday(){
     const wc=weekCount(h.id);
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
     const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
-    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${quiet?'':("tog('"+h.id+"')")}" style="cursor:${quiet?'default':'pointer'};animation:fadeIn .2s ease">
-      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${quiet?'':("tog('"+h.id+"')")}">
+    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="tog('${h.id}')" style="cursor:pointer;animation:fadeIn .2s ease">
+      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();tog('${h.id}')">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">
           <span style="font-size:18px">${h.emoji}</span>
-          <span style="font-size:13px;font-weight:600;color:${done?'var(--green)':quiet?'var(--text3)':'var(--text)'};${done?'text-decoration:line-through':''}">${h.name}</span>
+          <span style="font-size:13px;font-weight:600;color:${done?'var(--green)':'var(--text)'};${done?'text-decoration:line-through':''}">${h.name}</span>
           ${goalBadge}${timeLabel}
         </div>
         <div style="font-size:9px;color:var(--text3);margin-top:2px">⏰ ${h.time} · ${DLBL[h.days]||h.days}${quiet?' · 🔕 비행 무음':''}</div>
