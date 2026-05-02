@@ -436,22 +436,22 @@ const MAY26 = {
 };
 
 const DEFS = [
-  {id:'h1',name:'운동 / 스트레칭',emoji:'💪',time:'07:00',days:'all',on:true,goal:5},
-  {id:'h2',name:'수분 2L 섭취',   emoji:'💧',time:'08:00',days:'all',on:true,goal:7},
-  {id:'h3',name:'영어 학습 30분', emoji:'📖',time:'09:30',days:'all',on:true,goal:5},
-  {id:'h4',name:'비행 전 브리핑', emoji:'✈️',time:'05:30',days:'flight',on:true,goal:0},
-  {id:'h5',name:'재테크 공부',    emoji:'📈',time:'20:00',days:'off',on:true,goal:0},
-  {id:'h6',name:'명상',           emoji:'🧘',time:'21:30',days:'all',on:true,goal:5},
-  {id:'h7',name:'딸이랑 놀기',    emoji:'👶',time:'18:00',days:'all',on:true,goal:7},
-  {id:'h8',name:'시차 적응 루틴', emoji:'🕐',time:'22:00',days:'layover',on:true,goal:0},
-  {id:'h9',name:'현지 운동',      emoji:'🏃',time:'09:00',days:'layover',on:true,goal:0},
+  {id:'h1',name:'아침 물&약',      emoji:'☀️',time:'09:00',days:'all',on:true,goal:7},
+  {id:'h2',name:'운동 / 스트레칭', emoji:'💪',time:'07:00',days:'all',on:true,goal:4},
+  {id:'h3',name:'수분 2L 섭취',    emoji:'💧',time:'08:00',days:'all',on:true,goal:7},
+  {id:'h4',name:'영어 학습 30분',  emoji:'📖',time:'09:30',days:'all',on:true,goal:5},
+  {id:'h5',name:'비타민/비오틴',   emoji:'💊',time:'09:00',days:'all',on:true,goal:7},
+  {id:'h6',name:'재테크 공부',     emoji:'📈',time:'20:00',days:'off', on:true,goal:0},
+  {id:'h7',name:'명상',            emoji:'🧘',time:'21:30',days:'all',on:true,goal:5},
+  {id:'h8',name:'비행 관련 공부',  emoji:'✈️',time:'09:00',days:'all',on:true,goal:3},
+  {id:'h9',name:'팩',              emoji:'🧖',time:'09:00',days:'all',on:true,goal:1},
 ];
 
 const TEMPLATES = [
-  {id:'t1',name:'비행일 팩', emoji:'✈️',desc:'브리핑+수분+명상',    ids:['h4','h2','h6']},
-  {id:'t2',name:'오프일 팩', emoji:'⌂', desc:'운동+영어+재테크+명상+딸',ids:['h1','h3','h5','h6','h7']},
-  {id:'t3',name:'레이오버 팩',emoji:'🏨',desc:'수분+시차적응+현지운동',ids:['h2','h8','h9']},
-  {id:'t4',name:'전체 ON',   emoji:'⭐',desc:'모든 루틴 활성화',    ids:'all'},
+  {id:'t1',name:'비행일 팩',  emoji:'✈️',desc:'물약+수분+비행공부+명상',    ids:['h1','h3','h8','h7']},
+  {id:'t2',name:'오프일 팩',  emoji:'⌂', desc:'운동+영어+재테크+명상',       ids:['h2','h4','h6','h7']},
+  {id:'t3',name:'건강 루틴',  emoji:'💊',desc:'물약+수분+비타민+운동',        ids:['h1','h3','h5','h2']},
+  {id:'t4',name:'전체 ON',    emoji:'⭐',desc:'모든 루틴 활성화',             ids:'all'},
 ];
 
 // ── STATE ────────────────────────────────────────────────────────
