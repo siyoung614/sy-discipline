@@ -248,27 +248,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- SCHEDULE -->
   <div id="p-sched" class="scroll" style="display:none">
-    <!-- Manual entry -->
-    <div class="card" id="manual-form-card">
-      <div class="stitle">✏️ 스케쥴 입력</div>
-      <div class="fld"><label>날짜</label><input type="date" id="man-date"/></div>
-      <div class="fld"><label>스케쥴 유형</label>
-        <select id="man-type" onchange="onManTypeChange()">
-          <option value="">-- 선택 --</option>
-          <option value="flight">✈ 비행</option>
-          <option value="layover">🏨 레이오버</option>
-          <option value="off">⌂ 오프 / RDO</option>
-          <option value="reserve">📋 리저브 / SBY</option>
-        </select>
-      </div>
-      <div id="man-flight-sec" style="display:none">
-        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">비행 편 정보 (알림 자동 차단용)</div>
-        <div id="man-flight-list"></div>
-        <button class="btn btn-sm" onclick="addFlightRow()" style="width:100%;margin-top:4px">+ 비행 편 추가</button>
-      </div>
-      <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
-      <div id="man-msg" style="display:none" class="inline-msg"></div>
-    </div>
     <!-- Calendar nav -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <button class="btn btn-sm" onclick="prevM()">← 이전</button>
@@ -295,6 +274,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <div class="cal-grid-hdr-cell" style="color:var(--blue)">토</div>
       </div>
       <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <!-- Manual entry -->
+    <div class="card" id="manual-form-card" style="margin-top:9px">
+      <div class="stitle">✏️ 스케쥴 입력</div>
+      <div class="fld"><label>날짜</label><input type="date" id="man-date"/></div>
+      <div class="fld"><label>스케쥴 유형</label>
+        <select id="man-type" onchange="onManTypeChange()">
+          <option value="">-- 선택 --</option>
+          <option value="flight">✈ 비행</option>
+          <option value="layover">🏨 레이오버</option>
+          <option value="off">⌂ 오프 / RDO</option>
+          <option value="reserve">📋 리저브 / SBY</option>
+        </select>
+      </div>
+      <div id="man-flight-sec" style="display:none">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px">비행 편 정보 (알림 자동 차단용)</div>
+        <div id="man-flight-list"></div>
+        <button class="btn btn-sm" onclick="addFlightRow()" style="width:100%;margin-top:4px">+ 비행 편 추가</button>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveManual()">저장하기</button>
+      <div id="man-msg" style="display:none" class="inline-msg"></div>
     </div>
   </div>
 
