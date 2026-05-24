@@ -451,6 +451,53 @@ const MAY26 = {
   '2026-05-31':{type:'flight',flights:[{fn:'KE1195',dep:'GMP',depTime:'18:15',arr:'CJU',arrTime:'19:30'},{fn:'KE1558',dep:'CJU',depTime:'20:30',arr:'PUS',arrTime:'21:30'}]},
 };
 
+// 6월 사전 입력 스케쥴
+const JUN26 = {
+  // 1일(월): PUS 레이오버 후 KE2061 22:20 출발
+  '2026-06-01':{type:'flight',flights:[{fn:'KE2061',dep:'PUS',depTime:'22:20',arr:'PEK',arrTime:'00:05'}]},
+  // 2일(화): PEK에서 KE2062 귀환, PUS 레이오버
+  '2026-06-02':{type:'flight',flights:[{fn:'KE2062',dep:'PEK',depTime:'03:10',arr:'PUS',arrTime:'06:30'}]},
+  // 3일(수): PUS→CJU 퀵턴 4편
+  '2026-06-03':{type:'flight',flights:[{fn:'KE1505',dep:'PUS',depTime:'07:00',arr:'CJU',arrTime:'08:00'},{fn:'KE1512',dep:'CJU',depTime:'08:45',arr:'PUS',arrTime:'09:45'},{fn:'KE1517',dep:'PUS',depTime:'10:25',arr:'CJU',arrTime:'11:25'},{fn:'DH1214',dep:'CJU',depTime:'13:05',arr:'GMP',arrTime:'14:20'}]},
+  '2026-06-04':{type:'off',flights:[]},      // ATDO
+  '2026-06-05':{type:'reserve',flights:[]},
+  '2026-06-06':{type:'reserve',flights:[]},
+  // 7일(일): ICN-NRT 퀵턴
+  '2026-06-07':{type:'flight',flights:[{fn:'KE713',dep:'ICN',depTime:'17:15',arr:'NRT',arrTime:'19:45'},{fn:'KE714',dep:'NRT',depTime:'20:55',arr:'ICN',arrTime:'23:25'}]},
+  '2026-06-08':{type:'reserve',flights:[]},
+  '2026-06-09':{type:'reserve',flights:[]},  // RCRM/JCRM/EMER 지상훈련
+  '2026-06-10':{type:'reserve',flights:[]},
+  '2026-06-11':{type:'reserve',flights:[]},
+  '2026-06-12':{type:'off',flights:[]},'2026-06-13':{type:'off',flights:[]},  // RDO
+  '2026-06-14':{type:'off',flights:[]},'2026-06-15':{type:'off',flights:[]},  // RDO
+  '2026-06-16':{type:'reserve',flights:[]},  // HM_SBY12
+  // 17일(수): ICN→TAE 야간 출발, TAE 레이오버
+  '2026-06-17':{type:'flight',flights:[{fn:'KE1431',dep:'ICN',depTime:'18:50',arr:'TAE',arrTime:'19:55'}]},
+  '2026-06-18':{type:'layover',flights:[]},  // LO TAE
+  // 19일(금): TAE 출발 귀환 + ICN-NGO 퀵턴
+  '2026-06-19':{type:'flight',flights:[{fn:'KE1432',dep:'TAE',depTime:'07:55',arr:'ICN',arrTime:'09:00'},{fn:'KE741',dep:'ICN',depTime:'10:35',arr:'NGO',arrTime:'12:30'},{fn:'KE742',dep:'NGO',depTime:'13:40',arr:'ICN',arrTime:'15:40'}]},
+  '2026-06-20':{type:'off',flights:[]},'2026-06-21':{type:'off',flights:[]},  // DO
+  '2026-06-22':{type:'reserve',flights:[]},  // 737UPRT 시뮬레이터 훈련
+  '2026-06-23':{type:'off',flights:[]},      // DO
+  '2026-06-24':{type:'reserve',flights:[]},  // HM_SBY08
+  // 25일(목): GMP-CJU-TAE-CJU 다구간, CJU 레이오버
+  '2026-06-25':{type:'flight',flights:[{fn:'KE1023',dep:'GMP',depTime:'07:20',arr:'CJU',arrTime:'08:35'},{fn:'KE1570',dep:'CJU',depTime:'09:15',arr:'TAE',arrTime:'10:20'},{fn:'KE1569',dep:'TAE',depTime:'11:05',arr:'CJU',arrTime:'12:10'}]},
+  // 26일(금): CJU 베이스 다구간, CJU 레이오버
+  '2026-06-26':{type:'flight',flights:[{fn:'KE1118',dep:'CJU',depTime:'07:00',arr:'GMP',arrTime:'08:15'},{fn:'KE1073',dep:'GMP',depTime:'10:10',arr:'CJU',arrTime:'11:25'},{fn:'KE1614',dep:'CJU',depTime:'13:05',arr:'KWJ',arrTime:'14:00'},{fn:'KE1613',dep:'KWJ',depTime:'14:35',arr:'CJU',arrTime:'15:30'}]},
+  // 27일(토): CJU→GMP 귀환
+  '2026-06-27':{type:'flight',flights:[{fn:'KE1712',dep:'CJU',depTime:'12:15',arr:'CJJ',arrTime:'13:25'},{fn:'KE1717',dep:'CJJ',depTime:'14:05',arr:'CJU',arrTime:'15:15'},{fn:'KE1264',dep:'CJU',depTime:'16:05',arr:'GMP',arrTime:'17:20'}]},
+  '2026-06-28':{type:'off',flights:[]},'2026-06-29':{type:'off',flights:[]},  // DO
+  // 30일(화): ICN→GUM 출발, GUM 레이오버
+  '2026-06-30':{type:'flight',flights:[{fn:'DH415',dep:'ICN',depTime:'10:05',arr:'GUM',arrTime:'15:35'}]},
+};
+
+// 7월 사전 입력 스케쥴
+const JUL26 = {
+  '2026-07-01':{type:'layover',flights:[]},  // LO GUM
+  // 2일(목): GUM→ICN 새벽 귀환
+  '2026-07-02':{type:'flight',flights:[{fn:'KE418',dep:'GUM',depTime:'02:00',arr:'ICN',arrTime:'05:40'}]},
+};
+
 const DEFS = [
   {id:'h1',name:'아침 물&약',      emoji:'☀️',time:'09:00',days:'all',on:true,goal:7},
   {id:'h2',name:'운동 / 스트레칭', emoji:'💪',time:'07:00',days:'all',on:true,goal:4},
@@ -497,7 +544,7 @@ const ls={
 
 // ── SC HELPERS ───────────────────────────────────────────────────
 function getEntry(ds){
-  const e=SC[ds]??MAY26[ds]??null;
+  const e=SC[ds]??MAY26[ds]??JUN26[ds]??JUL26[ds]??null;
   if(!e) return null;
   if(typeof e==='string') return {type:e,flights:[]};
   return {type:e.type||null, flights:e.flights||[]};
@@ -508,7 +555,7 @@ function setEntry(ds,type,flights){
   SC[ds]={type,flights:flights||[]};
   const toSave={};
   Object.keys(SC).forEach(k=>{
-    const m=MAY26[k], s=SC[k];
+    const m=MAY26[k]??JUN26[k]??JUL26[k], s=SC[k];
     if(!m||JSON.stringify(m)!==JSON.stringify(s)) toSave[k]=s;
   });
   ls.set(KS,toSave);
@@ -517,7 +564,7 @@ function removeEntry(ds){
   delete SC[ds];
   const toSave={};
   Object.keys(SC).forEach(k=>{
-    const m=MAY26[k], s=SC[k];
+    const m=MAY26[k]??JUN26[k]??JUL26[k], s=SC[k];
     if(!m||JSON.stringify(m)!==JSON.stringify(s)) toSave[k]=s;
   });
   ls.set(KS,toSave);
@@ -625,7 +672,6 @@ function G(tab){
 
 // ── WEEK STRIP ───────────────────────────────────────────────────
 function shiftWeek(dir){
-  if(dir>0&&weekOffset>=0) return; // 이번 주가 최대
   weekOffset+=dir;
   rdWeekStrip(); rdToday();
 }
@@ -633,18 +679,17 @@ function rdWeekStrip(){
   const d=new Date(), dow=d.getDay();
   const mon=new Date(d);
   mon.setDate(d.getDate()-(dow===0?6:dow-1)+(weekOffset*7));
-  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
   // 네비 라벨
   const lblEl=document.getElementById('week-nav-lbl');
   const nextEl=document.getElementById('week-nav-next');
   if(weekOffset===0){
     lblEl.textContent='이번 주';
-    if(nextEl){ nextEl.style.color='var(--border2)'; nextEl.setAttribute('disabled',''); }
+  } else if(weekOffset>0){
+    lblEl.textContent=`${weekOffset}주 후`;
   } else {
-    const diff=Math.abs(weekOffset);
-    lblEl.textContent=`${diff}주 전`;
-    if(nextEl){ nextEl.style.color='var(--text2)'; nextEl.removeAttribute('disabled'); }
+    lblEl.textContent=`${Math.abs(weekOffset)}주 전`;
   }
+  if(nextEl){ nextEl.style.color='var(--text2)'; nextEl.removeAttribute('disabled'); }
   document.getElementById('week-strip').innerHTML=WD5.map((wd,i)=>{
     const dt=new Date(mon); dt.setDate(mon.getDate()+i);
     const ds=fmt(dt), isT=ds===TODAY, isSel=ds===viewDate, t=getType(ds);
@@ -652,7 +697,7 @@ function rdWeekStrip(){
     const sun2=dt.getDay()===0, sat=dt.getDay()===6;
     const isFuture=ds>TODAY;
     const numCls=isT&&isSel?'ws-num today selected':isT?'ws-num today':isSel?'ws-num selected':'ws-num';
-    return `<div class="ws-day" onclick="${isFuture?'':(`selectDay('${ds}')`)}" style="${isFuture?'opacity:.35;cursor:default':''}">
+    return `<div class="ws-day" onclick="selectDay('${ds}')" style="${isFuture?'opacity:.55':''}">
       <div class="ws-lbl" style="color:${sun2?'var(--red)':sat?'var(--blue)':'var(--text3)'}">${wd}</div>
       <div class="${numCls}" style="${(!isT&&!isSel)?'color:var(--text2)':''}">${dt.getDate()}</div>
       <div class="ws-dot" style="background:${dotColor}"></div>
@@ -681,7 +726,9 @@ function rdToday(){
   const vd=viewDate;
   const ths=thabs(vd), dn=tdn(vd), tot=ths.length, pct=tot?Math.round(dn/tot*100):0;
   const typ=getType(vd);
-  const isPast=vd!==TODAY;
+  const isPast=vd<TODAY;
+  const isFuture=vd>TODAY;
+  const isOther=vd!==TODAY;
 
   // 날짜 보기 배너
   let bannerEl=document.getElementById('view-date-banner');
@@ -691,10 +738,14 @@ function rdToday(){
     const habitList=document.getElementById('habit-list');
     habitList.parentNode.insertBefore(bannerEl, habitList.parentNode.firstChild);
   }
-  if(isPast){
+  if(isOther){
     const vdObj=new Date(vd+'T00:00:00');
     const lbl=vdObj.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-    bannerEl.innerHTML=`<div class="view-banner"><div class="view-banner-txt">📅 ${lbl} 기록 보기 · 수정 가능</div><button class="view-banner-btn" onclick="goToday()">오늘로</button></div>`;
+    if(isPast){
+      bannerEl.innerHTML=`<div class="view-banner"><div class="view-banner-txt">📅 ${lbl} 기록 보기 · 수정 가능</div><button class="view-banner-btn" onclick="goToday()">오늘로</button></div>`;
+    } else {
+      bannerEl.innerHTML=`<div class="view-banner" style="background:var(--blue-bg);border-color:var(--blue-border)"><div class="view-banner-txt" style="color:var(--blue)">🗓 ${lbl} 스케쥴 미리 보기 · 체크 불가</div><button class="view-banner-btn" style="color:var(--blue);border-color:var(--blue-border)" onclick="goToday()">오늘로</button></div>`;
+    }
   } else {
     bannerEl.innerHTML='';
   }
@@ -717,7 +768,7 @@ function rdToday(){
   const rp=document.getElementById('ring-p');
   rp.textContent=pct+'%'; rp.style.color=pct>=100?'var(--green)':'var(--text)';
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
-  if(pct>=100&&tot>0&&!isPast&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
+  if(pct>=100&&tot>0&&!isOther&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
   if(pct<100) celebrated=false;
 
   const el=document.getElementById('habit-list');
@@ -736,14 +787,15 @@ function rdToday(){
 
   el.innerHTML=ths.map(h=>{
     const done=!!C[vd]?.[h.id];
-    const quiet=!done&&!isPast&&isQuietTime(h.time);
+    const quiet=!done&&!isOther&&isQuietTime(h.time);
     const ctTime=CT[vd]?.[h.id]||null;
     const memo=M[vd]?.[h.id]||'';
     const wc=weekCount(h.id);
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
     const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
-    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="tog('${h.id}')" style="cursor:pointer;animation:fadeIn .2s ease">
-      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();tog('${h.id}')">
+    const canCheck=!isFuture;
+    return `<div class="hi${done?' dn':''}${quiet?' quiet':''}" onclick="${canCheck?`tog('${h.id}')`:''}" style="cursor:${canCheck?'pointer':'default'};animation:fadeIn .2s ease${isFuture?';opacity:.7':''}">
+      <div class="ck${done?' dn':''}" onclick="event.stopPropagation();${canCheck?`tog('${h.id}')`:''}">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div style="flex:1;min-width:0">
@@ -773,6 +825,7 @@ function goToday(){
 // ── FIXED: tog – deselect works correctly ─────────────────────────
 function tog(id){
   const vd=viewDate;
+  if(vd>TODAY){return;} // 미래 날짜는 체크 불가
   if(!C[vd]) C[vd]={};
   if(!CT[vd]) CT[vd]={};
   const wasDone=!!C[vd][id];
