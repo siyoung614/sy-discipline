@@ -61,11 +61,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .stitle{font-size:12px;font-weight:700;color:var(--text);margin-bottom:9px}
 /* WEEK STRIP */
 .week-strip{display:flex;gap:2px;margin-bottom:11px;background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:8px 6px}
-.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ws-lbl{font-size:9px;color:var(--text3);font-weight:500}
 .ws-num{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--text2)}
 .ws-num.today{background:var(--blue);color:white;font-weight:700}
+.ws-num.selected{background:var(--yellow);color:white;font-weight:700}
+.ws-num.today.selected{background:var(--blue);outline:2.5px solid var(--yellow);outline-offset:1px}
 .ws-dot{width:5px;height:5px;border-radius:50%;background:var(--bg3)}
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.week-nav-btn{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:2px 10px;font-family:inherit;border-radius:6px;-webkit-tap-highlight-color:transparent;line-height:1;transition:color .2s}
+.week-nav-btn:disabled{color:var(--border2);cursor:default}
+.week-nav-lbl{font-size:11px;color:var(--text2);font-weight:600}
+/* VIEWING BANNER */
+.view-banner{display:flex;align-items:center;justify-content:space-between;background:var(--yellow-bg);border:.5px solid var(--yellow-border);border-radius:9px;padding:7px 12px;margin-bottom:9px}
+.view-banner-txt{font-size:12px;color:var(--yellow);font-weight:600}
+.view-banner-btn{font-size:11px;color:var(--yellow);background:none;border:.5px solid var(--yellow-border);border-radius:6px;padding:3px 10px;cursor:pointer;font-family:inherit;font-weight:600}
 /* HABIT */
 .hi{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:.5px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--bg2);transition:all .2s;-webkit-user-select:none;user-select:none}
 .hi.dn{background:var(--green-bg);border-color:var(--green-border)}
@@ -184,7 +195,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   <div class="hdr">
     <img src="icon-192.png" alt="SY"/>
     <div class="hdr-title">SY Discipline</div>
-    <div class="hdr-mid">
+    <div class="hdr-mid" onclick="goToday()" style="cursor:pointer">
       <div class="hdr-date" id="hdr-date"></div>
       <div class="hdr-dday" id="hdr-dday"></div>
     </div>
@@ -193,6 +204,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- TODAY -->
   <div id="p-today" class="scroll">
+    <div class="week-nav" id="week-nav">
+      <button class="week-nav-btn" onclick="shiftWeek(-1)">‹</button>
+      <div class="week-nav-lbl" id="week-nav-lbl"></div>
+      <button class="week-nav-btn" onclick="shiftWeek(1)" id="week-nav-next">›</button>
+    </div>
     <div class="week-strip" id="week-strip"></div>
     <div style="display:flex;align-items:flex-start;gap:11px;margin-bottom:12px">
       <div style="flex:1;padding-top:3px">
@@ -459,6 +475,7 @@ let H=[...DEFS.map(d=>({...d}))], C={}, CT={}, M={}, SC={};
 let editId=null, addOpen=false, manFlights=[];
 let calY=new Date().getFullYear(), calM=new Date().getMonth();
 let ntT=[], curTab='today', pwVisible=false, curTheme='dark', celebrated=false;
+let viewDate=TODAY, weekOffset=0;
 
 const KH='syv4-h', KC='syv4-c', KCT='syv4-ct', KM='syv4-m', KS='syv4-s', KTH='syv4-theme', KTP='syv4-tpl';
 let _toastT=null;
@@ -548,7 +565,9 @@ function cycleTheme(){const a=['dark','light','auto'];applyTheme(a[(a.indexOf(cu
 
 // ── D-DAY ────────────────────────────────────────────────────────
 function rdHeader(){
-  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+  const vdObj=new Date(viewDate+'T00:00:00');
+  const isToday=viewDate===TODAY;
+  document.getElementById('hdr-date').textContent=vdObj.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'})+(isToday?'':' 📅');
   for(let i=0;i<60;i++){
     const ds=DS(i);
     if(getType(ds)==='flight'){
@@ -597,7 +616,7 @@ function G(tab){
     document.getElementById('p-'+t).style.display=t===tab?'':'none';
     document.getElementById('nb-'+t).classList.toggle('on',t===tab);
   });
-  if(tab==='today'){rdWeekStrip();rdToday();}
+  if(tab==='today'){rdHeader();rdWeekStrip();rdToday();}
   else if(tab==='stats') rdStats();
   else if(tab==='sched') rdSched();
   else if(tab==='goal')  rdGoal();
@@ -605,32 +624,84 @@ function G(tab){
 }
 
 // ── WEEK STRIP ───────────────────────────────────────────────────
+function shiftWeek(dir){
+  if(dir>0&&weekOffset>=0) return; // 이번 주가 최대
+  weekOffset+=dir;
+  rdWeekStrip(); rdToday();
+}
 function rdWeekStrip(){
   const d=new Date(), dow=d.getDay();
-  const mon=new Date(d); mon.setDate(d.getDate()-(dow===0?6:dow-1));
+  const mon=new Date(d);
+  mon.setDate(d.getDate()-(dow===0?6:dow-1)+(weekOffset*7));
+  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+  // 네비 라벨
+  const lblEl=document.getElementById('week-nav-lbl');
+  const nextEl=document.getElementById('week-nav-next');
+  if(weekOffset===0){
+    lblEl.textContent='이번 주';
+    if(nextEl){ nextEl.style.color='var(--border2)'; nextEl.setAttribute('disabled',''); }
+  } else {
+    const diff=Math.abs(weekOffset);
+    lblEl.textContent=`${diff}주 전`;
+    if(nextEl){ nextEl.style.color='var(--text2)'; nextEl.removeAttribute('disabled'); }
+  }
   document.getElementById('week-strip').innerHTML=WD5.map((wd,i)=>{
     const dt=new Date(mon); dt.setDate(mon.getDate()+i);
-    const ds=fmt(dt), isT=ds===TODAY, t=getType(ds);
+    const ds=fmt(dt), isT=ds===TODAY, isSel=ds===viewDate, t=getType(ds);
     const dotColor=t?TYPES[t].dot:'var(--bg3)';
-    const sun=dt.getDay()===0, sat=dt.getDay()===6;
-    return `<div class="ws-day">
-      <div class="ws-lbl" style="color:${sun?'var(--red)':sat?'var(--blue)':'var(--text3)'}">${wd}</div>
-      <div class="ws-num${isT?' today':''}">${dt.getDate()}</div>
+    const sun2=dt.getDay()===0, sat=dt.getDay()===6;
+    const isFuture=ds>TODAY;
+    const numCls=isT&&isSel?'ws-num today selected':isT?'ws-num today':isSel?'ws-num selected':'ws-num';
+    return `<div class="ws-day" onclick="${isFuture?'':(`selectDay('${ds}')`)}" style="${isFuture?'opacity:.35;cursor:default':''}">
+      <div class="ws-lbl" style="color:${sun2?'var(--red)':sat?'var(--blue)':'var(--text3)'}">${wd}</div>
+      <div class="${numCls}" style="${(!isT&&!isSel)?'color:var(--text2)':''}">${dt.getDate()}</div>
       <div class="ws-dot" style="background:${dotColor}"></div>
     </div>`;
   }).join('');
 }
+function selectDay(ds){
+  viewDate=ds;
+  // 선택한 날짜의 주로 weekOffset 맞추기
+  const today=new Date();
+  const sel=new Date(ds);
+  const diffDays=Math.floor((today-sel)/(1000*60*60*24));
+  const todayDow=today.getDay(), selDow=sel.getDay();
+  const todayMon=new Date(today); todayMon.setDate(today.getDate()-(todayDow===0?6:todayDow-1));
+  const selMon=new Date(sel); selMon.setDate(sel.getDate()-(selDow===0?6:selDow-1));
+  const wDiff=Math.round((todayMon-selMon)/(1000*60*60*24*7));
+  weekOffset=-wDiff;
+  rdWeekStrip(); rdToday();
+}
 
 // ── TODAY ────────────────────────────────────────────────────────
-function thabs(){const t=getType(TODAY);return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
-const tdn=()=>thabs().filter(h=>!!C[TODAY]?.[h.id]).length;
+function thabs(ds){const d=ds||viewDate;const t=getType(d);return H.filter(h=>h.on&&(h.days==='all'||h.days===t));}
+const tdn=(ds)=>{const d=ds||viewDate;return thabs(d).filter(h=>!!C[d]?.[h.id]).length;};
 
 function rdToday(){
-  const ths=thabs(), dn=tdn(), tot=ths.length, pct=tot?Math.round(dn/tot*100):0;
-  const typ=getType(TODAY);
+  const vd=viewDate;
+  const ths=thabs(vd), dn=tdn(vd), tot=ths.length, pct=tot?Math.round(dn/tot*100):0;
+  const typ=getType(vd);
+  const isPast=vd!==TODAY;
+
+  // 날짜 보기 배너
+  let bannerEl=document.getElementById('view-date-banner');
+  if(!bannerEl){
+    bannerEl=document.createElement('div');
+    bannerEl.id='view-date-banner';
+    const habitList=document.getElementById('habit-list');
+    habitList.parentNode.insertBefore(bannerEl, habitList.parentNode.firstChild);
+  }
+  if(isPast){
+    const vdObj=new Date(vd+'T00:00:00');
+    const lbl=vdObj.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+    bannerEl.innerHTML=`<div class="view-banner"><div class="view-banner-txt">📅 ${lbl} 기록 보기 · 수정 가능</div><button class="view-banner-btn" onclick="goToday()">오늘로</button></div>`;
+  } else {
+    bannerEl.innerHTML='';
+  }
+
   document.getElementById('td-badge').innerHTML=typ?`<span class="tag ${TYPES[typ].cls}" style="cursor:default">${TYPES[typ].badge}</span>`:'';
   document.getElementById('td-warn').style.display=typ?'none':'';
-  const flights=getFlights(TODAY);
+  const flights=getFlights(vd);
   const fEl=document.getElementById('td-flights');
   if(flights&&flights.length){
     fEl.innerHTML=flights.map(fl=>{
@@ -638,7 +709,7 @@ function rdToday(){
       return `<div class="flight-chip"><span style="font-size:10px;font-weight:700;color:var(--blue)">${fl.fn||''}</span><span style="color:var(--text2)">${fl.dep} ${fl.depTime||''}→${fl.arr} ${fl.arrTime||''}</span><span class="quiet-badge">${qh}h전무음</span></div>`;
     }).join('');
   } else fEl.innerHTML='';
-  document.getElementById('td-info').textContent=pct>=100?'🎉 오늘 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
+  document.getElementById('td-info').textContent=pct>=100?'🎉 루틴 완료!':dn>0?`${tot-dn}개 남았어요`:'';
   const circ=2*Math.PI*32;
   const ring=document.getElementById('ring');
   ring.style.strokeDashoffset=(circ-pct/100*circ).toFixed(1);
@@ -646,28 +717,28 @@ function rdToday(){
   const rp=document.getElementById('ring-p');
   rp.textContent=pct+'%'; rp.style.color=pct>=100?'var(--green)':'var(--text)';
   document.getElementById('ring-s').textContent=`${dn}/${tot}`;
-  if(pct>=100&&tot>0&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
+  if(pct>=100&&tot>0&&!isPast&&!celebrated){celebrated=true;setTimeout(celebrate,300);}
   if(pct<100) celebrated=false;
 
   const el=document.getElementById('habit-list');
   if(!ths.length){
-    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:20px"><div style="font-size:28px;margin-bottom:7px">✈️</div><div style="font-size:13px">오늘 루틴이 없습니다</div><div style="font-size:11px;margin-top:3px;color:var(--text3)">스케쥴 탭에서 오늘 유형을 설정해 주세요</div></div>`;
+    el.innerHTML=`<div class="card" style="text-align:center;color:var(--text2);padding:20px"><div style="font-size:28px;margin-bottom:7px">✈️</div><div style="font-size:13px">이 날 루틴이 없습니다</div><div style="font-size:11px;margin-top:3px;color:var(--text3)">스케쥴 탭에서 날짜 유형을 설정해 주세요</div></div>`;
     return;
   }
 
   function weekCount(hid){
     let cnt=0;
-    const now=new Date(), dow=now.getDay();
-    const mon=new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
+    const base=new Date(vd+'T00:00:00'), dow=base.getDay();
+    const mon=new Date(base); mon.setDate(base.getDate()-(dow===0?6:dow-1));
     for(let i=0;i<7;i++){const dt=new Date(mon);dt.setDate(mon.getDate()+i);if(C[fmt(dt)]?.[hid])cnt++;}
     return cnt;
   }
 
   el.innerHTML=ths.map(h=>{
-    const done=!!C[TODAY]?.[h.id];
-    const quiet=!done&&isQuietTime(h.time);
-    const ctTime=CT[TODAY]?.[h.id]||null;
-    const memo=M[TODAY]?.[h.id]||'';
+    const done=!!C[vd]?.[h.id];
+    const quiet=!done&&!isPast&&isQuietTime(h.time);
+    const ctTime=CT[vd]?.[h.id]||null;
+    const memo=M[vd]?.[h.id]||'';
     const wc=weekCount(h.id);
     const goalBadge=h.goal>0?`<span style="font-size:9px;color:var(--text3);margin-left:4px">${wc}/${h.goal}회</span>`:'';
     const timeLabel=done&&ctTime?`<span style="font-size:9px;color:var(--green);margin-left:5px">✓ ${ctTime}</span>`:'';
@@ -693,25 +764,33 @@ function rdToday(){
   }).join('');
 }
 
+function goToday(){
+  viewDate=TODAY;
+  weekOffset=0;
+  rdWeekStrip(); rdToday();
+}
+
 // ── FIXED: tog – deselect works correctly ─────────────────────────
 function tog(id){
-  if(!C[TODAY]) C[TODAY]={};
-  if(!CT[TODAY]) CT[TODAY]={};
-  const wasDone=!!C[TODAY][id];
+  const vd=viewDate;
+  if(!C[vd]) C[vd]={};
+  if(!CT[vd]) CT[vd]={};
+  const wasDone=!!C[vd][id];
   if(wasDone){
     // DESELECT
-    delete C[TODAY][id];
-    delete CT[TODAY][id];
-    if(M[TODAY]) delete M[TODAY][id];
+    delete C[vd][id];
+    delete CT[vd][id];
+    if(M[vd]) delete M[vd][id];
   } else {
     // SELECT
-    C[TODAY][id]=true;
+    C[vd][id]=true;
     const now=new Date();
-    CT[TODAY][id]=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    CT[vd][id]=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     if(navigator.vibrate) navigator.vibrate(50);
   }
   ls.set(KC,C); ls.set(KCT,CT); ls.set(KM,M);
-  schedN(); rdToday();
+  if(vd===TODAY) schedN();
+  rdToday();
 }
 
 function toggleMemo(id){
@@ -719,8 +798,9 @@ function toggleMemo(id){
   if(el) el.style.display=el.style.display==='none'?'block':'none';
 }
 function saveMemo(id,val){
-  if(!M[TODAY]) M[TODAY]={};
-  M[TODAY][id]=val;
+  const vd=viewDate;
+  if(!M[vd]) M[vd]={};
+  M[vd][id]=val;
   ls.set(KM,M);
 }
 
@@ -771,7 +851,7 @@ function dayRate(ds){
 }
 
 function rdStats(){
-  const ths=thabs(),dn=tdn();
+  const ths=thabs(TODAY),dn=tdn(TODAY);
   document.getElementById('s-td').textContent=`${dn}/${ths.length}`;
   const act=H.filter(h=>h.on);
   const avg=act.length?Math.round(act.reduce((a,h)=>a+rate30(h.id),0)/act.length):0;
@@ -1002,7 +1082,7 @@ function saveManual(){
   rdSched();
   rdWeekStrip();
   rdHeader();
-  if(ds===TODAY) rdToday();
+  rdToday();
   schedN();
   // Reset form
   manFlights=[];
